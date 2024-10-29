@@ -12,7 +12,7 @@ public class Comida
       try
       {
         Comida.programa();
-        System.out.println("A MESA TA PRONTA.");
+        System.out.println("Foi Encontrado Pure no Cachorro Quente.");
       }
       catch (Exception e)
       {
@@ -22,7 +22,7 @@ public class Comida
       }
       catch (Error e)
       {
-        System.out.println("FOI ENCONTRADO PURE NO CACHORRO QUENTE.");
+        System.out.println("Erro fatal.");
         System.out.println(e.getMessage());
         break;
       }
@@ -50,6 +50,7 @@ TOKEN : /* PALAVRAS-CHAVE */
 | < LINGUICA : "linguica" >
 | < BATATA_PALHA : "batata_palha" >
 | < BATATA_RUSTICA : "batata_rustica" >
+| < VAZIO : "" >
 }
 
 TOKEN : /* OPERATORS */
@@ -101,8 +102,9 @@ void comandos() :
 void vazio() :
 { }
 {
-  ""
+  < VAZIO >
 }
+
 
 void ta_na_mesa_statement() :
 { }

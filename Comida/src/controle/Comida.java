@@ -12,7 +12,7 @@ public class Comida implements ComidaConstants {
       try
       {
         Comida.programa();
-        System.out.println("Foi Encontrado Pure no Cachorro Quente.");
+        System.out.println("A MESA TA PRONTA.");
       }
       catch (Exception e)
       {
@@ -22,7 +22,7 @@ public class Comida implements ComidaConstants {
       }
       catch (Error e)
       {
-        System.out.println("Erro fatal.");
+        System.out.println("FOI ENCONTRADO PURE NO CACHORRO QUENTE.");
         System.out.println(e.getMessage());
         break;
       }
@@ -53,8 +53,9 @@ public class Comida implements ComidaConstants {
       case CONSTANT:
       case TA_NA_MESA:
       case 28:
-      case 38:
-      case 40:{
+      case 29:
+      case 39:
+      case 41:{
         ;
         break;
         }
@@ -82,7 +83,7 @@ public class Comida implements ComidaConstants {
       case FALSO:
       case VERDADEIRO:
       case CONSTANT:
-      case 28:{
+      case 29:{
         expressao();
         break;
         }
@@ -90,9 +91,13 @@ public class Comida implements ComidaConstants {
         condicional();
         break;
         }
-      case 38:
-      case 40:{
+      case 39:
+      case 41:{
         loop();
+        break;
+        }
+      case 28:{
+        vazio();
         break;
         }
       default:
@@ -103,12 +108,16 @@ public class Comida implements ComidaConstants {
     }
 }
 
+  static final public void vazio() throws ParseException {
+    jj_consume_token(28);
+}
+
   static final public void ta_na_mesa_statement() throws ParseException {
     jj_consume_token(TA_NA_MESA);
-    jj_consume_token(28);
-    concatenacao();
     jj_consume_token(29);
+    concatenacao();
     jj_consume_token(30);
+    jj_consume_token(31);
 }
 
   static final public void concatenacao() throws ParseException {
@@ -170,14 +179,14 @@ public class Comida implements ComidaConstants {
       throw new ParseException();
     }
     jj_consume_token(ID);
-    jj_consume_token(30);
+    jj_consume_token(31);
 }
 
   static final public void atribuicao() throws ParseException {
     jj_consume_token(ID);
-    jj_consume_token(31);
+    jj_consume_token(32);
     expressao();
-    jj_consume_token(30);
+    jj_consume_token(31);
 }
 
   static final public void expressao() throws ParseException {
@@ -264,7 +273,7 @@ public class Comida implements ComidaConstants {
     case FALSO:
     case VERDADEIRO:
     case CONSTANT:
-    case 28:{
+    case 29:{
       element();
       break;
       }
@@ -293,10 +302,10 @@ public class Comida implements ComidaConstants {
       jj_consume_token(VERDADEIRO);
       break;
       }
-    case 28:{
-      jj_consume_token(28);
-      sum();
+    case 29:{
       jj_consume_token(29);
+      sum();
+      jj_consume_token(30);
       break;
       }
     default:
@@ -308,9 +317,9 @@ public class Comida implements ComidaConstants {
 
   static final public void condicional() throws ParseException {
     jj_consume_token(BATATA_PALHA);
-    jj_consume_token(28);
-    condicao();
     jj_consume_token(29);
+    condicao();
+    jj_consume_token(30);
     jj_consume_token(26);
     comandos();
     jj_consume_token(27);
@@ -331,10 +340,6 @@ public class Comida implements ComidaConstants {
   static final public void condicao() throws ParseException {
     expressao();
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 32:{
-      jj_consume_token(32);
-      break;
-      }
     case 33:{
       jj_consume_token(33);
       break;
@@ -355,6 +360,10 @@ public class Comida implements ComidaConstants {
       jj_consume_token(37);
       break;
       }
+    case 38:{
+      jj_consume_token(38);
+      break;
+      }
     default:
       jj_la1[12] = jj_gen;
       jj_consume_token(-1);
@@ -365,23 +374,23 @@ public class Comida implements ComidaConstants {
 
   static final public void loop() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 38:{
-      jj_consume_token(38);
+    case 39:{
+      jj_consume_token(39);
       expressao();
-      jj_consume_token(39);
+      jj_consume_token(40);
       condicao();
-      jj_consume_token(39);
+      jj_consume_token(40);
       atribuicao();
       jj_consume_token(26);
       comandos();
       jj_consume_token(27);
       break;
       }
-    case 40:{
-      jj_consume_token(40);
-      jj_consume_token(28);
-      condicao();
+    case 41:{
+      jj_consume_token(41);
       jj_consume_token(29);
+      condicao();
+      jj_consume_token(30);
       jj_consume_token(26);
       comandos();
       jj_consume_token(27);
@@ -412,10 +421,10 @@ public class Comida implements ComidaConstants {
 	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x11784f80,0x11784f80,0x2000,0x2080000,0x780,0x6000,0x6000,0x38000,0x38000,0x10784000,0x10780000,0x1000,0x0,0x0,};
+	   jj_la1_0 = new int[] {0x31784f80,0x31784f80,0x2000,0x2080000,0x780,0x6000,0x6000,0x38000,0x38000,0x20784000,0x20780000,0x1000,0x0,0x0,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x140,0x140,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x3f,0x140,};
+	   jj_la1_1 = new int[] {0x280,0x280,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x7e,0x280,};
 	}
 
   /** Constructor with InputStream. */
@@ -561,7 +570,7 @@ public class Comida implements ComidaConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
 	 jj_expentries.clear();
-	 boolean[] la1tokens = new boolean[41];
+	 boolean[] la1tokens = new boolean[42];
 	 if (jj_kind >= 0) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
@@ -578,7 +587,7 @@ public class Comida implements ComidaConstants {
 		 }
 	   }
 	 }
-	 for (int i = 0; i < 41; i++) {
+	 for (int i = 0; i < 42; i++) {
 	   if (la1tokens[i]) {
 		 jj_expentry = new int[1];
 		 jj_expentry[0] = i;

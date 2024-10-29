@@ -22,7 +22,7 @@ public class Comida
       }
       catch (Error e)
       {
-        System.out.println("FOI ENCONTRADO PURE NO CACHORRO QUENTE.");
+        System.out.println("Erro fatal.");
         System.out.println(e.getMessage());
         break;
       }

@@ -86,6 +86,7 @@ public interface ComidaConstants {
     "<STRING_LITERAL>",
     "\"{\"",
     "\"}\"",
+    "\"\"",
     "\"(\"",
     "\")\"",
     "\";\"",
