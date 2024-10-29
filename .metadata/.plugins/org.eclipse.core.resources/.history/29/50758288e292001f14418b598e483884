@@ -1,0 +1,49 @@
+options
+{
+  static = true;
+}
+
+PARSER_BEGIN(Comida)
+
+package configuracao; // Adicione esta linha para definir o pacote.
+
+public class Comida
+{
+  public static void main(String args []) throws ParseException
+  {
+    Comida parser = new Comida(System.in);
+    while (true)
+    {
+      System.out.println("Reading from standard input...");
+      System.out.print("Enter an expression like \"1+(2+3)*4;\" :");
+      try
+      {
+        switch (Comida.one_line())
+        {
+          case 0 : 
+            System.out.println("OK.");
+            break;
+          case 1 : 
+            System.out.println("Goodbye.");
+            break;
+          default : 
+            break;
+        }
+      }
+      catch (Exception e)
+      {
+        System.out.println("NOK.");
+        System.out.println(e.getMessage());
+        Comida.ReInit(System.in);
+      }
+      catch (Error e)
+      {
+        System.out.println("Oops.");
+        System.out.println(e.getMessage());
+        break;
+      }
+    }
+  }
+}
+
+PARSER_END(Comida)
