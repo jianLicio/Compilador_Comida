@@ -227,21 +227,19 @@ void operadorLogico() :
 
 }
 
-void id() :
+void texto() :
 {}
 {
   try
   {
-  	letra()
-  	(
-   	 letra()
- 	 | numero()
- 	 | "_"
- 	 )*
+    termoTexto() 
+    (
+      < CONCAT > termoTexto()
+    )*
   }
   catch (ParseException e)
   {
-    System.err.println("ID -> " + e.getMessage());
+    System.err.println("TEXTO -> " + e.getMessage());
   }
 }
 
@@ -259,20 +257,23 @@ void termoTexto() :
 | id()
 }
 
-void texto() :
+void id() :
 {}
 {
   try
   {
-    termoTexto() 
-    (
-      < CONCAT > termoTexto()
-    )*
+  	letra()
+  	(
+   	 letra()
+ 	 | numero()
+ 	 | "_"
+ 	 )*
   }
   catch (ParseException e)
   {
-    System.err.println("TEXTO -> " + e.getMessage());
+    System.err.println("ID -> " + e.getMessage());
   }
+
 }
 
 void comandos() :
@@ -297,12 +298,15 @@ void imprimir() :
     enter()
     abreParenteses()
     enter()
-    texto()
-    enter()
-    fechaParenteses()
-    enter()
-    pontoVirgula()
-    enter()
+    (
+      texto()
+  	  | id()
+  	)
+  	enter()
+  	fechaParenteses()
+  	enter()
+  	pontoVirgula()
+  	enter()
   }
   catch (ParseException e)
   {

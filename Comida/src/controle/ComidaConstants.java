@@ -75,7 +75,7 @@ public interface ComidaConstants {
   /** RegularExpression Id. */
   int DIFERENTE = 37;
   /** RegularExpression Id. */
-  int ATRIBUIR = 38;
+  int IGUAL_LOGICO = 38;
   /** RegularExpression Id. */
   int LETRA_MAIUSCULA = 39;
   /** RegularExpression Id. */
@@ -126,15 +126,15 @@ public interface ComidaConstants {
     "\"<\"",
     "\"<=\"",
     "\">=\"",
-    "\"==\"",
-    "\"!=\"",
     "\"=\"",
+    "\"!=\"",
+    "\"==\"",
     "<LETRA_MAIUSCULA>",
     "<LETRA_MINUSCULA>",
     "<NUMERO>",
     "<DIGITO>",
     "\"_\"",
-    "\"\"",
+    "\":\"",
     "\"grelha:\"",
     "\"churrasqueira\"",
   };

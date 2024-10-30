@@ -97,9 +97,9 @@ TOKEN : /* TIPOS OPERADORES */
 | < MENOR : "<" >
 | < MENOR_IGUAL : "<=" >
 | < MAIOR_IGUAL : ">=" >
-| < IGUAL : "==" >
+| < IGUAL : "=" >
 | < DIFERENTE : "!=" >
-| < ATRIBUIR : "=" >
+| < IGUAL_LOGICO : "==" >
 }
 
 TOKEN : /* LETRAS E NUMEROS*/
@@ -218,30 +218,11 @@ void operadorLogico() :
   | menorIgual()
   | maiorIgual()
   | diferente()
-  | igual()
+  | igual_logico()
   }
   catch (ParseException e)
   {
     System.err.println("Operador Lógico-> " + e.getMessage());
-  }
-
-}
-
-void texto() :
-{}
-{
-  try
-  {
-    delimitaTexto()
-    (
-      	letra()
-  		| numero()
-  	)*
-  	delimitaTexto()
-  }
-  catch (ParseException e)
-  {
-    System.err.println("TEXTO -> " + e.getMessage());
   }
 
 }
@@ -262,27 +243,49 @@ void id() :
   {
     System.err.println("ID -> " + e.getMessage());
   }
+}
 
+void termoTexto() :
+{}
+{
+  delimitaTexto() 
+  enter()
+  (
+    letra()
+    | numero()
+  )*
+  enter()
+  delimitaTexto()
+| id()
+}
+
+void texto() :
+{}
+{
+  try
+  {
+    termoTexto() 
+    (
+      < CONCAT > termoTexto()
+    )*
+  }
+  catch (ParseException e)
+  {
+    System.err.println("TEXTO -> " + e.getMessage());
+  }
 }
 
 void comandos() :
 { }
 {
   (
-    imprimir() (<ENTER>)*
-  	| declaracao() (<ENTER>)*
-  	| atribuicao() (<ENTER>)*
-  	| expressao() (<ENTER>)*
-  	| condicional() (<ENTER>)*
-  	| loop() (<ENTER>)*
-  	| vazio() (<ENTER>)*
+    imprimir() enter()
+  	| declaracao() enter()
+  	| atribuicao() enter()
+  	| expressao() enter()
+  	| condicional() enter()
+  	| loop() enter()
   )*
-}
-
-void vazio() :
-{ }
-{
-  ""
 }
 
 void imprimir() :
@@ -291,14 +294,15 @@ void imprimir() :
   try
   {
     ta_na_mesa()
+    enter()
     abreParenteses()
-    (
-      texto()
-  	  | id()
-  	)
-  	fechaParenteses()
-  	pontoVirgula()
-  	enter()
+    enter()
+    texto()
+    enter()
+    fechaParenteses()
+    enter()
+    pontoVirgula()
+    enter()
   }
   catch (ParseException e)
   {
@@ -310,7 +314,7 @@ void imprimir() :
 void declaracao() :
 { }
 {
-  ( < PAO > | < SALAME > | < PIMENTA > | < LINGUICA > ) id() pontoVirgula()
+  ( < PAO > | < SALAME > | < PIMENTA > | < LINGUICA > ) id() enter() pontoVirgula() enter()
 }
 
 void expressao() :
@@ -322,7 +326,7 @@ void expressao() :
 void atribuicao() :
 { }
 {
-  id() igual() expressao() pontoVirgula()
+  id() igual() expressao() pontoVirgula() enter()
 }
 
 void sum() :
@@ -372,8 +376,8 @@ void element() :
 void condicional() :
 { }
 {
-  < BATATA_PALHA > abreParenteses() condicao() fechaParenteses() "{" comandos() fechaChave()
-  ( < BATATA_RUSTICA > "{" comandos() fechaChave() )?
+  < BATATA_PALHA > ":" condicao()  abreChave() enter() comandos() enter() fechaChave()
+  ( < BATATA_RUSTICA > abreChave() comandos() fechaChave() )? enter()
 }
 
 void condicao() :
@@ -425,8 +429,8 @@ void igual() :
   < IGUAL >
 }
 
-void atribuir() :
+void igual_logico() :
 {}
 {
-  < ATRIBUIR >
+  < IGUAL_LOGICO >
 }

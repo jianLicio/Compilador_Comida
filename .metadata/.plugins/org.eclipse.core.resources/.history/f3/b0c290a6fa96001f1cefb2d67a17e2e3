@@ -297,12 +297,15 @@ void imprimir() :
     enter()
     abreParenteses()
     enter()
-    texto()
-    enter()
-    fechaParenteses()
-    enter()
-    pontoVirgula()
-    enter()
+    (
+      texto()
+  	  | id()
+  	)
+  	enter()
+  	fechaParenteses()
+  	enter()
+  	pontoVirgula()
+  	enter()
   }
   catch (ParseException e)
   {

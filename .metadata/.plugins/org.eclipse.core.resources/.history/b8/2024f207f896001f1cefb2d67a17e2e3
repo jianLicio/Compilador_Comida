@@ -218,11 +218,32 @@ void operadorLogico() :
   | menorIgual()
   | maiorIgual()
   | diferente()
-  | igual_logico()
+  | comparar()
   }
   catch (ParseException e)
   {
     System.err.println("Operador Lógico-> " + e.getMessage());
+  }
+
+}
+
+void texto() :
+{}
+{
+  try
+  {
+    delimitaTexto()
+    enter()
+    (
+      	letra()
+  		| numero()
+  	)*
+  	enter()
+  	delimitaTexto()
+  }
+  catch (ParseException e)
+  {
+    System.err.println("TEXTO -> " + e.getMessage());
   }
 
 }
@@ -243,36 +264,7 @@ void id() :
   {
     System.err.println("ID -> " + e.getMessage());
   }
-}
 
-void termoTexto() :
-{}
-{
-  delimitaTexto() 
-  enter()
-  (
-    letra()
-    | numero()
-  )*
-  enter()
-  delimitaTexto()
-| id()
-}
-
-void texto() :
-{}
-{
-  try
-  {
-    termoTexto() 
-    (
-      < CONCAT > termoTexto()
-    )*
-  }
-  catch (ParseException e)
-  {
-    System.err.println("TEXTO -> " + e.getMessage());
-  }
 }
 
 void comandos() :
@@ -285,8 +277,15 @@ void comandos() :
   	| expressao() enter()
   	| condicional() enter()
   	| loop() enter()
+//  	| vazio() enter()
   )*
 }
+
+//void vazio() :
+//{ }
+//{
+//  ""
+//}
 
 void imprimir() :
 {}
@@ -297,12 +296,15 @@ void imprimir() :
     enter()
     abreParenteses()
     enter()
-    texto()
-    enter()
-    fechaParenteses()
-    enter()
-    pontoVirgula()
-    enter()
+    (
+      texto()
+  	  | id()
+  	)
+  	enter()
+  	fechaParenteses()
+  	enter()
+  	pontoVirgula()
+  	enter()
   }
   catch (ParseException e)
   {
