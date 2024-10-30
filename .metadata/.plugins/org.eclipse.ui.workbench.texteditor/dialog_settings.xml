@@ -4,16 +4,16 @@
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="arroz"/>
+		<item key="selection" value="ENTER"/>
 		<list key="findhistory">
-			<item value="/*"/>
-			<item value="opti"/>
-			<item value="| &quot;\n&quot;"/>
-			<item value="ARROZ"/>
-			<item value="ta_na_mesa_statement"/>
-			<item value="void comandos() "/>
-			<item value="void loop() :"/>
-			<item value="expressao"/>
+			<item value="ENTER"/>
+			<item value="catch"/>
+			<item value="RecoverySet"/>
+			<item value="logico"/>
+			<item value="element"/>
+			<item value="fecha"/>
+			<item value="Parentes"/>
+			<item value="FECHA_"/>
 		</list>
 		<list key="replacehistory">
 		</list>
