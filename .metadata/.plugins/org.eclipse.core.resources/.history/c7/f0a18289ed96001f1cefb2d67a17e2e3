@@ -60,7 +60,7 @@ TOKEN : /* PALAVRAS-CHAVE */
 | < LINGUICA : "linguica" >				//BOLEANO
 | < BATATA_PALHA : "batata_palha" >		//SE
 | < BATATA_RUSTICA : "batata_rustica" > //SE NÃO
-| < TA_NA_MESA : "ta_na_mesa" >			//ESCREVER NA TELA
+| < TA_NA_MESA : "ta_na_mesa" >			//MOSTRAR
 | < ENTER : "\n" >						//PULAR LINHA
 }
 TOKEN : /* LIMITADORES */
@@ -112,6 +112,12 @@ TOKEN : /* LETRAS E NUMEROS*/
 | < #DIGITO : ([ "0"-"9" ])+ >
 }
 
+void mostrar() :
+{}
+{
+  < TA_NA_MESA >
+}
+
 void se() :
 {}
 {
@@ -127,7 +133,7 @@ void seNao() :
 void enter(): 
 {}
 {
-  (< ENTER >)*
+  (<ENTER>)*
 }
 
 void abreParenteses() :
@@ -181,7 +187,7 @@ void ta_na_mesa() :
 void programa() :
 { }
 {
-  enter() < ARROZ > enter() < ABRE_CHAVE > enter() comandos() enter() < FECHA_CHAVE > enter() < FEIJAO >
+  enter() < ARROZ > enter() < ABRE_CHAVE > comandos() enter() < FECHA_CHAVE > enter() < FEIJAO >
 }
 
 void numero() :
@@ -232,12 +238,8 @@ void texto() :
 {
   try
   {
-    delimitaTexto()
-    (
-      	letra()
-  		| numero()
-  	)*
-  	delimitaTexto()
+    delimitaTexto() (letra()
+  | numero()) + delimitaTexto()
   }
   catch (ParseException e)
   {
@@ -269,13 +271,13 @@ void comandos() :
 { }
 {
   (
-    imprimir() (<ENTER>)*
-  	| declaracao() (<ENTER>)*
-  	| atribuicao() (<ENTER>)*
-  	| expressao() (<ENTER>)*
-  	| condicional() (<ENTER>)*
-  	| loop() (<ENTER>)*
-  	| vazio() (<ENTER>)*
+    imprimir()
+  	| declaracao()
+  	| atribuicao()
+  	| expressao()
+  	| condicional()
+  	| loop()
+  	| vazio()
   )*
 }
 
@@ -298,7 +300,6 @@ void imprimir() :
   	)
   	fechaParenteses()
   	pontoVirgula()
-  	enter()
   }
   catch (ParseException e)
   {

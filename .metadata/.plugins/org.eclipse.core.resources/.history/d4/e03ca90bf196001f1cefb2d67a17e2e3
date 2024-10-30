@@ -236,7 +236,7 @@ void texto() :
     (
       	letra()
   		| numero()
-  	)*
+  	)+
   	delimitaTexto()
   }
   catch (ParseException e)

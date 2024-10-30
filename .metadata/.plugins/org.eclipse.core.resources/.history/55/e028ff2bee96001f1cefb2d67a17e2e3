@@ -127,7 +127,7 @@ void seNao() :
 void enter(): 
 {}
 {
-  (< ENTER >)*
+  (<ENTER>)*
 }
 
 void abreParenteses() :
@@ -181,7 +181,7 @@ void ta_na_mesa() :
 void programa() :
 { }
 {
-  enter() < ARROZ > enter() < ABRE_CHAVE > enter() comandos() enter() < FECHA_CHAVE > enter() < FEIJAO >
+  enter() < ARROZ > enter() < ABRE_CHAVE > comandos() enter() < FECHA_CHAVE > enter() < FEIJAO >
 }
 
 void numero() :
@@ -232,12 +232,8 @@ void texto() :
 {
   try
   {
-    delimitaTexto()
-    (
-      	letra()
-  		| numero()
-  	)*
-  	delimitaTexto()
+    delimitaTexto() (letra()
+  | numero()) + delimitaTexto()
   }
   catch (ParseException e)
   {
@@ -269,13 +265,13 @@ void comandos() :
 { }
 {
   (
-    imprimir() (<ENTER>)*
-  	| declaracao() (<ENTER>)*
-  	| atribuicao() (<ENTER>)*
-  	| expressao() (<ENTER>)*
-  	| condicional() (<ENTER>)*
-  	| loop() (<ENTER>)*
-  	| vazio() (<ENTER>)*
+    imprimir()
+  	| declaracao()
+  	| atribuicao()
+  	| expressao()
+  	| condicional()
+  	| loop()
+  	| vazio()
   )*
 }
 
@@ -298,7 +294,6 @@ void imprimir() :
   	)
   	fechaParenteses()
   	pontoVirgula()
-  	enter()
   }
   catch (ParseException e)
   {

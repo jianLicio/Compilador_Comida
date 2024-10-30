@@ -29,10 +29,6 @@ public class Comida implements ComidaConstants {
     }
   }
 
-  static final public void mostrar() throws ParseException {
-    jj_consume_token(TA_NA_MESA);
-}
-
   static final public void se() throws ParseException {
     jj_consume_token(BATATA_PALHA);
 }
@@ -94,6 +90,7 @@ public class Comida implements ComidaConstants {
     jj_consume_token(ARROZ);
     enter();
     jj_consume_token(ABRE_CHAVE);
+    enter();
     comandos();
     enter();
     jj_consume_token(FECHA_CHAVE);
@@ -199,6 +196,17 @@ System.err.println("Operador L\u00f3gico-> " + e.getMessage());
       while (true) {
         switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
         case LETRA_MAIUSCULA:
+        case LETRA_MINUSCULA:
+        case NUMERO:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[5] = jj_gen;
+          break label_4;
+        }
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case LETRA_MAIUSCULA:
         case LETRA_MINUSCULA:{
           letra();
           break;
@@ -208,20 +216,9 @@ System.err.println("Operador L\u00f3gico-> " + e.getMessage());
           break;
           }
         default:
-          jj_la1[5] = jj_gen;
+          jj_la1[6] = jj_gen;
           jj_consume_token(-1);
           throw new ParseException();
-        }
-        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-        case LETRA_MAIUSCULA:
-        case LETRA_MINUSCULA:
-        case NUMERO:{
-          ;
-          break;
-          }
-        default:
-          jj_la1[6] = jj_gen;
-          break label_4;
         }
       }
       delimitaTexto();
@@ -302,6 +299,19 @@ System.err.println("ID -> " + e.getMessage());
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case TA_NA_MESA:{
         imprimir();
+        label_7:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case ENTER:{
+            ;
+            break;
+            }
+          default:
+            jj_la1[10] = jj_gen;
+            break label_7;
+          }
+          jj_consume_token(ENTER);
+        }
         break;
         }
       case PAO:
@@ -309,11 +319,37 @@ System.err.println("ID -> " + e.getMessage());
       case PIMENTA:
       case LINGUICA:{
         declaracao();
+        label_8:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case ENTER:{
+            ;
+            break;
+            }
+          default:
+            jj_la1[11] = jj_gen;
+            break label_8;
+          }
+          jj_consume_token(ENTER);
+        }
         break;
         }
       case LETRA_MAIUSCULA:
       case LETRA_MINUSCULA:{
         atribuicao();
+        label_9:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case ENTER:{
+            ;
+            break;
+            }
+          default:
+            jj_la1[12] = jj_gen;
+            break label_9;
+          }
+          jj_consume_token(ENTER);
+        }
         break;
         }
       case ABRE_PARENTESES:
@@ -322,23 +358,75 @@ System.err.println("ID -> " + e.getMessage());
       case VERDADEIRO:
       case NUMERO:{
         expressao();
+        label_10:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case ENTER:{
+            ;
+            break;
+            }
+          default:
+            jj_la1[13] = jj_gen;
+            break label_10;
+          }
+          jj_consume_token(ENTER);
+        }
         break;
         }
       case BATATA_PALHA:{
         condicional();
+        label_11:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case ENTER:{
+            ;
+            break;
+            }
+          default:
+            jj_la1[14] = jj_gen;
+            break label_11;
+          }
+          jj_consume_token(ENTER);
+        }
         break;
         }
       case 45:
       case 46:{
         loop();
+        label_12:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case ENTER:{
+            ;
+            break;
+            }
+          default:
+            jj_la1[15] = jj_gen;
+            break label_12;
+          }
+          jj_consume_token(ENTER);
+        }
         break;
         }
       case 44:{
         vazio();
+        label_13:
+        while (true) {
+          switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+          case ENTER:{
+            ;
+            break;
+            }
+          default:
+            jj_la1[16] = jj_gen;
+            break label_13;
+          }
+          jj_consume_token(ENTER);
+        }
         break;
         }
       default:
-        jj_la1[10] = jj_gen;
+        jj_la1[17] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -364,12 +452,13 @@ System.err.println("ID -> " + e.getMessage());
         break;
         }
       default:
-        jj_la1[11] = jj_gen;
+        jj_la1[18] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
       fechaParenteses();
       pontoVirgula();
+      enter();
     } catch (ParseException e) {
 System.err.println("imprimir-> " + e.getMessage());
     }
@@ -394,7 +483,7 @@ System.err.println("imprimir-> " + e.getMessage());
       break;
       }
     default:
-      jj_la1[12] = jj_gen;
+      jj_la1[19] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -415,7 +504,7 @@ System.err.println("imprimir-> " + e.getMessage());
 
   static final public void sum() throws ParseException {
     term();
-    label_7:
+    label_14:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case PLUS:
@@ -424,8 +513,8 @@ System.err.println("imprimir-> " + e.getMessage());
         break;
         }
       default:
-        jj_la1[13] = jj_gen;
-        break label_7;
+        jj_la1[20] = jj_gen;
+        break label_14;
       }
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case PLUS:{
@@ -437,7 +526,7 @@ System.err.println("imprimir-> " + e.getMessage());
         break;
         }
       default:
-        jj_la1[14] = jj_gen;
+        jj_la1[21] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -447,7 +536,7 @@ System.err.println("imprimir-> " + e.getMessage());
 
   static final public void term() throws ParseException {
     unary();
-    label_8:
+    label_15:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case MULTIPLY:
@@ -457,8 +546,8 @@ System.err.println("imprimir-> " + e.getMessage());
         break;
         }
       default:
-        jj_la1[15] = jj_gen;
-        break label_8;
+        jj_la1[22] = jj_gen;
+        break label_15;
       }
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case MULTIPLY:{
@@ -474,7 +563,7 @@ System.err.println("imprimir-> " + e.getMessage());
         break;
         }
       default:
-        jj_la1[16] = jj_gen;
+        jj_la1[23] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -499,7 +588,7 @@ System.err.println("imprimir-> " + e.getMessage());
       break;
       }
     default:
-      jj_la1[17] = jj_gen;
+      jj_la1[24] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -531,7 +620,7 @@ System.err.println("imprimir-> " + e.getMessage());
       break;
       }
     default:
-      jj_la1[18] = jj_gen;
+      jj_la1[25] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -554,7 +643,7 @@ System.err.println("imprimir-> " + e.getMessage());
       break;
       }
     default:
-      jj_la1[19] = jj_gen;
+      jj_la1[26] = jj_gen;
       ;
     }
 }
@@ -587,7 +676,7 @@ System.err.println("imprimir-> " + e.getMessage());
       break;
       }
     default:
-      jj_la1[20] = jj_gen;
+      jj_la1[27] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -619,7 +708,7 @@ System.err.println("imprimir-> " + e.getMessage());
       break;
       }
     default:
-      jj_la1[21] = jj_gen;
+      jj_la1[28] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -663,7 +752,7 @@ System.err.println("imprimir-> " + e.getMessage());
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[22];
+  static final private int[] jj_la1 = new int[29];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -671,10 +760,10 @@ System.err.println("imprimir-> " + e.getMessage());
 	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x8000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xc2015f00,0xc2015f00,0x400000,0xf00,0x3000000,0x3000000,0x1c000000,0x1c000000,0xc2010000,0xc0010000,0x2000,0x0,0x0,};
+	   jj_la1_0 = new int[] {0x8000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xc2015f00,0x8000,0x8000,0x8000,0x8000,0x8000,0x8000,0x8000,0xc2015f00,0x400000,0xf00,0x3000000,0x3000000,0x1c000000,0x1c000000,0xc2010000,0xc0010000,0x2000,0x0,0x0,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x0,0x200,0x180,0x180,0x3f,0x380,0x380,0xb80,0xb80,0x7380,0x7380,0x180,0x0,0x0,0x0,0x0,0x0,0x380,0x380,0x0,0x3f,0x6000,};
+	   jj_la1_1 = new int[] {0x0,0x200,0x180,0x180,0x3f,0x380,0x380,0xb80,0xb80,0x7380,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x7380,0x180,0x0,0x0,0x0,0x0,0x0,0x380,0x380,0x0,0x3f,0x6000,};
 	}
 
   /** Constructor with InputStream. */
@@ -695,7 +784,7 @@ System.err.println("imprimir-> " + e.getMessage());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -709,7 +798,7 @@ System.err.println("imprimir-> " + e.getMessage());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -726,7 +815,7 @@ System.err.println("imprimir-> " + e.getMessage());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -744,7 +833,7 @@ System.err.println("imprimir-> " + e.getMessage());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -760,7 +849,7 @@ System.err.println("imprimir-> " + e.getMessage());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -769,7 +858,7 @@ System.err.println("imprimir-> " + e.getMessage());
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -825,7 +914,7 @@ System.err.println("imprimir-> " + e.getMessage());
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 22; i++) {
+	 for (int i = 0; i < 29; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
