@@ -11,47 +11,79 @@ public interface ComidaConstants {
   /** End of File. */
   int EOF = 0;
   /** RegularExpression Id. */
-  int ARROZ = 5;
+  int ARROZ = 6;
   /** RegularExpression Id. */
-  int FEIJAO = 6;
+  int FEIJAO = 7;
   /** RegularExpression Id. */
-  int PAO = 7;
+  int PAO = 8;
   /** RegularExpression Id. */
-  int SALAME = 8;
+  int SALAME = 9;
   /** RegularExpression Id. */
-  int PIMENTA = 9;
+  int PIMENTA = 10;
   /** RegularExpression Id. */
-  int LINGUICA = 10;
+  int LINGUICA = 11;
   /** RegularExpression Id. */
-  int BATATA_PALHA = 11;
+  int BATATA_PALHA = 12;
   /** RegularExpression Id. */
-  int BATATA_RUSTICA = 12;
+  int BATATA_RUSTICA = 13;
   /** RegularExpression Id. */
-  int PLUS = 13;
+  int TA_NA_MESA = 14;
   /** RegularExpression Id. */
-  int MINUS = 14;
+  int ENTER = 15;
   /** RegularExpression Id. */
-  int MULTIPLY = 15;
+  int ABRE_PARENTESES = 16;
   /** RegularExpression Id. */
-  int DIVIDE = 16;
+  int FECHA_PARENTESES = 17;
   /** RegularExpression Id. */
-  int EXP = 17;
+  int ABRE_CHAVE = 18;
   /** RegularExpression Id. */
-  int CONCAT = 18;
+  int FECHA_CHAVE = 19;
   /** RegularExpression Id. */
-  int ID = 19;
+  int VIRGULA = 20;
   /** RegularExpression Id. */
-  int FALSO = 20;
+  int PONTO_VIRGULA = 21;
   /** RegularExpression Id. */
-  int VERDADEIRO = 21;
+  int DELIMITAR_TEXTO = 22;
   /** RegularExpression Id. */
-  int CONSTANT = 22;
+  int SETA = 23;
   /** RegularExpression Id. */
-  int DIGIT = 23;
+  int PLUS = 24;
   /** RegularExpression Id. */
-  int TA_NA_MESA = 24;
+  int MINUS = 25;
   /** RegularExpression Id. */
-  int STRING_LITERAL = 25;
+  int MULTIPLY = 26;
+  /** RegularExpression Id. */
+  int DIVIDE = 27;
+  /** RegularExpression Id. */
+  int EXP = 28;
+  /** RegularExpression Id. */
+  int CONCAT = 29;
+  /** RegularExpression Id. */
+  int FALSO = 30;
+  /** RegularExpression Id. */
+  int VERDADEIRO = 31;
+  /** RegularExpression Id. */
+  int MAIOR = 32;
+  /** RegularExpression Id. */
+  int MENOR = 33;
+  /** RegularExpression Id. */
+  int MENOR_IGUAL = 34;
+  /** RegularExpression Id. */
+  int MAIOR_IGUAL = 35;
+  /** RegularExpression Id. */
+  int IGUAL = 36;
+  /** RegularExpression Id. */
+  int DIFERENTE = 37;
+  /** RegularExpression Id. */
+  int ATRIBUIR = 38;
+  /** RegularExpression Id. */
+  int LETRA_MAIUSCULA = 39;
+  /** RegularExpression Id. */
+  int LETRA_MINUSCULA = 40;
+  /** RegularExpression Id. */
+  int NUMERO = 41;
+  /** RegularExpression Id. */
+  int DIGITO = 42;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -62,7 +94,8 @@ public interface ComidaConstants {
     "\" \"",
     "\"\\r\"",
     "\"\\t\"",
-    "\"\\n\"",
+    "<token of kind 4>",
+    "<token of kind 5>",
     "\"arroz\"",
     "\"feijao\"",
     "\"pao\"",
@@ -71,34 +104,38 @@ public interface ComidaConstants {
     "\"linguica\"",
     "\"batata_palha\"",
     "\"batata_rustica\"",
+    "\"ta_na_mesa\"",
+    "\"\\n\"",
+    "\"(\"",
+    "\")\"",
+    "\"{\"",
+    "\"}\"",
+    "\",\"",
+    "\";\"",
+    "\"\\\'\"",
+    "\"->\"",
     "\"+\"",
     "\"-\"",
     "\"*\"",
     "\"/\"",
     "\"**\"",
-    "\"\\\\+\"",
-    "<ID>",
+    "\"++\"",
     "\"falso\"",
     "\"verdadeiro\"",
-    "<CONSTANT>",
-    "<DIGIT>",
-    "\"ta_na_mesa\"",
-    "<STRING_LITERAL>",
-    "\"{\"",
-    "\"}\"",
-    "\"\"",
-    "\"(\"",
-    "\")\"",
-    "\";\"",
-    "\"=\"",
-    "\"==\"",
-    "\"!=\"",
     "\">\"",
     "\"<\"",
-    "\">=\"",
     "\"<=\"",
+    "\">=\"",
+    "\"==\"",
+    "\"!=\"",
+    "\"=\"",
+    "<LETRA_MAIUSCULA>",
+    "<LETRA_MINUSCULA>",
+    "<NUMERO>",
+    "<DIGITO>",
+    "\"_\"",
+    "\"\"",
     "\"grelha:\"",
-    "\"->\"",
     "\"churrasqueira\"",
   };
 

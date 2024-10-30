@@ -37,19 +37,42 @@ SKIP :
   " "
 | "\r"
 | "\t"
-| "\n"
+| < "tio_do_pave" (~[ "\n", "\r" ])*
+    (
+      "\n"
+    | "\r"
+    | "\r\n"
+    ) >
+| < "e_a_faculdade" (~[ "*" ])* "*"
+    (
+      ~[ "/" ] (~[ "*" ])* "*"
+    )*
+    "/" >
 }
 
 TOKEN : /* PALAVRAS-CHAVE */
 {
-  < ARROZ : "arroz" >
-| < FEIJAO : "feijao" >
-| < PAO : "pao" >
-| < SALAME : "salame" >
-| < PIMENTA : "pimenta" >
-| < LINGUICA : "linguica" >
-| < BATATA_PALHA : "batata_palha" >
-| < BATATA_RUSTICA : "batata_rustica" >
+  < ARROZ : "arroz" >					//INICIO
+| < FEIJAO : "feijao" >					//FIM
+| < PAO : "pao" >						//INTEIRO
+| < SALAME : "salame" >					//FLUTUANTE
+| < PIMENTA : "pimenta" >				//STRING
+| < LINGUICA : "linguica" >				//BOLEANO
+| < BATATA_PALHA : "batata_palha" >		//SE
+| < BATATA_RUSTICA : "batata_rustica" > //SE NÃO
+| < TA_NA_MESA : "ta_na_mesa" >			//MOSTRAR
+| < ENTER : "\n" >						//PULAR LINHA
+}
+TOKEN : /* LIMITADORES */
+{
+  < ABRE_PARENTESES : "(" >
+| < FECHA_PARENTESES : ")" >
+| < ABRE_CHAVE : "{" >
+| < FECHA_CHAVE : "}" >
+| < VIRGULA : "," >
+| < PONTO_VIRGULA : ";" >
+| < DELIMITAR_TEXTO : "'" >
+| < SETA : "->" >
 }
 
 TOKEN : /* OPERATORS */
@@ -59,13 +82,7 @@ TOKEN : /* OPERATORS */
 | < MULTIPLY : "*" >
 | < DIVIDE : "/" >
 | < EXP : "**" >
-| < CONCAT : "\\+" >
-}
-
-TOKEN :
-{
-    < ID: (["a"-"z", "A"-"Z", "0"-"9", "_"])+
-    (["a"-"z", "A"-"Z", "0"-"9", "_"])* >
+| < CONCAT : "++" >
 }
 
 TOKEN :
@@ -74,28 +91,194 @@ TOKEN :
 | < VERDADEIRO : "verdadeiro" >
 }
 
-TOKEN :
+TOKEN : /* TIPOS OPERADORES */
 {
-  < CONSTANT : (< DIGIT >)+ >
-| < #DIGIT : [ "0"-"9" ] >
+  < MAIOR : ">" >
+| < MENOR : "<" >
+| < MENOR_IGUAL : "<=" >
+| < MAIOR_IGUAL : ">=" >
+| < IGUAL : "==" >
+| < DIFERENTE : "!=" >
+| < ATRIBUIR : "=" >
 }
 
-TOKEN :
+TOKEN : /* LETRAS E NUMEROS*/
 {
-  < TA_NA_MESA : "ta_na_mesa" >
-| < STRING_LITERAL : "\"" (~["\""])* "\"" >
+  < LETRA_MAIUSCULA : [ "A"-"Z" ] >
+| < LETRA_MINUSCULA : [ "a"-"z" ] >
+| < NUMERO :
+    < DIGITO >
+  | < DIGITO > "." < DIGITO >>
+| < #DIGITO : ([ "0"-"9" ])+ >
+}
+
+void mostrar() :
+{}
+{
+  < TA_NA_MESA >
+}
+
+void se() :
+{}
+{
+  < BATATA_PALHA >
+}
+
+void seNao() :
+{}
+{
+  < BATATA_RUSTICA >
+}
+
+void enter(): 
+{}
+{
+  (<ENTER>)*
+}
+
+void abreParenteses() :
+{}
+{
+  < ABRE_PARENTESES >
+}
+
+void fechaParenteses() :
+{}
+{
+  < FECHA_PARENTESES >
+}
+
+void abreChave() :
+{}
+{
+  < ABRE_CHAVE >
+}
+
+void fechaChave() :
+{}
+{
+  < FECHA_CHAVE >
+}
+
+void virgula() :
+{}
+{
+  < VIRGULA >
+}
+
+void pontoVirgula() :
+{}
+{
+  < PONTO_VIRGULA >
+}
+
+void delimitaTexto() :
+{}
+{
+  < DELIMITAR_TEXTO >
+}
+
+void ta_na_mesa() :
+{ }
+{
+  < TA_NA_MESA >
 }
 
 void programa() :
 { }
 {
-  < ARROZ > "{" comandos() "}" < FEIJAO >
+  enter() < ARROZ > enter() < ABRE_CHAVE > comandos() enter() < FECHA_CHAVE > enter() < FEIJAO >
+}
+
+void numero() :
+{}
+{
+  (< NUMERO >)+
+}
+
+void letra() :
+{}
+{
+	(letraMinuscula() | letraMaiuscula() )+
+}
+
+void letraMinuscula() :
+{}
+{
+  < LETRA_MINUSCULA >
+}
+
+void letraMaiuscula() :
+{}
+{
+  < LETRA_MAIUSCULA >
+}
+
+void operadorLogico() :
+{}
+{
+  try
+  {
+    menor()
+  | maior()
+  | menorIgual()
+  | maiorIgual()
+  | diferente()
+  | igual()
+  }
+  catch (ParseException e)
+  {
+    System.err.println("Operador Lógico-> " + e.getMessage());
+  }
+
+}
+
+void texto() :
+{}
+{
+  try
+  {
+    delimitaTexto() (letra()
+  | numero()) + delimitaTexto()
+  }
+  catch (ParseException e)
+  {
+    System.err.println("TEXTO -> " + e.getMessage());
+  }
+
+}
+
+void id() :
+{}
+{
+  try
+  {
+  	letra()
+  	(
+   	 letra()
+ 	 | numero()
+ 	 | "_"
+ 	 )*
+  }
+  catch (ParseException e)
+  {
+    System.err.println("ID -> " + e.getMessage());
+  }
+
 }
 
 void comandos() :
 { }
 {
-  (ta_na_mesa_statement() | declaracao() | atribuicao() | expressao() | condicional() | loop() | vazio())*
+  (
+    imprimir()
+  	| declaracao()
+  	| atribuicao()
+  	| expressao()
+  	| condicional()
+  	| loop()
+  	| vazio()
+  )*
 }
 
 void vazio() :
@@ -104,41 +287,44 @@ void vazio() :
   ""
 }
 
-void ta_na_mesa_statement() :
-{ }
+void imprimir() :
+{}
 {
-  < TA_NA_MESA > "(" concatenacao() ")" ";"
-}
+  try
+  {
+    ta_na_mesa()
+    abreParenteses()
+    
+    (
+      texto()
+  	  | id()
+  	)
+  	fechaParenteses()
+  	pontoVirgula()
+  }
+  catch (ParseException e)
+  {
+    System.err.println("imprimir-> " + e.getMessage());
+  }
 
-void concatenacao() :
-{ }
-{
-  concat_element() ( < PLUS > concat_element() )*
-}
-
-void concat_element() :
-{ }
-{
-  < STRING_LITERAL >
-| < ID >
 }
 
 void declaracao() :
 { }
 {
-  ( < PAO > | < SALAME > | < PIMENTA > | < LINGUICA > ) < ID > ";"
-}
-
-void atribuicao() :
-{ }
-{
-  < ID > "=" expressao() ";"
+  ( < PAO > | < SALAME > | < PIMENTA > | < LINGUICA > ) id() pontoVirgula()
 }
 
 void expressao() :
 { }
 {
   sum()
+}
+
+void atribuicao() :
+{ }
+{
+  id() igual() expressao() pontoVirgula()
 }
 
 void sum() :
@@ -178,18 +364,18 @@ void unary() :
 void element() :
 { }
 {
-  < CONSTANT >
-| < ID >
+  numero()
+| id()
 | < FALSO >
 | < VERDADEIRO >
-| "(" sum() ")"
+| abreParenteses() sum() fechaParenteses()
 }
 
 void condicional() :
 { }
 {
-  < BATATA_PALHA > "(" condicao() ")" "{" comandos() "}" 
-  ( < BATATA_RUSTICA > "{" comandos() "}" )?
+  < BATATA_PALHA > abreParenteses() condicao() fechaParenteses() "{" comandos() fechaChave()
+  ( < BATATA_RUSTICA > "{" comandos() fechaChave() )?
 }
 
 void condicao() :
@@ -201,8 +387,48 @@ void condicao() :
 void loop() :
 { }
 {
-  "grelha:" expressao() "->" condicao() "->" atribuicao() "{" comandos() "}"
-| "churrasqueira" "(" condicao() ")" "{" comandos() "}"
+  "grelha:" expressao() "->" condicao() "->" atribuicao()  abreChave() comandos() fechaChave()
+| "churrasqueira" abreParenteses() condicao() fechaParenteses() abreChave() comandos() fechaChave()
 }
 
+void menor() :
+{}
+{
+  < MENOR >
+}
 
+void maior() :
+{}
+{
+  < MAIOR >
+}
+
+void menorIgual() :
+{}
+{
+  < MENOR_IGUAL >
+}
+
+void maiorIgual() :
+{}
+{
+  < MAIOR_IGUAL >
+}
+
+void diferente() :
+{}
+{
+  < DIFERENTE >
+}
+
+void igual() :
+{}
+{
+  < IGUAL >
+}
+
+void atribuir() :
+{}
+{
+  < ATRIBUIR >
+}

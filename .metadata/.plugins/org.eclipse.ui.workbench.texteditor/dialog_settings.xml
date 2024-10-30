@@ -4,16 +4,16 @@
 		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="PAO"/>
+		<item key="selection" value="arroz"/>
 		<list key="findhistory">
+			<item value="/*"/>
+			<item value="opti"/>
+			<item value="| &quot;\n&quot;"/>
+			<item value="ARROZ"/>
 			<item value="ta_na_mesa_statement"/>
 			<item value="void comandos() "/>
 			<item value="void loop() :"/>
 			<item value="expressao"/>
-			<item value="comandos"/>
-			<item value="pao"/>
-			<item value="escreva"/>
-			<item value="Encountered"/>
 		</list>
 		<list key="replacehistory">
 		</list>

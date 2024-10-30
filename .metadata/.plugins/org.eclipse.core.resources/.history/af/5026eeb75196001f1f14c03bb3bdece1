@@ -1,0 +1,209 @@
+PARSER_BEGIN(Comida)
+package controle;
+
+public class Comida
+{
+  public static void main(String args []) throws ParseException
+  {
+    Comida parser = new Comida(System.in);
+    while (true)
+    {
+      System.out.println("Sirva Seu Prato:");
+      try
+      {
+        Comida.programa();
+        System.out.println("A MESA TA PRONTA.");
+      }
+      catch (Exception e)
+      {
+        System.out.println("Foi encontrado uva passa no arroz.");
+        System.out.println(e.getMessage());
+        Comida.ReInit(System.in);
+      }
+      catch (Error e)
+      {
+        System.out.println("FOI ENCONTRADO PURE NO CACHORRO QUENTE.");
+        System.out.println(e.getMessage());
+        break;
+      }
+    }
+  }
+}
+
+PARSER_END(Comida)
+
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+| "\n"
+| "tio_do_pave" (~["\r", "\n"])* ("\r" | "\n" | "\r\n")
+}
+
+TOKEN : /* PALAVRAS-CHAVE */
+{
+  < ARROZ : "arroz" >
+| < FEIJAO : "feijao" >
+| < PAO : "pao" >
+| < SALAME : "salame" >
+| < PIMENTA : "pimenta" >
+| < LINGUICA : "linguica" >
+| < BATATA_PALHA : "batata_palha" >
+| < BATATA_RUSTICA : "batata_rustica" >
+}
+
+TOKEN : /* OPERATORS */
+{
+  < PLUS : "+" >
+| < MINUS : "-" >
+| < MULTIPLY : "*" >
+| < DIVIDE : "/" >
+| < EXP : "**" >
+| < CONCAT : "\\+" >
+}
+
+TOKEN :
+{
+    < ID: (["a"-"z", "A"-"Z", "0"-"9", "_"])+
+    (["a"-"z", "A"-"Z", "0"-"9", "_"])* >
+}
+
+TOKEN :
+{
+  < FALSO : "falso" >
+| < VERDADEIRO : "verdadeiro" >
+}
+
+TOKEN :
+{
+  < CONSTANT : (< DIGIT >)+ >
+| < #DIGIT : [ "0"-"9" ] >
+}
+
+TOKEN :
+{
+  < TA_NA_MESA : "ta_na_mesa" >
+| < STRING_LITERAL : "\"" (~["\""])* "\"" >
+}
+
+void programa() :
+{ }
+{
+  < ARROZ > "{" comandos() "}" < FEIJAO >
+}
+
+void comandos() :
+{ }
+{
+  (ta_na_mesa_statement() | declaracao() | atribuicao() | expressao() | condicional() | loop() | vazio())*
+}
+
+void vazio() :
+{ }
+{
+  ""
+}
+
+void ta_na_mesa_statement() :
+{ }
+{
+  < TA_NA_MESA > "(" concatenacao() ")" ";"
+}
+
+void concatenacao() :
+{ }
+{
+  concat_element() ( < PLUS > concat_element() )*
+}
+
+void concat_element() :
+{ }
+{
+  < STRING_LITERAL >
+| < ID >
+}
+
+void declaracao() :
+{ }
+{
+  ( < PAO > | < SALAME > | < PIMENTA > | < LINGUICA > ) < ID > ";"
+}
+
+void atribuicao() :
+{ }
+{
+  < ID > "=" expressao() ";"
+}
+
+void expressao() :
+{ }
+{
+  sum()
+}
+
+void sum() :
+{ }
+{
+  term()
+  (
+    (
+      < PLUS >
+    | < MINUS >
+    )
+    term()
+  )*
+}
+
+void term() :
+{ }
+{
+  unary()
+  (
+    (
+      < MULTIPLY >
+    | < DIVIDE >
+    | < EXP >
+    )
+    unary()
+  )*
+}
+
+void unary() :
+{ }
+{
+  < MINUS > element()
+| element()
+}
+
+void element() :
+{ }
+{
+  < CONSTANT >
+| < ID >
+| < FALSO >
+| < VERDADEIRO >
+| "(" sum() ")"
+}
+
+void condicional() :
+{ }
+{
+  < BATATA_PALHA > "(" condicao() ")" "{" comandos() "}" 
+  ( < BATATA_RUSTICA > "{" comandos() "}" )?
+}
+
+void condicao() :
+{ }
+{
+  expressao() ( "==" | "!=" | ">" | "<" | ">=" | "<=" ) expressao()
+}
+
+void loop() :
+{ }
+{
+  "grelha:" expressao() "->" condicao() "->" atribuicao() "{" comandos() "}"
+| "churrasqueira" "(" condicao() ")" "{" comandos() "}"
+}
+
+

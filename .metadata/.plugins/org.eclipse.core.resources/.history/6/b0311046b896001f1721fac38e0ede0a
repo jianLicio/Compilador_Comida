@@ -1,0 +1,396 @@
+PARSER_BEGIN(Comida)
+package controle;
+
+
+public class Comida
+{
+  public static void main(String args []) throws ParseException
+  {
+    Comida parser = new Comida(System.in);
+    while (true)
+    {
+      System.out.println("Sirva Seu Prato:");
+      try
+      {
+        Comida.programa();
+        System.out.println("A MESA TA PRONTA.");
+      }
+      catch (Exception e)
+      {
+        System.out.println("Foi encontrado uva passa no arroz.");
+        System.out.println(e.getMessage());
+        Comida.ReInit(System.in);
+      }
+      catch (Error e)
+      {
+        System.out.println("FOI ENCONTRADO PURE NO CACHORRO QUENTE.");
+        System.out.println(e.getMessage());
+        break;
+      }
+    }
+  }
+}
+
+PARSER_END(Comida)
+
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+| "\n"
+| < "tio_do_pave" (~[ "\n", "\r" ])*
+    (
+      "\n"
+    | "\r"
+    | "\r\n"
+    ) >
+| < "e_a_faculdade" (~[ "*" ])* "*"
+    (
+      ~[ "/" ] (~[ "*" ])* "*"
+    )*
+    "/" >
+}
+
+TOKEN : /* PALAVRAS-CHAVE */
+{
+  < ARROZ : "arroz" >					//INICIO
+| < FEIJAO : "feijao" >					//FIM
+| < PAO : "pao" >						//INTEIRO
+| < SALAME : "salame" >					//FLUTUANTE
+| < PIMENTA : "pimenta" >				//STRING
+| < LINGUICA : "linguica" >				//BOLEANO
+| < BATATA_PALHA : "batata_palha" >		//SE
+| < BATATA_RUSTICA : "batata_rustica" > //SE NÃO
+| < TA_NA_MESA : "ta_na_mesa" >			//MOSTRAR
+| < ENTER : "\n" >						//PULAR LINHA
+}
+
+TOKEN : /* LIMITADORES */
+{
+  < ABRE_PARENTESES : "(" >
+| < FECHA_PARENTESES : ")" >
+| < ABRE_CHAVE : "{" >
+| < FECHA_CHAVE : "}" >
+| < VIRGULA : "," >
+| < PONTO_VIRGULA : ";" >
+| < DELIMITAR_TEXTO : "'" >
+| < SETA : "->" >
+}
+
+TOKEN : /* OPERATORS */
+{
+  < PLUS : "+" >
+| < MINUS : "-" >
+| < MULTIPLY : "*" >
+| < DIVIDE : "/" >
+| < EXP : "**" >
+| < CONCAT : "++" >
+}
+
+TOKEN :
+{
+  < FALSO : "falso" >
+| < VERDADEIRO : "verdadeiro" >
+}
+
+TOKEN : /* TIPOS OPERADORES */
+{
+  < MAIOR : ">" >
+| < MENOR : "<" >
+| < MENOR_IGUAL : "<=" >
+| < MAIOR_IGUAL : ">=" >
+| < IGUAL : "==" >
+| < DIFERENTE : "!=" >
+| < ATRIBUIR : "=" >
+}
+
+TOKEN : /* LETRAS E NUMEROS*/
+{
+  < LETRA_MAIUSCULA : [ "A"-"Z" ] >
+| < LETRA_MINUSCULA : [ "a"-"z" ] >
+| < NUMERO :
+    < DIGITO >
+  | < DIGITO > "." < DIGITO >>
+| < #DIGITO : ([ "0"-"9" ])+ >
+}
+
+void mostrar() :
+{}
+{
+  < TA_NA_MESA >
+}
+
+void se() :
+{}
+{
+  < BATATA_PALHA >
+}
+
+void seNao() :
+{}
+{
+  < BATATA_RUSTICA >
+}
+
+void enter(): 
+{}
+{
+  (<ENTER>)*
+}
+
+void abreParenteses() :
+{}
+{
+  < ABRE_PARENTESES >
+}
+
+void fechaParenteses() :
+{}
+{
+  < FECHA_PARENTESES >
+}
+
+void abreChave() :
+{}
+{
+  < ABRE_CHAVE >
+}
+
+void fechaChave() :
+{}
+{
+  < FECHA_CHAVE >
+}
+
+void virgula() :
+{}
+{
+  < VIRGULA >
+}
+
+void pontoVirgula() :
+{}
+{
+  < PONTO_VIRGULA >
+}
+
+void delimitaTexto() :
+{}
+{
+  < DELIMITAR_TEXTO >
+}
+
+void programa() :
+{ }
+{
+  < ARROZ > "{" comandos() "}" < FEIJAO >
+}
+
+void comandos() :
+{ }
+{
+  (
+    imprimir()
+  	| declaracao()
+  	| atribuicao()
+  	| expressao()
+  	| condicional()
+  	| loop()
+  	| vazio()
+  )*
+}
+
+void vazio() :
+{ }
+{
+  ""
+}
+
+void imprimir() :
+{
+  RecoverySet g = First.imprimir;
+}
+{
+  try
+  {
+    ta_na_mesa() abreParenteses() (texto()
+  | id()) fechaParenteses() pontoVirgula()
+  }
+  catch (ParseException e)
+  {
+    consumeUntil(g, e, "imprimir");
+  }
+
+}
+
+//void ta_na_mesa() :
+//{ }
+//{
+//  < TA_NA_MESA > "(" concatenacao() ")" ";"
+//}
+
+void ta_na_mesa() :
+{ }
+{
+  < TA_NA_MESA >
+}
+
+void concatenacao() :
+{ }
+{
+  concat_element() ( < PLUS > concat_element() )*
+}
+
+void concat_element() :
+{ }
+{
+  < STRING_LITERAL >
+| < ID >
+}
+
+void declaracao() :
+{ }
+{
+  ( < PAO > | < SALAME > | < PIMENTA > | < LINGUICA > ) < ID > ";"
+}
+
+void atribuicao() :
+{ }
+{
+  < ID > "=" expressao() ";"
+}
+
+void expressao() :
+{ }
+{
+  sum()
+}
+
+void sum() :
+{ }
+{
+  term()
+  (
+    (
+      < PLUS >
+    | < MINUS >
+    )
+    term()
+  )*
+}
+
+void term() :
+{ }
+{
+  unary()
+  (
+    (
+      < MULTIPLY >
+    | < DIVIDE >
+    | < EXP >
+    )
+    unary()
+  )*
+}
+
+void unary() :
+{ }
+{
+  < MINUS > element()
+| element()
+}
+
+void element() :
+{ }
+{
+  < CONSTANT >
+| < ID >
+| < FALSO >
+| < VERDADEIRO >
+| "(" sum() ")"
+}
+
+void condicional() :
+{ }
+{
+  < BATATA_PALHA > "(" condicao() ")" "{" comandos() "}" 
+  ( < BATATA_RUSTICA > "{" comandos() "}" )?
+}
+
+void condicao() :
+{ }
+{
+  expressao() ( "==" | "!=" | ">" | "<" | ">=" | "<=" ) expressao()
+}
+
+void loop() :
+{ }
+{
+  "grelha:" expressao() "->" condicao() "->" atribuicao() "{" comandos() "}"
+| "churrasqueira" "(" condicao() ")" "{" comandos() "}"
+}
+
+
+void operadorLogico() :
+{
+  RecoverySet g = First.operadorLogico;
+}
+{
+  try
+  {
+    menor()
+  | maior()
+  | menorIgual()
+  | maiorIgual()
+  | diferente()
+  | igual()
+  }
+  catch (ParseException e)
+  {
+    consumeUntil(g, e, "operadorLogico");
+  }
+
+}
+
+void menor() :
+{}
+{
+  < MENOR >
+}
+
+void maior() :
+{}
+{
+  < MAIOR >
+}
+
+void menorIgual() :
+{}
+{
+  < MENOR_IGUAL >
+}
+
+void maiorIgual() :
+{}
+{
+  < MAIOR_IGUAL >
+}
+
+void diferente() :
+{}
+{
+  < DIFERENTE >
+}
+
+void igual() :
+{}
+{
+  < IGUAL >
+}
+
+void atribuir() :
+{}
+{
+  < ATRIBUIR >
+}

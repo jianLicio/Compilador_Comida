@@ -29,33 +29,23 @@ public class Comida implements ComidaConstants {
     }
   }
 
-  static final public void programa() throws ParseException {
-    jj_consume_token(ARROZ);
-    jj_consume_token(26);
-    comandos();
-    jj_consume_token(27);
-    jj_consume_token(FEIJAO);
+  static final public void mostrar() throws ParseException {
+    jj_consume_token(TA_NA_MESA);
 }
 
-  static final public void comandos() throws ParseException {
+  static final public void se() throws ParseException {
+    jj_consume_token(BATATA_PALHA);
+}
+
+  static final public void seNao() throws ParseException {
+    jj_consume_token(BATATA_RUSTICA);
+}
+
+  static final public void enter() throws ParseException {
     label_1:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case PAO:
-      case SALAME:
-      case PIMENTA:
-      case LINGUICA:
-      case BATATA_PALHA:
-      case MINUS:
-      case ID:
-      case FALSO:
-      case VERDADEIRO:
-      case CONSTANT:
-      case TA_NA_MESA:
-      case 28:
-      case 29:
-      case 39:
-      case 41:{
+      case ENTER:{
         ;
         break;
         }
@@ -63,9 +53,255 @@ public class Comida implements ComidaConstants {
         jj_la1[0] = jj_gen;
         break label_1;
       }
+      jj_consume_token(ENTER);
+    }
+}
+
+  static final public void abreParenteses() throws ParseException {
+    jj_consume_token(ABRE_PARENTESES);
+}
+
+  static final public void fechaParenteses() throws ParseException {
+    jj_consume_token(FECHA_PARENTESES);
+}
+
+  static final public void abreChave() throws ParseException {
+    jj_consume_token(ABRE_CHAVE);
+}
+
+  static final public void fechaChave() throws ParseException {
+    jj_consume_token(FECHA_CHAVE);
+}
+
+  static final public void virgula() throws ParseException {
+    jj_consume_token(VIRGULA);
+}
+
+  static final public void pontoVirgula() throws ParseException {
+    jj_consume_token(PONTO_VIRGULA);
+}
+
+  static final public void delimitaTexto() throws ParseException {
+    jj_consume_token(DELIMITAR_TEXTO);
+}
+
+  static final public void ta_na_mesa() throws ParseException {
+    jj_consume_token(TA_NA_MESA);
+}
+
+  static final public void programa() throws ParseException {
+    enter();
+    jj_consume_token(ARROZ);
+    enter();
+    jj_consume_token(ABRE_CHAVE);
+    comandos();
+    enter();
+    jj_consume_token(FECHA_CHAVE);
+    enter();
+    jj_consume_token(FEIJAO);
+}
+
+  static final public void numero() throws ParseException {
+    label_2:
+    while (true) {
+      jj_consume_token(NUMERO);
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case NUMERO:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[1] = jj_gen;
+        break label_2;
+      }
+    }
+}
+
+  static final public void letra() throws ParseException {
+    label_3:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case LETRA_MINUSCULA:{
+        letraMinuscula();
+        break;
+        }
+      case LETRA_MAIUSCULA:{
+        letraMaiuscula();
+        break;
+        }
+      default:
+        jj_la1[2] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case LETRA_MAIUSCULA:
+      case LETRA_MINUSCULA:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[3] = jj_gen;
+        break label_3;
+      }
+    }
+}
+
+  static final public void letraMinuscula() throws ParseException {
+    jj_consume_token(LETRA_MINUSCULA);
+}
+
+  static final public void letraMaiuscula() throws ParseException {
+    jj_consume_token(LETRA_MAIUSCULA);
+}
+
+  static final public void operadorLogico() throws ParseException {
+    try {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case MENOR:{
+        menor();
+        break;
+        }
+      case MAIOR:{
+        maior();
+        break;
+        }
+      case MENOR_IGUAL:{
+        menorIgual();
+        break;
+        }
+      case MAIOR_IGUAL:{
+        maiorIgual();
+        break;
+        }
+      case DIFERENTE:{
+        diferente();
+        break;
+        }
+      case IGUAL:{
+        igual();
+        break;
+        }
+      default:
+        jj_la1[4] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
+      }
+    } catch (ParseException e) {
+System.err.println("Operador L\u00f3gico-> " + e.getMessage());
+    }
+}
+
+  static final public void texto() throws ParseException {
+    try {
+      delimitaTexto();
+      label_4:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case LETRA_MAIUSCULA:
+        case LETRA_MINUSCULA:{
+          letra();
+          break;
+          }
+        case NUMERO:{
+          numero();
+          break;
+          }
+        default:
+          jj_la1[5] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case LETRA_MAIUSCULA:
+        case LETRA_MINUSCULA:
+        case NUMERO:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[6] = jj_gen;
+          break label_4;
+        }
+      }
+      delimitaTexto();
+    } catch (ParseException e) {
+System.err.println("TEXTO -> " + e.getMessage());
+    }
+}
+
+  static final public void id() throws ParseException {
+    try {
+      letra();
+      label_5:
+      while (true) {
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case LETRA_MAIUSCULA:
+        case LETRA_MINUSCULA:
+        case NUMERO:
+        case 43:{
+          ;
+          break;
+          }
+        default:
+          jj_la1[7] = jj_gen;
+          break label_5;
+        }
+        switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+        case LETRA_MAIUSCULA:
+        case LETRA_MINUSCULA:{
+          letra();
+          break;
+          }
+        case NUMERO:{
+          numero();
+          break;
+          }
+        case 43:{
+          jj_consume_token(43);
+          break;
+          }
+        default:
+          jj_la1[8] = jj_gen;
+          jj_consume_token(-1);
+          throw new ParseException();
+        }
+      }
+    } catch (ParseException e) {
+System.err.println("ID -> " + e.getMessage());
+    }
+}
+
+  static final public void comandos() throws ParseException {
+    label_6:
+    while (true) {
+      switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
+      case PAO:
+      case SALAME:
+      case PIMENTA:
+      case LINGUICA:
+      case BATATA_PALHA:
+      case TA_NA_MESA:
+      case ABRE_PARENTESES:
+      case MINUS:
+      case FALSO:
+      case VERDADEIRO:
+      case LETRA_MAIUSCULA:
+      case LETRA_MINUSCULA:
+      case NUMERO:
+      case 44:
+      case 45:
+      case 46:{
+        ;
+        break;
+        }
+      default:
+        jj_la1[9] = jj_gen;
+        break label_6;
+      }
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case TA_NA_MESA:{
-        ta_na_mesa_statement();
+        imprimir();
         break;
         }
       case PAO:
@@ -75,15 +311,16 @@ public class Comida implements ComidaConstants {
         declaracao();
         break;
         }
-      case ID:{
+      case LETRA_MAIUSCULA:
+      case LETRA_MINUSCULA:{
         atribuicao();
         break;
         }
+      case ABRE_PARENTESES:
       case MINUS:
       case FALSO:
       case VERDADEIRO:
-      case CONSTANT:
-      case 29:{
+      case NUMERO:{
         expressao();
         break;
         }
@@ -91,17 +328,17 @@ public class Comida implements ComidaConstants {
         condicional();
         break;
         }
-      case 39:
-      case 41:{
+      case 45:
+      case 46:{
         loop();
         break;
         }
-      case 28:{
+      case 44:{
         vazio();
         break;
         }
       default:
-        jj_la1[1] = jj_gen;
+        jj_la1[10] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -109,49 +346,32 @@ public class Comida implements ComidaConstants {
 }
 
   static final public void vazio() throws ParseException {
-    jj_consume_token(28);
+    jj_consume_token(44);
 }
 
-  static final public void ta_na_mesa_statement() throws ParseException {
-    jj_consume_token(TA_NA_MESA);
-    jj_consume_token(29);
-    concatenacao();
-    jj_consume_token(30);
-    jj_consume_token(31);
-}
-
-  static final public void concatenacao() throws ParseException {
-    concat_element();
-    label_2:
-    while (true) {
+  static final public void imprimir() throws ParseException {
+    try {
+      ta_na_mesa();
+      abreParenteses();
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-      case PLUS:{
-        ;
+      case DELIMITAR_TEXTO:{
+        texto();
+        break;
+        }
+      case LETRA_MAIUSCULA:
+      case LETRA_MINUSCULA:{
+        id();
         break;
         }
       default:
-        jj_la1[2] = jj_gen;
-        break label_2;
+        jj_la1[11] = jj_gen;
+        jj_consume_token(-1);
+        throw new ParseException();
       }
-      jj_consume_token(PLUS);
-      concat_element();
-    }
-}
-
-  static final public void concat_element() throws ParseException {
-    switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case STRING_LITERAL:{
-      jj_consume_token(STRING_LITERAL);
-      break;
-      }
-    case ID:{
-      jj_consume_token(ID);
-      break;
-      }
-    default:
-      jj_la1[3] = jj_gen;
-      jj_consume_token(-1);
-      throw new ParseException();
+      fechaParenteses();
+      pontoVirgula();
+    } catch (ParseException e) {
+System.err.println("imprimir-> " + e.getMessage());
     }
 }
 
@@ -174,28 +394,28 @@ public class Comida implements ComidaConstants {
       break;
       }
     default:
-      jj_la1[4] = jj_gen;
+      jj_la1[12] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
-    jj_consume_token(ID);
-    jj_consume_token(31);
-}
-
-  static final public void atribuicao() throws ParseException {
-    jj_consume_token(ID);
-    jj_consume_token(32);
-    expressao();
-    jj_consume_token(31);
+    id();
+    pontoVirgula();
 }
 
   static final public void expressao() throws ParseException {
     sum();
 }
 
+  static final public void atribuicao() throws ParseException {
+    id();
+    igual();
+    expressao();
+    pontoVirgula();
+}
+
   static final public void sum() throws ParseException {
     term();
-    label_3:
+    label_7:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case PLUS:
@@ -204,8 +424,8 @@ public class Comida implements ComidaConstants {
         break;
         }
       default:
-        jj_la1[5] = jj_gen;
-        break label_3;
+        jj_la1[13] = jj_gen;
+        break label_7;
       }
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case PLUS:{
@@ -217,7 +437,7 @@ public class Comida implements ComidaConstants {
         break;
         }
       default:
-        jj_la1[6] = jj_gen;
+        jj_la1[14] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -227,7 +447,7 @@ public class Comida implements ComidaConstants {
 
   static final public void term() throws ParseException {
     unary();
-    label_4:
+    label_8:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case MULTIPLY:
@@ -237,8 +457,8 @@ public class Comida implements ComidaConstants {
         break;
         }
       default:
-        jj_la1[7] = jj_gen;
-        break label_4;
+        jj_la1[15] = jj_gen;
+        break label_8;
       }
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
       case MULTIPLY:{
@@ -254,7 +474,7 @@ public class Comida implements ComidaConstants {
         break;
         }
       default:
-        jj_la1[8] = jj_gen;
+        jj_la1[16] = jj_gen;
         jj_consume_token(-1);
         throw new ParseException();
       }
@@ -269,16 +489,17 @@ public class Comida implements ComidaConstants {
       element();
       break;
       }
-    case ID:
+    case ABRE_PARENTESES:
     case FALSO:
     case VERDADEIRO:
-    case CONSTANT:
-    case 29:{
+    case LETRA_MAIUSCULA:
+    case LETRA_MINUSCULA:
+    case NUMERO:{
       element();
       break;
       }
     default:
-      jj_la1[9] = jj_gen;
+      jj_la1[17] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -286,12 +507,13 @@ public class Comida implements ComidaConstants {
 
   static final public void element() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case CONSTANT:{
-      jj_consume_token(CONSTANT);
+    case NUMERO:{
+      numero();
       break;
       }
-    case ID:{
-      jj_consume_token(ID);
+    case LETRA_MAIUSCULA:
+    case LETRA_MINUSCULA:{
+      id();
       break;
       }
     case FALSO:{
@@ -302,14 +524,14 @@ public class Comida implements ComidaConstants {
       jj_consume_token(VERDADEIRO);
       break;
       }
-    case 29:{
-      jj_consume_token(29);
+    case ABRE_PARENTESES:{
+      abreParenteses();
       sum();
-      jj_consume_token(30);
+      fechaParenteses();
       break;
       }
     default:
-      jj_la1[10] = jj_gen;
+      jj_la1[18] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -317,22 +539,22 @@ public class Comida implements ComidaConstants {
 
   static final public void condicional() throws ParseException {
     jj_consume_token(BATATA_PALHA);
-    jj_consume_token(29);
+    abreParenteses();
     condicao();
-    jj_consume_token(30);
-    jj_consume_token(26);
+    fechaParenteses();
+    jj_consume_token(ABRE_CHAVE);
     comandos();
-    jj_consume_token(27);
+    fechaChave();
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case BATATA_RUSTICA:{
       jj_consume_token(BATATA_RUSTICA);
-      jj_consume_token(26);
+      jj_consume_token(ABRE_CHAVE);
       comandos();
-      jj_consume_token(27);
+      fechaChave();
       break;
       }
     default:
-      jj_la1[11] = jj_gen;
+      jj_la1[19] = jj_gen;
       ;
     }
 }
@@ -340,32 +562,32 @@ public class Comida implements ComidaConstants {
   static final public void condicao() throws ParseException {
     expressao();
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 33:{
-      jj_consume_token(33);
+    case IGUAL:{
+      jj_consume_token(IGUAL);
       break;
       }
-    case 34:{
-      jj_consume_token(34);
+    case DIFERENTE:{
+      jj_consume_token(DIFERENTE);
       break;
       }
-    case 35:{
-      jj_consume_token(35);
+    case MAIOR:{
+      jj_consume_token(MAIOR);
       break;
       }
-    case 36:{
-      jj_consume_token(36);
+    case MENOR:{
+      jj_consume_token(MENOR);
       break;
       }
-    case 37:{
-      jj_consume_token(37);
+    case MAIOR_IGUAL:{
+      jj_consume_token(MAIOR_IGUAL);
       break;
       }
-    case 38:{
-      jj_consume_token(38);
+    case MENOR_IGUAL:{
+      jj_consume_token(MENOR_IGUAL);
       break;
       }
     default:
-      jj_la1[12] = jj_gen;
+      jj_la1[20] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
@@ -374,33 +596,61 @@ public class Comida implements ComidaConstants {
 
   static final public void loop() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
-    case 39:{
-      jj_consume_token(39);
+    case 45:{
+      jj_consume_token(45);
       expressao();
-      jj_consume_token(40);
+      jj_consume_token(SETA);
       condicao();
-      jj_consume_token(40);
+      jj_consume_token(SETA);
       atribuicao();
-      jj_consume_token(26);
+      abreChave();
       comandos();
-      jj_consume_token(27);
+      fechaChave();
       break;
       }
-    case 41:{
-      jj_consume_token(41);
-      jj_consume_token(29);
+    case 46:{
+      jj_consume_token(46);
+      abreParenteses();
       condicao();
-      jj_consume_token(30);
-      jj_consume_token(26);
+      fechaParenteses();
+      abreChave();
       comandos();
-      jj_consume_token(27);
+      fechaChave();
       break;
       }
     default:
-      jj_la1[13] = jj_gen;
+      jj_la1[21] = jj_gen;
       jj_consume_token(-1);
       throw new ParseException();
     }
+}
+
+  static final public void menor() throws ParseException {
+    jj_consume_token(MENOR);
+}
+
+  static final public void maior() throws ParseException {
+    jj_consume_token(MAIOR);
+}
+
+  static final public void menorIgual() throws ParseException {
+    jj_consume_token(MENOR_IGUAL);
+}
+
+  static final public void maiorIgual() throws ParseException {
+    jj_consume_token(MAIOR_IGUAL);
+}
+
+  static final public void diferente() throws ParseException {
+    jj_consume_token(DIFERENTE);
+}
+
+  static final public void igual() throws ParseException {
+    jj_consume_token(IGUAL);
+}
+
+  static final public void atribuir() throws ParseException {
+    jj_consume_token(ATRIBUIR);
 }
 
   static private boolean jj_initialized_once = false;
@@ -413,7 +663,7 @@ public class Comida implements ComidaConstants {
   static public Token jj_nt;
   static private int jj_ntk;
   static private int jj_gen;
-  static final private int[] jj_la1 = new int[14];
+  static final private int[] jj_la1 = new int[22];
   static private int[] jj_la1_0;
   static private int[] jj_la1_1;
   static {
@@ -421,10 +671,10 @@ public class Comida implements ComidaConstants {
 	   jj_la1_init_1();
 	}
 	private static void jj_la1_init_0() {
-	   jj_la1_0 = new int[] {0x31784f80,0x31784f80,0x2000,0x2080000,0x780,0x6000,0x6000,0x38000,0x38000,0x20784000,0x20780000,0x1000,0x0,0x0,};
+	   jj_la1_0 = new int[] {0x8000,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0xc2015f00,0xc2015f00,0x400000,0xf00,0x3000000,0x3000000,0x1c000000,0x1c000000,0xc2010000,0xc0010000,0x2000,0x0,0x0,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0x280,0x280,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x0,0x7e,0x280,};
+	   jj_la1_1 = new int[] {0x0,0x200,0x180,0x180,0x3f,0x380,0x380,0xb80,0xb80,0x7380,0x7380,0x180,0x0,0x0,0x0,0x0,0x0,0x380,0x380,0x0,0x3f,0x6000,};
 	}
 
   /** Constructor with InputStream. */
@@ -445,7 +695,7 @@ public class Comida implements ComidaConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -459,7 +709,7 @@ public class Comida implements ComidaConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
   }
 
   /** Constructor. */
@@ -476,7 +726,7 @@ public class Comida implements ComidaConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -494,7 +744,7 @@ public class Comida implements ComidaConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
   }
 
   /** Constructor with generated Token Manager. */
@@ -510,7 +760,7 @@ public class Comida implements ComidaConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
   }
 
   /** Reinitialise. */
@@ -519,7 +769,7 @@ public class Comida implements ComidaConstants {
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
-	 for (int i = 0; i < 14; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < 22; i++) jj_la1[i] = -1;
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -570,12 +820,12 @@ public class Comida implements ComidaConstants {
   /** Generate ParseException. */
   static public ParseException generateParseException() {
 	 jj_expentries.clear();
-	 boolean[] la1tokens = new boolean[42];
+	 boolean[] la1tokens = new boolean[47];
 	 if (jj_kind >= 0) {
 	   la1tokens[jj_kind] = true;
 	   jj_kind = -1;
 	 }
-	 for (int i = 0; i < 14; i++) {
+	 for (int i = 0; i < 22; i++) {
 	   if (jj_la1[i] == jj_gen) {
 		 for (int j = 0; j < 32; j++) {
 		   if ((jj_la1_0[i] & (1<<j)) != 0) {
@@ -587,7 +837,7 @@ public class Comida implements ComidaConstants {
 		 }
 	   }
 	 }
-	 for (int i = 0; i < 42; i++) {
+	 for (int i = 0; i < 47; i++) {
 	   if (la1tokens[i]) {
 		 jj_expentry = new int[1];
 		 jj_expentry[0] = i;
