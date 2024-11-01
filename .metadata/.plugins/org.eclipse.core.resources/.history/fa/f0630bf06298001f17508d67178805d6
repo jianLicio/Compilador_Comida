@@ -54,7 +54,7 @@ TOKEN : /* PALAVRAS-CHAVE */
 {
   < ARROZ : "arroz" >					//INICIO
 | < FEIJAO : "feijao" >					//FIM
-| < PAO : "pão" >						//INTEIRO
+| < PAO : "pao" >						//INTEIRO
 | < SALAME : "salame" >					//FLUTUANTE
 | < PIMENTA : "pimenta" >				//STRING
 | < LINGUICA : "linguica" >				//BOLEANO

@@ -54,7 +54,7 @@ TOKEN : /* PALAVRAS-CHAVE */
 {
   < ARROZ : "arroz" >					//INICIO
 | < FEIJAO : "feijao" >					//FIM
-| < PAO : "pão" >						//INTEIRO
+| < PAO : "pao" >						//INTEIRO
 | < SALAME : "salame" >					//FLUTUANTE
 | < PIMENTA : "pimenta" >				//STRING
 | < LINGUICA : "linguica" >				//BOLEANO
@@ -110,8 +110,7 @@ TOKEN : /* LETRAS E NUMEROS*/
 {
   < LETRA_MAIUSCULA : [ "A"-"Z" ] >
 | < LETRA_MINUSCULA : [ "a"-"z" ] >
-| < CARACTERE_ESPECIAL : [ "@", "$", "!", "#", "%", "&", "_", "\\", "|", "?", "^", "é", "á", "à", "ã", "â", "ê", "í", "ó", "ô", "õ", "ú", "ç" ] >
-
+| < CARACTERE_ESPECIAL : [ "@", "$", "!", "#", "%", "&", "_", "\\", "|", "?", "^" ] >
 | < PONTO : [ "." ]> 
 | < NUMERO :
     < DIGITO >

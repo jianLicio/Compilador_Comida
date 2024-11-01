@@ -65,37 +65,35 @@ public interface ComidaConstants {
   /** RegularExpression Id. */
   int EXP = 32;
   /** RegularExpression Id. */
-  int CONCAT = 33;
+  int FALSO = 33;
   /** RegularExpression Id. */
-  int FALSO = 34;
+  int VERDADEIRO = 34;
   /** RegularExpression Id. */
-  int VERDADEIRO = 35;
+  int MAIOR = 35;
   /** RegularExpression Id. */
-  int MAIOR = 36;
+  int MENOR = 36;
   /** RegularExpression Id. */
-  int MENOR = 37;
+  int MENOR_IGUAL = 37;
   /** RegularExpression Id. */
-  int MENOR_IGUAL = 38;
+  int MAIOR_IGUAL = 38;
   /** RegularExpression Id. */
-  int MAIOR_IGUAL = 39;
+  int IGUAL = 39;
   /** RegularExpression Id. */
-  int IGUAL = 40;
+  int DIFERENTE = 40;
   /** RegularExpression Id. */
-  int DIFERENTE = 41;
+  int IGUAL_LOGICO = 41;
   /** RegularExpression Id. */
-  int IGUAL_LOGICO = 42;
+  int LETRA_MAIUSCULA = 42;
   /** RegularExpression Id. */
-  int LETRA_MAIUSCULA = 43;
+  int LETRA_MINUSCULA = 43;
   /** RegularExpression Id. */
-  int LETRA_MINUSCULA = 44;
+  int CARACTERE_ESPECIAL = 44;
   /** RegularExpression Id. */
-  int CARACTERE_ESPECIAL = 45;
+  int PONTO = 45;
   /** RegularExpression Id. */
-  int PONTO = 46;
+  int NUMERO = 46;
   /** RegularExpression Id. */
-  int NUMERO = 47;
-  /** RegularExpression Id. */
-  int DIGITO = 48;
+  int DIGITO = 47;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -110,7 +108,7 @@ public interface ComidaConstants {
     "<token of kind 5>",
     "\"arroz\"",
     "\"feijao\"",
-    "\"pao\"",
+    "\"p\\u00e3o\"",
     "\"salame\"",
     "\"pimenta\"",
     "\"linguica\"",
@@ -135,7 +133,6 @@ public interface ComidaConstants {
     "\"*\"",
     "\"/\"",
     "\"**\"",
-    "\"++\"",
     "\"falso\"",
     "\"verdadeiro\"",
     "\">\"",

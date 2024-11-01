@@ -54,7 +54,7 @@ TOKEN : /* PALAVRAS-CHAVE */
 {
   < ARROZ : "arroz" >					//INICIO
 | < FEIJAO : "feijao" >					//FIM
-| < PAO : "pao" >						//INTEIRO
+| < PAO : "pão" >						//INTEIRO
 | < SALAME : "salame" >					//FLUTUANTE
 | < PIMENTA : "pimenta" >				//STRING
 | < LINGUICA : "linguica" >				//BOLEANO
@@ -87,7 +87,6 @@ TOKEN : /* OPERATORS */
 | < MULTIPLY : "*" >
 | < DIVIDE : "/" >
 | < EXP : "**" >
-| < CONCAT : "++" >
 }
 
 TOKEN :
@@ -111,7 +110,8 @@ TOKEN : /* LETRAS E NUMEROS*/
 {
   < LETRA_MAIUSCULA : [ "A"-"Z" ] >
 | < LETRA_MINUSCULA : [ "a"-"z" ] >
-| < CARACTERE_ESPECIAL : [ "@", "$", "!", "#", "%", "&", "_", "+", "\\", "|", "?", "^" ] >
+| < CARACTERE_ESPECIAL : [ "@", "$", "!", "#", "%", "&", "_", "\\", "|", "?", "^", "é", "á", "à", "ã", "â", "ê", "í", "ó", "ô", "õ", "ú", "ç" ] >
+
 | < PONTO : [ "." ]> 
 | < NUMERO :
     < DIGITO >
@@ -312,12 +312,6 @@ void exponencial() :
   <EXP>
 }
 
-//void concatena() :
-//{}
-//{
-//  <CONCAT>
-//}
-
 void falso() :
 {}
 {
@@ -396,10 +390,14 @@ void underline() :
 void caractereEspecial() :
 {}
 {
-  (< CARACTERE_ESPECIAL >)*
-  (
-  	doisPontos()
- 	| underline() 
+  (    < CARACTERE_ESPECIAL >
+    | ponto()
+    | doisPontos()
+ 	| underline()
+ 	| mais()
+ 	| menos()
+ 	| multiplica()
+ 	| divide() 
   )*
 }
 
@@ -461,7 +459,6 @@ void texto() :
   try
   {
     (termoTexto())* 
-//    (concatena() | termoTexto())*
   }
   catch (ParseException e)
   {
