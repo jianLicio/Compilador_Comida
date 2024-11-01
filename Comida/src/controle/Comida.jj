@@ -53,11 +53,11 @@ SKIP :
 TOKEN : /* PALAVRAS-CHAVE */
 {
   < ARROZ : "arroz" >					//INICIO
-| < FEIJAO : "feijao" >					//FIM
+| < FEIJAO : "feijão" >					//FIM
 | < PAO : "pão" >						//INTEIRO
 | < SALAME : "salame" >					//FLUTUANTE
 | < PIMENTA : "pimenta" >				//STRING
-| < LINGUICA : "linguica" >				//BOLEANO
+| < LINGUICA : "linguiça" > 			//BOLEANO
 | < BATATA_PALHA : "batata_palha" >		//SE
 | < BATATA_RUSTICA : "batata_rustica" > //SE NÃO
 | < TA_NA_MESA : "ta_na_mesa" >			//ESCREVER NA TELA
@@ -108,14 +108,12 @@ TOKEN : /* TIPOS OPERADORES */
 
 TOKEN : /* LETRAS E NUMEROS*/
 {
-  < LETRA_MAIUSCULA : [ "A"-"Z", "É", "Á", "À", "Ã", "Â", "Ê", "Í", "Ó", "Ô", "Õ", "Ú", "Ç" ] >
-| < LETRA_MINUSCULA : [ "a"-"z", "é", "á", "à", "ã", "â", "ê", "í", "ó", "ô", "õ", "ú", "ç" ] >
-| < CARACTERE_ESPECIAL : [ "@", "$", "!", "#", "%", "&", "_", "\\", "|", "?", "^" ] >
-| < PONTO : [ "." ]> 
-| < NUMERO :
-    < DIGITO >
-  | < DIGITO > < PONTO > < DIGITO >>
-| < #DIGITO : ([ "0"-"9" ])+ >
+	  < LETRA_MAIUSCULA : [ "A"-"Z", "É", "Á", "À", "Ã", "Â", "Ê", "Í", "Ó", "Ô", "Õ", "Ú", "Ç" ] >
+	| < LETRA_MINUSCULA : [ "a"-"z", "é", "á", "à", "ã", "â", "ê", "í", "ó", "ô", "õ", "ú", "ç" ] >
+	| < CARACTERE_ESPECIAL : [ "@", "$", "!", "#", "%", "&", "_", "\\", "|", "?", "^" ] >
+	| < PONTO : [ "." ]>
+	| < DIGITO : ([ "0"-"9" ])>
+
 }
 
 void arroz() :
@@ -344,11 +342,8 @@ void programa() :
   feijao()
 }
 
-void numero() :
-{}
-{
-  < NUMERO >
-}
+
+
 
 void letra() :
 {}
@@ -501,10 +496,38 @@ void imprimir() :
 
 }
 
+void numero() :
+{}
+{
+  inteiro() | flutuante()
+}
+
+
+void inteiro() :
+{ }
+{
+  (< DIGITO >)+
+}
+
+void flutuante() :
+{}
+{
+  inteiro() ((ponto())? inteiro())*
+}
+
 void declaracao() :
 { }
 {
-  ( pao() | salame() | pimenta() | linguica() ) id() enter() pontoVirgula() enter()
+
+  ( pao() id() (igual() inteiro())? pontoVirgula() enter() )
+|
+
+  ( linguica() id() (igual() (falso() | verdadeiro()))? pontoVirgula() enter() )
+|
+
+  ( salame() id() (igual() flutuante())? pontoVirgula() enter() )
+| 
+  (  pimenta() ) id() (igual() expressao())? pontoVirgula() enter()
 }
 
 void expressao() :

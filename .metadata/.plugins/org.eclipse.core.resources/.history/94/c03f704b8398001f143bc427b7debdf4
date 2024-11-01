@@ -1,0 +1,605 @@
+PARSER_BEGIN(Comida)
+package controle;
+
+public class Comida
+{
+  public static void main(String args []) throws ParseException
+  {
+    Comida parser = new Comida(System.in);
+    while (true)
+    {
+      System.out.println("Sirva Seu Prato");
+      try
+      {
+        Comida.programa();
+        System.out.println("A MESA TA PRONTA.");
+      }
+      catch (Exception e)
+      {
+        System.out.println("Foi encontrado uva passa no arroz.");
+        System.out.println(e.getMessage());
+        Comida.ReInit(System.in);
+      }
+      catch (Error e)
+      {
+        System.out.println("FOI ENCONTRADO PURE NO CACHORRO QUENTE.");
+        System.out.println(e.getMessage());
+        break;
+      }
+    }
+  }
+}
+
+PARSER_END(Comida)
+
+SKIP :
+{
+  " "
+| "\r"
+| "\t"
+| < "tio_do_pave" (~[ "\n", "\r" ])*
+    (
+      "\n"
+    | "\r"
+    | "\r\n"
+    ) >
+| < "e_a_faculdade" (~[ "*" ])* "*"
+    (
+      ~[ "/" ] (~[ "*" ])* "*"
+    )*
+    "/" >
+}
+
+TOKEN : /* PALAVRAS-CHAVE */
+{
+  < ARROZ : "arroz" >					//INICIO
+| < FEIJAO : "feijão" >					//FIM
+| < PAO : "pão" >						//INTEIRO
+| < SALAME : "salame" >					//FLUTUANTE
+| < PIMENTA : "pimenta" >				//STRING
+| < LINGUICA : "linguiça" > 			//BOLEANO
+| < BATATA_PALHA : "batata_palha" >		//SE
+| < BATATA_RUSTICA : "batata_rustica" > //SE NÃO
+| < TA_NA_MESA : "ta_na_mesa" >			//ESCREVER NA TELA
+| < ENTER : "\n" >						//PULAR LINHA
+| < GRELHA : "grelha" >					//FOR
+| < CHURRASQUEIRA : "churrasqueira" >	//WHILE
+| < DOIS_PONTOS : ":" >
+| < UNDERLINE : "_" >
+}
+
+TOKEN : /* LIMITADORES */
+{
+  < ABRE_PARENTESES : "(" >
+| < FECHA_PARENTESES : ")" >
+| < ABRE_CHAVE : "{" >
+| < FECHA_CHAVE : "}" >
+| < VIRGULA : "," >
+| < PONTO_VIRGULA : ";" >
+| < DELIMITAR_TEXTO : "'" >
+| < SETA : "->" >
+}
+
+TOKEN : /* OPERATORS */
+{
+  < PLUS : "+" >
+| < MINUS : "-" >
+| < MULTIPLY : "*" >
+| < DIVIDE : "/" >
+| < EXP : "**" >
+}
+
+TOKEN :
+{
+  < FALSO : "ruim" >
+| < VERDADEIRO : "bom" >
+}
+
+TOKEN : /* TIPOS OPERADORES */
+{
+  < MAIOR : ">" >
+| < MENOR : "<" >
+| < MENOR_IGUAL : "<=" >
+| < MAIOR_IGUAL : ">=" >
+| < IGUAL : "=" >
+| < DIFERENTE : "!=" >
+| < IGUAL_LOGICO : "==" >
+}
+
+TOKEN : /* LETRAS E NUMEROS*/
+{
+	  < LETRA_MAIUSCULA : [ "A"-"Z", "É", "Á", "À", "Ã", "Â", "Ê", "Í", "Ó", "Ô", "Õ", "Ú", "Ç" ] >
+	| < LETRA_MINUSCULA : [ "a"-"z", "é", "á", "à", "ã", "â", "ê", "í", "ó", "ô", "õ", "ú", "ç" ] >
+	| < CARACTERE_ESPECIAL : [ "@", "$", "!", "#", "%", "&", "_", "\\", "|", "?", "^" ] >
+	| < PONTO : [ "." ]>
+	| < DIGITO : ([ "0"-"9" ])+ >
+
+}
+
+void arroz() :
+{}
+{
+  < ARROZ >
+}
+
+void feijao() :
+{}
+{
+  < FEIJAO >
+}
+
+void pao() :
+{}
+{
+  < PAO >
+}
+
+void salame() :
+{}
+{
+  < SALAME >
+}
+
+void pimenta() :
+{}
+{
+  < PIMENTA >
+}
+
+void linguica() :
+{}
+{
+  < LINGUICA >
+}
+
+void se() :
+{}
+{
+  < BATATA_PALHA >
+}
+
+void seNao() :
+{}
+{
+  < BATATA_RUSTICA >
+}
+
+void enter(): 
+{}
+{
+  (< ENTER >)*
+}
+
+void abreParenteses() :
+{}
+{
+  < ABRE_PARENTESES >
+}
+
+void grelha() :
+{}
+{
+  < GRELHA >
+}
+
+void churrasqueira() :
+{}
+{
+  < CHURRASQUEIRA >
+}
+
+void fechaParenteses() :
+{}
+{
+  < FECHA_PARENTESES >
+}
+
+void abreChave() :
+{}
+{
+  < ABRE_CHAVE >
+}
+
+void fechaChave() :
+{}
+{
+  < FECHA_CHAVE >
+}
+
+void virgula() :
+{}
+{
+  < VIRGULA >
+}
+
+void pontoVirgula() :
+{}
+{
+  < PONTO_VIRGULA >
+}
+
+void igual() :
+{}
+{
+  <IGUAL>
+}
+
+void diferente() :
+{}
+{
+  <DIFERENTE>
+}
+
+void igualLogico() :
+{}
+{
+  <IGUAL_LOGICO>
+}
+
+void menor() :
+{}
+{
+  < MENOR >
+}
+
+void maior() :
+{}
+{
+  < MAIOR >
+}
+
+void menorIgual() :
+{}
+{
+  < MENOR_IGUAL >
+}
+
+void maiorIgual() :
+{}
+{
+  < MAIOR_IGUAL >
+}
+
+
+void igual_logico() :
+{}
+{
+  < IGUAL_LOGICO >
+}
+
+void delimitaTexto() :
+{}
+{
+  < DELIMITAR_TEXTO >
+}
+
+void seta() :
+{}
+{
+  < SETA >
+}
+
+void mais() :
+{}
+{
+  <PLUS>
+}
+
+void menos() :
+{}
+{
+  <MINUS>
+}
+
+void multiplica() :
+{}
+{
+  <MULTIPLY>
+}
+
+void divide() :
+{}
+{
+  <DIVIDE>
+}
+
+void exponencial() :
+{}
+{
+  <EXP>
+}
+
+void falso() :
+{}
+{
+  <FALSO>
+}
+
+void verdadeiro() :
+{}
+{
+  < VERDADEIRO >
+}
+
+void ta_na_mesa() :
+{ }
+{
+  < TA_NA_MESA >
+}
+
+void programa() :
+{ }
+{
+  enter()
+  arroz()
+  enter()
+  abreChave()
+  enter()
+  comandos()
+  enter()
+  fechaChave()
+  enter()
+  feijao()
+}
+
+void inteiro() :
+{ }
+{
+  < DIGITO >
+}
+
+void flutuante() :
+{ }
+{
+  (inteiro())+ (ponto() inteiro())*
+}
+
+void numero() :
+{}
+{
+  inteiro() | flutuante()
+}
+
+void letra() :
+{}
+{
+	letraMinuscula() | letraMaiuscula()
+}
+
+void letraMinuscula() :
+{}
+{
+  < LETRA_MINUSCULA >
+}
+
+void letraMaiuscula() :
+{}
+{
+  < LETRA_MAIUSCULA >
+}
+
+void ponto() :
+{}
+{
+  < PONTO >
+}
+
+void doisPontos() :
+{}
+{
+  < DOIS_PONTOS >
+}
+
+void underline() :
+{}
+{
+  < UNDERLINE >
+}
+
+void caractereEspecial() :
+{}
+{
+  (    < CARACTERE_ESPECIAL >
+    | ponto()
+    | doisPontos()
+ 	| underline()
+ 	| mais()
+ 	| menos()
+ 	| multiplica()
+ 	| divide()
+ 	| letra()
+ 	| numero()
+  )+
+}
+
+void operadorLogico() :
+{}
+{
+  try
+  {
+    menor()
+  | maior()
+  | menorIgual()
+  | maiorIgual()
+  | diferente()
+  | igual_logico()
+  }
+  catch (ParseException e)
+  {
+    System.err.println("Operador Lógico-> " + e.getMessage());
+  }
+
+}
+
+void id() :
+{}
+{
+  try
+  {
+ 	letra()
+  	(
+   	 letra()
+ 	 | numero()
+ 	 | underline()
+ 	 )*
+  }
+  catch (ParseException e)
+  {
+    System.err.println("ID -> " + e.getMessage());
+  }
+}
+
+
+void termoTexto() :
+{}
+{
+  delimitaTexto()
+  (
+    caractereEspecial()
+	enter()
+  )*
+  delimitaTexto()
+  (id())*
+}
+
+void texto() :
+{}
+{
+  try
+  {
+    (termoTexto())* 
+  }
+  catch (ParseException e)
+  {
+    System.err.println("TEXTO -> " + e.getMessage());
+  }
+}
+
+void comandos() :
+{ }
+{
+  (
+    imprimir() enter()
+  	| declaracao() enter()
+  	| atribuicao() enter()
+  	| expressao() enter()
+  	| condicional() enter()
+  	| loop() enter()
+  )*
+}
+
+void imprimir() :
+{}
+{
+  try
+  {
+    ta_na_mesa()
+    enter()
+    abreParenteses()
+    enter()
+    texto()
+    enter()
+    fechaParenteses()
+    enter()
+    pontoVirgula()
+    enter()
+  }
+  catch (ParseException e)
+  {
+    System.err.println("imprimir-> " + e.getMessage());
+  }
+
+}
+
+void declaracao() :
+{ }
+{
+
+  ( pao() id() (igual() inteiro())? pontoVirgula() enter() )
+|
+
+  ( linguica() id() (igual() (falso() | verdadeiro()))? pontoVirgula() enter() )
+|
+
+  ( salame() id() (igual() flutuante())? pontoVirgula() enter() )
+| 
+  (  pimenta() ) id() (igual() expressao())? pontoVirgula() enter()
+}
+
+void expressao() :
+{ }
+{
+  sum()
+}
+
+void atribuicao() :
+{ }
+{
+  id() igual() expressao() pontoVirgula() enter()
+}
+
+void sum() :
+{ }
+{
+  term()
+  (
+    (
+      mais()
+    | menos()
+    )
+    term()
+  )*
+}
+
+void term() :
+{ }
+{
+  unary()
+  (
+    (
+      multiplica()
+    | divide()
+    | exponencial()
+    )
+    unary()
+  )*
+}
+
+void unary() :
+{ }
+{
+  menos() element()
+| element()
+}
+
+void element() :
+{ }
+{
+  numero()
+| id()
+| falso()
+| verdadeiro()
+| abreParenteses() sum() fechaParenteses()
+}
+
+void condicional() :
+{ }
+{
+  se() doisPontos() condicao()  abreChave() enter() comandos() enter() fechaChave() enter()
+  ( seNao() abreChave() enter() comandos() enter() fechaChave() )? enter()
+}
+
+void condicao() :
+{ }
+{
+  expressao() ( igualLogico() | diferente() | maior() | menor() | maiorIgual() | menorIgual() ) expressao()
+}
+
+
+void loop() :
+{ }
+{
+  grelha() doisPontos() expressao() seta() condicao() seta() atribuicao()  abreChave() comandos() fechaChave()
+| churrasqueira() abreParenteses() condicao() fechaParenteses() abreChave() enter() comandos() enter() fechaChave() enter()
+}
+

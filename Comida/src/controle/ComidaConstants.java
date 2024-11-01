@@ -91,9 +91,7 @@ public interface ComidaConstants {
   /** RegularExpression Id. */
   int PONTO = 45;
   /** RegularExpression Id. */
-  int NUMERO = 46;
-  /** RegularExpression Id. */
-  int DIGITO = 47;
+  int DIGITO = 46;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -107,11 +105,11 @@ public interface ComidaConstants {
     "<token of kind 4>",
     "<token of kind 5>",
     "\"arroz\"",
-    "\"feijao\"",
+    "\"feij\\u00e3o\"",
     "\"p\\u00e3o\"",
     "\"salame\"",
     "\"pimenta\"",
-    "\"linguica\"",
+    "\"lingui\\u00e7a\"",
     "\"batata_palha\"",
     "\"batata_rustica\"",
     "\"ta_na_mesa\"",
@@ -146,7 +144,6 @@ public interface ComidaConstants {
     "<LETRA_MINUSCULA>",
     "<CARACTERE_ESPECIAL>",
     "<PONTO>",
-    "<NUMERO>",
     "<DIGITO>",
   };
 
