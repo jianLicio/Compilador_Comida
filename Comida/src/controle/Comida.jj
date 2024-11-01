@@ -91,8 +91,8 @@ TOKEN : /* OPERATORS */
 
 TOKEN :
 {
-  < FALSO : "falso" >
-| < VERDADEIRO : "verdadeiro" >
+  < FALSO : "ruim" >
+| < VERDADEIRO : "bom" >
 }
 
 TOKEN : /* TIPOS OPERADORES */
@@ -108,10 +108,9 @@ TOKEN : /* TIPOS OPERADORES */
 
 TOKEN : /* LETRAS E NUMEROS*/
 {
-  < LETRA_MAIUSCULA : [ "A"-"Z" ] >
-| < LETRA_MINUSCULA : [ "a"-"z" ] >
-| < CARACTERE_ESPECIAL : [ "@", "$", "!", "#", "%", "&", "_", "\\", "|", "?", "^", "é", "á", "à", "ã", "â", "ê", "í", "ó", "ô", "õ", "ú", "ç" ] >
-
+  < LETRA_MAIUSCULA : [ "A"-"Z", "É", "Á", "À", "Ã", "Â", "Ê", "Í", "Ó", "Ô", "Õ", "Ú", "Ç" ] >
+| < LETRA_MINUSCULA : [ "a"-"z", "é", "á", "à", "ã", "â", "ê", "í", "ó", "ô", "õ", "ú", "ç" ] >
+| < CARACTERE_ESPECIAL : [ "@", "$", "!", "#", "%", "&", "_", "\\", "|", "?", "^" ] >
 | < PONTO : [ "." ]> 
 | < NUMERO :
     < DIGITO >
@@ -354,7 +353,7 @@ void numero() :
 void letra() :
 {}
 {
-	(letraMinuscula() | letraMaiuscula() )+
+	letraMinuscula() | letraMaiuscula()
 }
 
 void letraMinuscula() :
@@ -397,8 +396,10 @@ void caractereEspecial() :
  	| mais()
  	| menos()
  	| multiplica()
- 	| divide() 
-  )*
+ 	| divide()
+ 	| letra()
+ 	| numero()
+  )+
 }
 
 void operadorLogico() :
@@ -425,7 +426,7 @@ void id() :
 {
   try
   {
-  	letra()
+ 	letra()
   	(
    	 letra()
  	 | numero()
@@ -444,10 +445,8 @@ void termoTexto() :
 {
   delimitaTexto()
   (
-	  letra()
-	  | numero()
-	  caractereEspecial()
-	  enter()
+    caractereEspecial()
+	enter()
   )*
   delimitaTexto()
   (id())*
