@@ -118,7 +118,11 @@ TOKEN : /* LETRAS E NUMEROS*/
 }
 
 
-
+void numero() :
+{}
+{
+  inteiro() | flutuante()
+}
 
 
 void inteiro() :
@@ -133,11 +137,6 @@ void flutuante() :
   inteiro() ((ponto())? inteiro())*
 }
 
-//void numero() :
-//{}
-//{
-//  inteiro() | flutuante()
-//}
 
 void arroz() :
 {}
@@ -416,7 +415,7 @@ void caractereEspecial() :
  	| multiplica()
  	| divide()
  	| letra()
- 	| inteiro()
+ 	| numero()
   )+
 }
 
@@ -447,7 +446,7 @@ void id() :
  	letra()
   	(
    	 letra()
- 	 | inteiro()
+ 	 | numero()
  	 | underline()
  	 )*
   }
@@ -583,7 +582,7 @@ void unary() :
 void element() :
 { }
 {
-  inteiro()
+  numero()
 | id()
 | falso()
 | verdadeiro()

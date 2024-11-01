@@ -654,8 +654,9 @@ static private int jjMoveNfa_0(int startState, int curPos)
                case 14:
                   if ((0x3ff000000000000L & l) != 0L)
                   {
-                     if (kind > 46)
-                        kind = 46;
+                     if (kind > 47)
+                        kind = 47;
+                     { jjCheckNAdd(37); }
                   }
                   else if ((0x8000007a00000000L & l) != 0L)
                   {
@@ -713,8 +714,11 @@ static private int jjMoveNfa_0(int startState, int curPos)
                      kind = 45;
                   break;
                case 37:
-                  if ((0x3ff000000000000L & l) != 0L && kind > 46)
-                     kind = 46;
+                  if ((0x3ff000000000000L & l) == 0L)
+                     break;
+                  if (kind > 47)
+                     kind = 47;
+                  { jjCheckNAdd(37); }
                   break;
                default : break;
             }
@@ -933,7 +937,8 @@ public static final String[] jjstrLiteralImages = {
 "\142\141\164\141\164\141\137\162\165\163\164\151\143\141", "\164\141\137\156\141\137\155\145\163\141", "\12", "\147\162\145\154\150\141", 
 "\143\150\165\162\162\141\163\161\165\145\151\162\141", "\72", "\137", "\50", "\51", "\173", "\175", "\54", "\73", "\47", "\55\76", 
 "\53", "\55", "\52", "\57", "\52\52", "\162\165\151\155", "\142\157\155", "\76", 
-"\74", "\74\75", "\76\75", "\75", "\41\75", "\75\75", null, null, null, null, null, };
+"\74", "\74\75", "\76\75", "\75", "\41\75", "\75\75", null, null, null, null, null, 
+null, };
 static protected Token jjFillToken()
 {
    final Token t;
@@ -1149,10 +1154,10 @@ public static final String[] lexStateNames = {
 /** Lex State array. */
 public static final int[] jjnewLexState = {
    -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
+   -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
 };
 static final long[] jjtoToken = {
-   0x7fffffffffc1L, 
+   0xbfffffffffc1L, 
 };
 static final long[] jjtoSkip = {
    0x3eL, 

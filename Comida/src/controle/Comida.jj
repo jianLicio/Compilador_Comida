@@ -112,9 +112,32 @@ TOKEN : /* LETRAS E NUMEROS*/
 	| < LETRA_MINUSCULA : [ "a"-"z", "é", "á", "à", "ã", "â", "ê", "í", "ó", "ô", "õ", "ú", "ç" ] >
 	| < CARACTERE_ESPECIAL : [ "@", "$", "!", "#", "%", "&", "_", "\\", "|", "?", "^" ] >
 	| < PONTO : [ "." ]>
-	| < DIGITO : ([ "0"-"9" ])>
+	| < #DIGITO : ([ "0"-"9" ])>
+	| < NUMERO: (< DIGITO >)+>
 
 }
+
+
+
+
+
+void inteiro() :
+{ }
+{
+  < NUMERO >
+}
+
+void flutuante() :
+{}
+{
+  inteiro() ((ponto())? inteiro())*
+}
+
+//void numero() :
+//{}
+//{
+//  inteiro() | flutuante()
+//}
 
 void arroz() :
 {}
@@ -393,7 +416,7 @@ void caractereEspecial() :
  	| multiplica()
  	| divide()
  	| letra()
- 	| numero()
+ 	| inteiro()
   )+
 }
 
@@ -424,7 +447,7 @@ void id() :
  	letra()
   	(
    	 letra()
- 	 | numero()
+ 	 | inteiro()
  	 | underline()
  	 )*
   }
@@ -496,25 +519,6 @@ void imprimir() :
 
 }
 
-void numero() :
-{}
-{
-  inteiro() | flutuante()
-}
-
-
-void inteiro() :
-{ }
-{
-  (< DIGITO >)+
-}
-
-void flutuante() :
-{}
-{
-  inteiro() ((ponto())? inteiro())*
-}
-
 void declaracao() :
 { }
 {
@@ -579,7 +583,7 @@ void unary() :
 void element() :
 { }
 {
-  numero()
+  inteiro()
 | id()
 | falso()
 | verdadeiro()

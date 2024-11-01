@@ -92,6 +92,8 @@ public interface ComidaConstants {
   int PONTO = 45;
   /** RegularExpression Id. */
   int DIGITO = 46;
+  /** RegularExpression Id. */
+  int NUMERO = 47;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -145,6 +147,7 @@ public interface ComidaConstants {
     "<CARACTERE_ESPECIAL>",
     "<PONTO>",
     "<DIGITO>",
+    "<NUMERO>",
   };
 
 }
