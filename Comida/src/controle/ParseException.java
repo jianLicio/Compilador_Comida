@@ -134,7 +134,7 @@ public class ParseException extends Exception {
 	    if (expectedTokenSequences.length == 1) {
 	      retval += "Faz direito:" + EOL + "    ";
 	    } else {
-	      retval += "Was expecting one of:" + EOL + "    ";
+	      retval += "me de algo como:" + EOL + "    ";
 	    }
 	    retval += expected.toString();
     }

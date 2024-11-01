@@ -8,7 +8,7 @@ public class Comida
     Comida parser = new Comida(System.in);
     while (true)
     {
-      System.out.println("Sirva Seu Prato:");
+      System.out.println("Sirva Seu Prato");
       try
       {
         Comida.programa();
@@ -62,7 +62,12 @@ TOKEN : /* PALAVRAS-CHAVE */
 | < BATATA_RUSTICA : "batata_rustica" > //SE NÃO
 | < TA_NA_MESA : "ta_na_mesa" >			//ESCREVER NA TELA
 | < ENTER : "\n" >						//PULAR LINHA
+| < GRELHA : "grelha" >					//FOR
+| < CHURRASQUEIRA : "churrasqueira" >	//WHILE
+| < DOIS_PONTOS : ":" >
+| < UNDERLINE : "_" >
 }
+
 TOKEN : /* LIMITADORES */
 {
   < ABRE_PARENTESES : "(" >
@@ -106,10 +111,48 @@ TOKEN : /* LETRAS E NUMEROS*/
 {
   < LETRA_MAIUSCULA : [ "A"-"Z" ] >
 | < LETRA_MINUSCULA : [ "a"-"z" ] >
+| < CARACTERE_ESPECIAL : [ "@", "$", "!", "#", "%", "&", "_", "+", "\\", "|", "?", "^" ] >
+| < PONTO : [ "." ]> 
 | < NUMERO :
     < DIGITO >
-  | < DIGITO > "." < DIGITO >>
+  | < DIGITO > < PONTO > < DIGITO >>
 | < #DIGITO : ([ "0"-"9" ])+ >
+}
+
+void arroz() :
+{}
+{
+  < ARROZ >
+}
+
+void feijao() :
+{}
+{
+  < FEIJAO >
+}
+
+void pao() :
+{}
+{
+  < PAO >
+}
+
+void salame() :
+{}
+{
+  < SALAME >
+}
+
+void pimenta() :
+{}
+{
+  < PIMENTA >
+}
+
+void linguica() :
+{}
+{
+  < LINGUICA >
 }
 
 void se() :
@@ -134,6 +177,18 @@ void abreParenteses() :
 {}
 {
   < ABRE_PARENTESES >
+}
+
+void grelha() :
+{}
+{
+  < GRELHA >
+}
+
+void churrasqueira() :
+{}
+{
+  < CHURRASQUEIRA >
 }
 
 void fechaParenteses() :
@@ -166,10 +221,113 @@ void pontoVirgula() :
   < PONTO_VIRGULA >
 }
 
+void igual() :
+{}
+{
+  <IGUAL>
+}
+
+void diferente() :
+{}
+{
+  <DIFERENTE>
+}
+
+void igualLogico() :
+{}
+{
+  <IGUAL_LOGICO>
+}
+
+void menor() :
+{}
+{
+  < MENOR >
+}
+
+void maior() :
+{}
+{
+  < MAIOR >
+}
+
+void menorIgual() :
+{}
+{
+  < MENOR_IGUAL >
+}
+
+void maiorIgual() :
+{}
+{
+  < MAIOR_IGUAL >
+}
+
+
+void igual_logico() :
+{}
+{
+  < IGUAL_LOGICO >
+}
+
 void delimitaTexto() :
 {}
 {
   < DELIMITAR_TEXTO >
+}
+
+void seta() :
+{}
+{
+  < SETA >
+}
+
+void mais() :
+{}
+{
+  <PLUS>
+}
+
+void menos() :
+{}
+{
+  <MINUS>
+}
+
+void multiplica() :
+{}
+{
+  <MULTIPLY>
+}
+
+void divide() :
+{}
+{
+  <DIVIDE>
+}
+
+void exponencial() :
+{}
+{
+  <EXP>
+}
+
+//void concatena() :
+//{}
+//{
+//  <CONCAT>
+//}
+
+void falso() :
+{}
+{
+  <FALSO>
+}
+
+void verdadeiro() :
+{}
+{
+  < VERDADEIRO >
 }
 
 void ta_na_mesa() :
@@ -181,13 +339,22 @@ void ta_na_mesa() :
 void programa() :
 { }
 {
-  enter() < ARROZ > enter() < ABRE_CHAVE > enter() comandos() enter() < FECHA_CHAVE > enter() < FEIJAO >
+  enter()
+  arroz()
+  enter()
+  abreChave()
+  enter()
+  comandos()
+  enter()
+  fechaChave()
+  enter()
+  feijao()
 }
 
 void numero() :
 {}
 {
-  (< NUMERO >)+
+  < NUMERO >
 }
 
 void letra() :
@@ -206,6 +373,34 @@ void letraMaiuscula() :
 {}
 {
   < LETRA_MAIUSCULA >
+}
+
+void ponto() :
+{}
+{
+  < PONTO >
+}
+
+void doisPontos() :
+{}
+{
+  < DOIS_PONTOS >
+}
+
+void underline() :
+{}
+{
+  < UNDERLINE >
+}
+
+void caractereEspecial() :
+{}
+{
+  (< CARACTERE_ESPECIAL >)*
+  (
+  	doisPontos()
+ 	| underline() 
+  )*
 }
 
 void operadorLogico() :
@@ -236,7 +431,7 @@ void id() :
   	(
    	 letra()
  	 | numero()
- 	 | "_"
+ 	 | underline()
  	 )*
   }
   catch (ParseException e)
@@ -245,18 +440,19 @@ void id() :
   }
 }
 
+
 void termoTexto() :
 {}
 {
-  delimitaTexto() 
-  enter()
-  (
-    letra()
-    | numero()
-  )*
-  enter()
   delimitaTexto()
-| id()
+  (
+	  letra()
+	  | numero()
+	  caractereEspecial()
+	  enter()
+  )*
+  delimitaTexto()
+  (id())*
 }
 
 void texto() :
@@ -264,10 +460,8 @@ void texto() :
 {
   try
   {
-    termoTexto() 
-    (
-      < CONCAT > termoTexto()
-    )*
+    (termoTexto())* 
+//    (concatena() | termoTexto())*
   }
   catch (ParseException e)
   {
@@ -314,7 +508,7 @@ void imprimir() :
 void declaracao() :
 { }
 {
-  ( < PAO > | < SALAME > | < PIMENTA > | < LINGUICA > ) id() enter() pontoVirgula() enter()
+  ( pao() | salame() | pimenta() | linguica() ) id() enter() pontoVirgula() enter()
 }
 
 void expressao() :
@@ -335,8 +529,8 @@ void sum() :
   term()
   (
     (
-      < PLUS >
-    | < MINUS >
+      mais()
+    | menos()
     )
     term()
   )*
@@ -348,9 +542,9 @@ void term() :
   unary()
   (
     (
-      < MULTIPLY >
-    | < DIVIDE >
-    | < EXP >
+      multiplica()
+    | divide()
+    | exponencial()
     )
     unary()
   )*
@@ -359,7 +553,7 @@ void term() :
 void unary() :
 { }
 {
-  < MINUS > element()
+  menos() element()
 | element()
 }
 
@@ -368,69 +562,29 @@ void element() :
 {
   numero()
 | id()
-| < FALSO >
-| < VERDADEIRO >
+| falso()
+| verdadeiro()
 | abreParenteses() sum() fechaParenteses()
 }
 
 void condicional() :
 { }
 {
-  < BATATA_PALHA > ":" condicao()  abreChave() enter() comandos() enter() fechaChave()
-  ( < BATATA_RUSTICA > abreChave() comandos() fechaChave() )? enter()
+  se() doisPontos() condicao()  abreChave() enter() comandos() enter() fechaChave() enter()
+  ( seNao() abreChave() enter() comandos() enter() fechaChave() )? enter()
 }
 
 void condicao() :
 { }
 {
-  expressao() ( "==" | "!=" | ">" | "<" | ">=" | "<=" ) expressao()
+  expressao() ( igualLogico() | diferente() | maior() | menor() | maiorIgual() | menorIgual() ) expressao()
 }
+
 
 void loop() :
 { }
 {
-  "grelha:" expressao() "->" condicao() "->" atribuicao()  abreChave() comandos() fechaChave()
-| "churrasqueira" abreParenteses() condicao() fechaParenteses() abreChave() comandos() fechaChave()
+  grelha() doisPontos() expressao() seta() condicao() seta() atribuicao()  abreChave() comandos() fechaChave()
+| churrasqueira() abreParenteses() condicao() fechaParenteses() abreChave() enter() comandos() enter() fechaChave() enter()
 }
 
-void menor() :
-{}
-{
-  < MENOR >
-}
-
-void maior() :
-{}
-{
-  < MAIOR >
-}
-
-void menorIgual() :
-{}
-{
-  < MENOR_IGUAL >
-}
-
-void maiorIgual() :
-{}
-{
-  < MAIOR_IGUAL >
-}
-
-void diferente() :
-{}
-{
-  < DIFERENTE >
-}
-
-void igual() :
-{}
-{
-  < IGUAL >
-}
-
-void igual_logico() :
-{}
-{
-  < IGUAL_LOGICO >
-}

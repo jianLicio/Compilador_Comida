@@ -31,59 +31,71 @@ public interface ComidaConstants {
   /** RegularExpression Id. */
   int ENTER = 15;
   /** RegularExpression Id. */
-  int ABRE_PARENTESES = 16;
+  int GRELHA = 16;
   /** RegularExpression Id. */
-  int FECHA_PARENTESES = 17;
+  int CHURRASQUEIRA = 17;
   /** RegularExpression Id. */
-  int ABRE_CHAVE = 18;
+  int DOIS_PONTOS = 18;
   /** RegularExpression Id. */
-  int FECHA_CHAVE = 19;
+  int UNDERLINE = 19;
   /** RegularExpression Id. */
-  int VIRGULA = 20;
+  int ABRE_PARENTESES = 20;
   /** RegularExpression Id. */
-  int PONTO_VIRGULA = 21;
+  int FECHA_PARENTESES = 21;
   /** RegularExpression Id. */
-  int DELIMITAR_TEXTO = 22;
+  int ABRE_CHAVE = 22;
   /** RegularExpression Id. */
-  int SETA = 23;
+  int FECHA_CHAVE = 23;
   /** RegularExpression Id. */
-  int PLUS = 24;
+  int VIRGULA = 24;
   /** RegularExpression Id. */
-  int MINUS = 25;
+  int PONTO_VIRGULA = 25;
   /** RegularExpression Id. */
-  int MULTIPLY = 26;
+  int DELIMITAR_TEXTO = 26;
   /** RegularExpression Id. */
-  int DIVIDE = 27;
+  int SETA = 27;
   /** RegularExpression Id. */
-  int EXP = 28;
+  int PLUS = 28;
   /** RegularExpression Id. */
-  int CONCAT = 29;
+  int MINUS = 29;
   /** RegularExpression Id. */
-  int FALSO = 30;
+  int MULTIPLY = 30;
   /** RegularExpression Id. */
-  int VERDADEIRO = 31;
+  int DIVIDE = 31;
   /** RegularExpression Id. */
-  int MAIOR = 32;
+  int EXP = 32;
   /** RegularExpression Id. */
-  int MENOR = 33;
+  int CONCAT = 33;
   /** RegularExpression Id. */
-  int MENOR_IGUAL = 34;
+  int FALSO = 34;
   /** RegularExpression Id. */
-  int MAIOR_IGUAL = 35;
+  int VERDADEIRO = 35;
   /** RegularExpression Id. */
-  int IGUAL = 36;
+  int MAIOR = 36;
   /** RegularExpression Id. */
-  int DIFERENTE = 37;
+  int MENOR = 37;
   /** RegularExpression Id. */
-  int IGUAL_LOGICO = 38;
+  int MENOR_IGUAL = 38;
   /** RegularExpression Id. */
-  int LETRA_MAIUSCULA = 39;
+  int MAIOR_IGUAL = 39;
   /** RegularExpression Id. */
-  int LETRA_MINUSCULA = 40;
+  int IGUAL = 40;
   /** RegularExpression Id. */
-  int NUMERO = 41;
+  int DIFERENTE = 41;
   /** RegularExpression Id. */
-  int DIGITO = 42;
+  int IGUAL_LOGICO = 42;
+  /** RegularExpression Id. */
+  int LETRA_MAIUSCULA = 43;
+  /** RegularExpression Id. */
+  int LETRA_MINUSCULA = 44;
+  /** RegularExpression Id. */
+  int CARACTERE_ESPECIAL = 45;
+  /** RegularExpression Id. */
+  int PONTO = 46;
+  /** RegularExpression Id. */
+  int NUMERO = 47;
+  /** RegularExpression Id. */
+  int DIGITO = 48;
 
   /** Lexical state. */
   int DEFAULT = 0;
@@ -106,6 +118,10 @@ public interface ComidaConstants {
     "\"batata_rustica\"",
     "\"ta_na_mesa\"",
     "\"\\n\"",
+    "\"grelha\"",
+    "\"churrasqueira\"",
+    "\":\"",
+    "\"_\"",
     "\"(\"",
     "\")\"",
     "\"{\"",
@@ -131,12 +147,10 @@ public interface ComidaConstants {
     "\"==\"",
     "<LETRA_MAIUSCULA>",
     "<LETRA_MINUSCULA>",
+    "<CARACTERE_ESPECIAL>",
+    "<PONTO>",
     "<NUMERO>",
     "<DIGITO>",
-    "\"_\"",
-    "\":\"",
-    "\"grelha:\"",
-    "\"churrasqueira\"",
   };
 
 }
