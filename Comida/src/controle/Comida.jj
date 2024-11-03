@@ -1,8 +1,20 @@
 PARSER_BEGIN(Comida)
 package controle;
 
+import java.util.HashMap;
+
 public class Comida
 {
+  private static HashMap<String, Object> tabelaSimbolos = new HashMap<>();
+
+  public static void armazenarVariavel(String nome, Object valor) {
+    tabelaSimbolos.put(nome, valor);
+  }
+
+  public static Object recuperarVariavel(String nome) {
+    return tabelaSimbolos.get(nome);
+  }
+  
   public static void main(String args []) throws ParseException
   {
     Comida parser = new Comida(System.in);
@@ -112,14 +124,12 @@ TOKEN : /* LETRAS E NUMEROS*/
 	| < LETRA_MINUSCULA : [ "a"-"z", "é", "á", "à", "ã", "â", "ê", "í", "ó", "ô", "õ", "ú", "ç" ] >
 	| < CARACTERE_ESPECIAL : [ "@", "$", "!", "#", "%", "&", "_", "\\", "|", "?", "^" ] >
 	| < PONTO : [ "." ]>
-	| < #DIGITO : ([ "0"-"9" ])>
+	| < DIGITO : ([ "0"-"9" ])>
 	| < NUMERO: (< DIGITO >)+>
+    | < ID : (<LETRA_MAIUSCULA> | <LETRA_MINUSCULA>) (<LETRA_MAIUSCULA> | <LETRA_MINUSCULA> | <DIGITO> | "_")* >
+	
 
 }
-
-
-
-
 
 void inteiro() :
 { }
@@ -132,12 +142,6 @@ void flutuante() :
 {
   inteiro() ((ponto())? inteiro())*
 }
-
-//void numero() :
-//{}
-//{
-//  inteiro() | flutuante()
-//}
 
 void arroz() :
 {}
@@ -332,16 +336,16 @@ void exponencial() :
   <EXP>
 }
 
-void falso() :
+boolean falso() :
 {}
 {
-  <FALSO>
+  <FALSO> { return false; }
 }
 
-void verdadeiro() :
+boolean verdadeiro() :
 {}
 {
-  < VERDADEIRO >
+  < VERDADEIRO > { return true; }
 }
 
 void ta_na_mesa() :
@@ -439,25 +443,6 @@ void operadorLogico() :
 
 }
 
-void id() :
-{}
-{
-  try
-  {
- 	letra()
-  	(
-   	 letra()
- 	 | inteiro()
- 	 | underline()
- 	 )*
-  }
-  catch (ParseException e)
-  {
-    System.err.println("ID -> " + e.getMessage());
-  }
-}
-
-
 void termoTexto() :
 {}
 {
@@ -467,7 +452,7 @@ void termoTexto() :
 	enter()
   )*
   delimitaTexto()
-  (id())*
+  (< ID >)*
 }
 
 void texto() :
@@ -520,76 +505,105 @@ void imprimir() :
 }
 
 void declaracao() :
-{ }
+{ Token nome; int valorInt; float valorFloat; boolean valorBoleano; float valorTemp; }
 {
-
-  ( pao() id() (igual() inteiro())? pontoVirgula() enter() )
+	    ( pao()
+	    nome=<ID>
+	    igual()
+        { valorTemp = expressao(); }
+        { valorInt = (int) valorTemp; } 
+        { Comida.armazenarVariavel(nome.image, valorInt); }
+         
+         enter()  
+    )
 |
-
-  ( linguica() id() (igual() (falso() | verdadeiro()))? pontoVirgula() enter() )
+    ( salame() nome=<ID> igual() valorFloat=expressao() pontoVirgula() enter() 
+        { Comida.armazenarVariavel(nome.image, valorFloat); } 
+    )
 |
-
-  ( salame() id() (igual() flutuante())? pontoVirgula() enter() )
-| 
-  (  pimenta() ) id() (igual() expressao())? pontoVirgula() enter()
+    ( linguica() nome=<ID> igual() 
+        (valorBoleano=falso() | valorBoleano=verdadeiro()) 
+        pontoVirgula() enter() 
+        { Comida.armazenarVariavel(nome.image, valorBoleano); } 
+    )
+    pontoVirgula()
 }
 
-void expressao() :
-{ }
+float expressao() :
+{ float result; }
 {
-  sum()
+  result = sum()
+  { return result; }
 }
 
 void atribuicao() :
 { }
 {
-  id() igual() expressao() pontoVirgula() enter()
+  < ID > igual() expressao() pontoVirgula() enter()
 }
 
-void sum() :
-{ }
+float sum() :
+{ float result; float termResult; }
 {
-  term()
+  result = term()
   (
     (
-      mais()
-    | menos()
+      "+" termResult=term() { result += termResult; }
+    | "-" termResult=term() { result -= termResult; }
     )
-    term()
   )*
+  { return result; }
 }
 
-void term() :
-{ }
+float term() :
+{ float result; float unaryResult; }
 {
-  unary()
-  (
+    result = unary()
     (
-      multiplica()
-    | divide()
-    | exponencial()
-    )
-    unary()
-  )*
+        (
+            "*" unaryResult=unary() { result *= unaryResult; }
+        | "/" unaryResult=unary() { result /= unaryResult; }
+        )
+    )*
+    { return result; }
 }
 
-void unary() :
-{ }
+float unary() :
 {
-  menos() element()
-| element()
+    Token minusToken;
 }
-
-void element() :
-{ }
 {
-  inteiro()
-| id()
-| falso()
-| verdadeiro()
-| abreParenteses() sum() fechaParenteses()
+    ( minusToken=<MINUS> element() { return -element(); } )
+|
+    ( <ABRE_PARENTESES> | <FALSO> | <VERDADEIRO> | <NUMERO> | <ID> ) {
+        return element();
+    }
 }
 
+float element() :
+{ Token id; }
+{
+    <NUMERO> { return Float.parseFloat(token.image); }
+|
+    id=<ID> {
+        Object valor = Comida.recuperarVariavel(id.image); 
+        if (valor instanceof Integer) {
+            return (float) ((Integer) valor);
+        } else if (valor instanceof Float) {
+            return (Float) valor;
+        } else if (valor instanceof Boolean) {
+            return (Boolean) valor ? 1.0f : 0.0f;
+        } else {
+            throw new RuntimeException("Tipo não suportado para a variável " + id.image + ". Esperado Integer, Float ou Boolean.");
+        }
+    }
+|
+    falso() { return 0.0f; }
+| 
+    verdadeiro() { return 1.0f; }
+| 
+    abreParenteses() sum() fechaParenteses()
+}
 void condicional() :
 { }
 {
