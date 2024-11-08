@@ -60,13 +60,7 @@ public class Comida implements ComidaConstants {
     }
 }
 
-//void numero() :
-//{}
-//{
-//  inteiro() | flutuante()
-//}
-  static final public 
-void arroz() throws ParseException {
+  static final public void arroz() throws ParseException {
     jj_consume_token(ARROZ);
 }
 
@@ -131,11 +125,15 @@ void arroz() throws ParseException {
 }
 
   static final public void abreChave() throws ParseException {
+    enter();
     jj_consume_token(ABRE_CHAVE);
+    enter();
 }
 
   static final public void fechaChave() throws ParseException {
+    enter();
     jj_consume_token(FECHA_CHAVE);
+    enter();
 }
 
   static final public void virgula() throws ParseException {
@@ -296,6 +294,10 @@ void arroz() throws ParseException {
         menos();
         break;
         }
+      case IGUAL:{
+        igual();
+        break;
+        }
       case MULTIPLY:{
         multiplica();
         break;
@@ -325,6 +327,7 @@ void arroz() throws ParseException {
       case MINUS:
       case MULTIPLY:
       case DIVIDE:
+      case IGUAL:
       case LETRA_MAIUSCULA:
       case LETRA_MINUSCULA:
       case CARACTERE_ESPECIAL:
@@ -416,6 +419,15 @@ System.err.println("Operador L\u00f3gico-> " + e.getMessage());
       }
     } catch (ParseException e) {
 System.err.println("ID -> " + e.getMessage());
+    {if (true) throw new TokenMgrError(
+      false, // EOFSeen
+      0, // lexState
+      2, // errorLine (use o valor correto da linha)
+      5, // errorColumn (use o valor correto da coluna)
+      "", // errorAfter
+      '=', // curChar (ou qualquer caractere que esteja causando o problema)
+      TokenMgrError.LEXICAL_ERROR // tipo de erro
+    );}
     }
 }
 
@@ -430,6 +442,7 @@ System.err.println("ID -> " + e.getMessage());
       case MINUS:
       case MULTIPLY:
       case DIVIDE:
+      case IGUAL:
       case LETRA_MAIUSCULA:
       case LETRA_MINUSCULA:
       case CARACTERE_ESPECIAL:
@@ -522,16 +535,12 @@ System.err.println("TEXTO -> " + e.getMessage());
         enter();
         break;
         }
-      case LETRA_MAIUSCULA:
-      case LETRA_MINUSCULA:{
-        atribuicao();
-        enter();
-        break;
-        }
       case ABRE_PARENTESES:
       case MINUS:
       case FALSO:
       case VERDADEIRO:
+      case LETRA_MAIUSCULA:
+      case LETRA_MINUSCULA:
       case NUMERO:{
         expressao();
         enter();
@@ -544,7 +553,7 @@ System.err.println("TEXTO -> " + e.getMessage());
         }
       case GRELHA:
       case CHURRASQUEIRA:{
-        loop();
+        repetir();
         enter();
         break;
         }
@@ -861,19 +870,20 @@ System.err.println("imprimir-> " + e.getMessage());
     expressao();
 }
 
-  static final public void loop() throws ParseException {
+  static final public void repetir() throws ParseException {
     switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
     case GRELHA:{
       grelha();
       doisPontos();
-      expressao();
+      inteiro();
       seta();
       condicao();
-      seta();
-      atribuicao();
       abreChave();
+      enter();
       comandos();
+      enter();
       fechaChave();
+      enter();
       break;
       }
     case CHURRASQUEIRA:{
@@ -917,7 +927,7 @@ System.err.println("imprimir-> " + e.getMessage());
 	   jj_la1_0 = new int[] {0x0,0x0,0x8000,0x0,0xf00c0000,0xf00c0000,0x0,0x80000,0x80000,0xf00c0000,0x0,0x4000000,0x20135f00,0x20135f00,0x0,0x0,0x0,0x0,0x0,0xf00,0x30000000,0x30000000,0xc0000000,0xc0000000,0x20100000,0x100000,0x2000,0x0,0x30000,};
 	}
 	private static void jj_la1_init_1() {
-	   jj_la1_1 = new int[] {0xa000,0x2000,0x0,0xc00,0xbc00,0xbc00,0x378,0x8c00,0x8c00,0xbc00,0xc00,0x0,0x8c06,0x8c06,0x80,0x6,0x80,0x80,0x80,0x0,0x0,0x0,0x1,0x1,0x8c06,0x8c06,0x0,0x378,0x0,};
+	   jj_la1_1 = new int[] {0xa000,0x2000,0x0,0xc00,0xbc80,0xbc80,0x378,0x8c00,0x8c00,0xbc80,0xc00,0x0,0x8c06,0x8c06,0x80,0x6,0x80,0x80,0x80,0x0,0x0,0x0,0x1,0x1,0x8c06,0x8c06,0x0,0x378,0x0,};
 	}
 
   /** Constructor with InputStream. */
