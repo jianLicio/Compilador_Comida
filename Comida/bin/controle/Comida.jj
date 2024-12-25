@@ -118,9 +118,6 @@ TOKEN : /* LETRAS E NUMEROS*/
 }
 
 
-
-
-
 void inteiro() :
 { }
 {

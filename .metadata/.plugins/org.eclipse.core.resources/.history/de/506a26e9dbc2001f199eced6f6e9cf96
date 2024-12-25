@@ -59,7 +59,7 @@ TOKEN : /* PALAVRAS-CHAVE */
 | < PIMENTA : "pimenta" >				//STRING
 | < LINGUICA : "linguiça" > 			//BOLEANO
 | < BATATA_PALHA : "batata_palha" >		//SE
-| < BATATA_RUSTICA : "batata_rustica" > //SE NÃO
+| < BATATA_RUSTICA : "batata_rústica" > //SE NÃO
 | < TA_NA_MESA : "ta_na_mesa" >			//ESCREVER NA TELA
 | < ENTER : "\n" >						//PULAR LINHA
 | < GRELHA : "grelha" >					//FOR
@@ -215,13 +215,17 @@ void fechaParenteses() :
 void abreChave() :
 {}
 {
+  enter()
   < ABRE_CHAVE >
+  enter()
 }
 
 void fechaChave() :
 {}
 {
+  enter()
   < FECHA_CHAVE >
+  enter()
 }
 
 void virgula() :
@@ -438,18 +442,27 @@ void operadorLogico() :
 void id() :
 {}
 {
-  try
+try
   {
- 	letra()
-  	(
-   	 letra()
- 	 | inteiro()
- 	 | underline()
- 	 )*
+    letra()
+    (
+      letra()
+    | inteiro()
+    | underline()
+    )*
   }
   catch (ParseException e)
   {
     System.err.println("ID -> " + e.getMessage());
+    throw new TokenMgrError(
+      false, // EOFSeen
+      0, // lexState
+      2, // errorLine (use o valor correto da linha)
+      5, // errorColumn (use o valor correto da coluna)
+      "", // errorAfter
+      '=', // curChar (ou qualquer caractere que esteja causando o problema)
+      TokenMgrError.LEXICAL_ERROR // tipo de erro
+    );
   }
 }
 
@@ -485,7 +498,7 @@ void comandos() :
   (
     imprimir() enter()
   	| declaracao() enter()
-  	| atribuicao() enter()
+//  	| atribuicao() enter()
   	| expressao() enter()
   	| condicional() enter()
   	| repetir() enter()
@@ -527,7 +540,7 @@ void declaracao() :
 
   ( salame() id() (igual() flutuante())? pontoVirgula() enter() )
 | 
-  (  pimenta() ) id() (igual() expressao())? pontoVirgula() enter()
+  (  pimenta()  id() (igual() expressao())? pontoVirgula() enter() )
 }
 
 void expressao() :
@@ -602,8 +615,7 @@ void condicao() :
 void repetir() :
 { }
 {
-  grelha() doisPontos() atribuicao() seta() condicao() seta() atribuicao() abreChave() comandos() fechaChave()
-//  grelha() doisPontos() expressao() seta() condicao() seta() atribuicao()  abreChave() comandos() fechaChave()
+  grelha() doisPontos() inteiro() seta() condicao() abreChave() enter() comandos() enter() fechaChave() enter()
 | churrasqueira() abreParenteses() condicao() fechaParenteses() abreChave() enter() comandos() enter() fechaChave() enter()
 }
 
