@@ -1,0 +1,28 @@
+arroz {
+tio_do_pave iniciando o programa Comida
+pão francês = 10;
+salame americano = 52.35; 
+salame suspeito = 15; 
+linguiça italiano = bom; 
+linguiça calabresa = ruim;
+
+pimenta malagueta = essa comida é boa;
+e_a_faculdade
+a partir daqui é só ladeira abaixo até terminar
+*/
+
+batata_palha: aaa > caseiro{
+ta_na_mesa(‘sirva-se com: ’ id ’ = ‘ id ‘novo texto’);
+}
+batata_rústica{
+ta_na_mesa(‘vai ficar sem comer!’);
+}
+
+churrasqueira(italiano != nao_importa){ 
+ta_na_mesa(‘suposto carne infinita’);
+}
+
+grelha : 15 -> 10 < 5 {
+ta_na_mesa ( ’Rodada de churrasco’ );
+}
+} feijão

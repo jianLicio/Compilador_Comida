@@ -3,6 +3,9 @@
 package controle;
 import java.util.Set;
 import java.util.HashSet;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /** Token Manager. */
 @SuppressWarnings ("unused")

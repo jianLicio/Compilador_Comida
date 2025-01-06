@@ -4,6 +4,9 @@ package controle;
 
 import java.util.Set;
 import java.util.HashSet;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class Comida implements ComidaConstants {
 
@@ -22,17 +25,36 @@ public class Comida implements ComidaConstants {
     token = getNextToken();  // Avança para o próximo token gerado pelo JavaCC
   }
 
-  static void cozinhar(Set<String> follow) {
-    while (!follow.contains(token.image) && !token.image.equals("$")) {
-        comer(token);
-    }
-  }
+         static void cozinhar(Set<String> follow) {
+            if (token == null) {
+                System.err.println("Erro: Token inicial nulo. Encerrando an\u00e1lise.");
+                return;
+            }
+
+            while (!follow.contains(token.image) && !token.image.equals("$")) {
+                if (token == null || token.kind == 0) {  // Verifica se é EOF
+                    System.err.println("Fim do arquivo ou token nulo encontrado.");
+                    break;
+                }
+                comer(token);
+            }
+        }
 
   public static void main(String args []) throws ParseException
   {
-    Comida parser = new Comida(System.in);
-    while (true)
-    {
+        Comida parser;
+
+          try {
+            String caminho = "C:\\Users\\jian_\\eclipse-workspace\\Compilador_Comida\\Comida\\testes\\correto.txt";
+            String codigoFonte = Controle.lerArquivo(caminho);
+            parser = new Comida(new java.io.StringReader(codigoFonte));
+        } catch (Exception e) {
+            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+            return;
+        }
+
+
+
       System.out.println("Sirva Seu Prato");
       try
       {
@@ -50,9 +72,9 @@ public class Comida implements ComidaConstants {
       {
         System.out.println("FOI ENCONTRADO PURE NO CACHORRO QUENTE.");
         System.out.println(e.getMessage());
-        break;
       }
-    }
+
+
   }
 
   static final public void inteiro() throws ParseException {
