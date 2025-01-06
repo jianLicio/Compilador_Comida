@@ -7,7 +7,7 @@ import java.util.HashSet;
 public class Comida
 {
  
-  static Set<String> FOLLOW_PROGRAMA = Set.of("feijao", "$)");
+  static Set<String> FOLLOW_PROGRAMA = Set.of("feijao", "$);");
   static Set<String> FOLLOW_ABRE_CHAVE = Set.of("ta_na_mesa", "se", "grelha", "churrasqueira", "feijao");
   static Set<String> FOLLOW_COMANDOS = Set.of("fechaChave", "feijao");
   static Set<String> FOLLOW_FECHA_CHAVE = Set.of("feijao", "ta_na_mesa", "se", "grelha", "churrasqueira");
@@ -601,26 +601,17 @@ void declaracao() :
 void expressao() :
 { }
 {
-  try {
-    sum()
-  } catch (ParseException e) {
-    System.err.println("Erro na expressão: verifique a sintaxe.");
-    cozinhar(FOLLOW_COMANDOS);
-  }
+  sum()
 }
 
 void atribuicao() :
 { }
 {
   try {
-    id()
-    igual()
-    expressao()
-    pontoVirgula()
-    enter()
+    id() igual() expressao() pontoVirgula() enter()
   } catch (ParseException e) {
-      System.err.println("Erro na atribuicao: verifique a sintaxe.");
-      cozinhar(FOLLOW_ATRIBUICAO);
+    System.err.println("Erro na atribuicao: verifique a sintaxe.");
+    cozinhar(FOLLOW_ATRIBUICAO);
   }
 }
 
@@ -705,30 +696,11 @@ void repetir() :
 { }
 {
   try {
-    grelha()
-    doisPontos()
-    inteiro()
-    seta()
-    condicao()
-    abreChave()
-    enter()
-    comandos()
-    enter()
-    fechaChave()
-    enter()
-
-  | churrasqueira()
-    abreParenteses()
-    condicao()
-    fechaParenteses()
-    abreChave()
-    enter() comandos()
-    enter()
-    fechaChave()
-    enter()
+    grelha() doisPontos() inteiro() seta() condicao() abreChave() enter() comandos() enter() fechaChave() enter()
+  | churrasqueira() abreParenteses() condicao() fechaParenteses() abreChave() enter() comandos() enter() fechaChave() enter()
   } catch (ParseException e) {
-      System.err.println("Erro na repetição: verifique a sintaxe.");
-      cozinhar(FOLLOW_REPETIR);
+    System.err.println("Erro na repetição: verifique a sintaxe.");
+    cozinhar(FOLLOW_REPETIR);
   }
 }
 

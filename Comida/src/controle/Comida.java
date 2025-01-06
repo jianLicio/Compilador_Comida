@@ -7,7 +7,7 @@ import java.util.HashSet;
 
 public class Comida implements ComidaConstants {
 
-  static Set<String> FOLLOW_PROGRAMA = Set.of("feijao", "$);");
+  static Set<String> FOLLOW_PROGRAMA = Set.of("feijao", "$)");
   static Set<String> FOLLOW_ABRE_CHAVE = Set.of("ta_na_mesa", "se", "grelha", "churrasqueira", "feijao");
   static Set<String> FOLLOW_COMANDOS = Set.of("fechaChave", "feijao");
   static Set<String> FOLLOW_FECHA_CHAVE = Set.of("feijao", "ta_na_mesa", "se", "grelha", "churrasqueira");
@@ -17,14 +17,14 @@ public class Comida implements ComidaConstants {
   static Set<String> FOLLOW_CONDICAO = Set.of("abreChave", "fechaParenteses", "pontoVirgula");
   static Set<String> FOLLOW_REPETIR = Set.of("fechaChave", "feijao", "ta_na_mesa");
 
-  static void consumir(Token token) {
-    System.out.println("Consumindo token: " + token.image);
+  static void comer(Token token) {
+    System.out.println("Comendo token: " + token.image);
     token = getNextToken();  // Avança para o próximo token gerado pelo JavaCC
   }
 
-  static void sincronizar(Set<String> follow) {
+  static void cozinhar(Set<String> follow) {
     while (!follow.contains(token.image) && !token.image.equals("$")) {
-        consumir(token);
+        comer(token);
     }
   }
 
@@ -248,35 +248,35 @@ public class Comida implements ComidaConstants {
       arroz();
     } catch (ParseException e) {
 System.err.println("Erro: esperado 'arroz' para iniciar o programa.");
-    sincronizar(FOLLOW_PROGRAMA);
+    cozinhar(FOLLOW_PROGRAMA);
     }
     enter();
     try {
       abreChave();
     } catch (ParseException e) {
 System.err.println("Erro: esperado '{' para abrir o bloco de comandos.");
-    sincronizar(FOLLOW_ABRE_CHAVE);
+    cozinhar(FOLLOW_ABRE_CHAVE);
     }
     enter();
     try {
       comandos();
     } catch (ParseException e) {
 System.err.println("Erro: problema na execu\u00e7\u00e3o dos comandos.");
-    sincronizar(FOLLOW_COMANDOS);
+    cozinhar(FOLLOW_COMANDOS);
     }
     enter();
     try {
       fechaChave();
     } catch (ParseException e) {
 System.err.println("Erro: esperado '}' para fechar o bloco de comandos.");
-    sincronizar(FOLLOW_FECHA_CHAVE);
+    cozinhar(FOLLOW_FECHA_CHAVE);
     }
     enter();
     try {
       feijao();
     } catch (ParseException e) {
 System.err.println("Erro: esperado 'feijao' para finalizar o programa.");
-    sincronizar(FOLLOW_PROGRAMA);
+    cozinhar(FOLLOW_PROGRAMA);
     }
 }
 
@@ -630,7 +630,7 @@ System.err.println("TEXTO -> " + e.getMessage());
       enter();
     } catch (ParseException e) {
 System.err.println("Erro ao imprimir: verifique a sintaxe.");
-    sincronizar(FOLLOW_IMPRIMIR);
+    cozinhar(FOLLOW_IMPRIMIR);
     }
 }
 
@@ -725,7 +725,12 @@ System.err.println("Erro ao imprimir: verifique a sintaxe.");
 }
 
   static final public void expressao() throws ParseException {
-    sum();
+    try {
+      sum();
+    } catch (ParseException e) {
+System.err.println("Erro na express\u00e3o: verifique a sintaxe.");
+    cozinhar(FOLLOW_COMANDOS);
+    }
 }
 
   static final public void atribuicao() throws ParseException {
@@ -737,7 +742,7 @@ System.err.println("Erro ao imprimir: verifique a sintaxe.");
       enter();
     } catch (ParseException e) {
 System.err.println("Erro na atribuicao: verifique a sintaxe.");
-    sincronizar(FOLLOW_ATRIBUICAO);
+      cozinhar(FOLLOW_ATRIBUICAO);
     }
 }
 
@@ -893,7 +898,7 @@ System.err.println("Erro na atribuicao: verifique a sintaxe.");
       enter();
     } catch (ParseException e) {
 System.err.println("Erro na condicional: verifique a sintaxe.");
-    sincronizar(FOLLOW_CONDICIONAL);
+    cozinhar(FOLLOW_CONDICIONAL);
     }
 }
 
@@ -933,7 +938,7 @@ System.err.println("Erro na condicional: verifique a sintaxe.");
       expressao();
     } catch (ParseException e) {
 System.err.println("Erro na condi\u00e7\u00e3o: verifique a sintaxe.");
-    sincronizar(FOLLOW_CONDICAO);
+    cozinhar(FOLLOW_CONDICAO);
     }
 }
 
@@ -974,7 +979,7 @@ System.err.println("Erro na condi\u00e7\u00e3o: verifique a sintaxe.");
       }
     } catch (ParseException e) {
 System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
-    sincronizar(FOLLOW_REPETIR);
+      cozinhar(FOLLOW_REPETIR);
     }
 }
 

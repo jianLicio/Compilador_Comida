@@ -7,7 +7,7 @@ import java.util.HashSet;
 public class Comida
 {
  
-  static Set<String> FOLLOW_PROGRAMA = Set.of("feijao", "$)");
+  static Set<String> FOLLOW_PROGRAMA = Set.of("feijao", "$);");
   static Set<String> FOLLOW_ABRE_CHAVE = Set.of("ta_na_mesa", "se", "grelha", "churrasqueira", "feijao");
   static Set<String> FOLLOW_COMANDOS = Set.of("fechaChave", "feijao");
   static Set<String> FOLLOW_FECHA_CHAVE = Set.of("feijao", "ta_na_mesa", "se", "grelha", "churrasqueira");
@@ -18,11 +18,11 @@ public class Comida
   static Set<String> FOLLOW_REPETIR = Set.of("fechaChave", "feijao", "ta_na_mesa");
 
   static void comer(Token token) {
-    System.out.println("Comendo token: " + token.image);
+    System.out.println("Consumindo token: " + token.image);
     token = getNextToken();  // Avança para o próximo token gerado pelo JavaCC
   }
   
-  static void cozinhar(Set<String> follow) {
+  static void sincronizar(Set<String> follow) {
     while (!follow.contains(token.image) && !token.image.equals("$")) {
         comer(token);
     }
@@ -381,7 +381,7 @@ void programa() :
     arroz()
   } catch (ParseException e) {
     System.err.println("Erro: esperado 'arroz' para iniciar o programa.");
-    cozinhar(FOLLOW_PROGRAMA);
+    sincronizar(FOLLOW_PROGRAMA);
   }
   
   enter()
@@ -390,7 +390,7 @@ void programa() :
     abreChave()
   } catch (ParseException e) {
     System.err.println("Erro: esperado '{' para abrir o bloco de comandos.");
-    cozinhar(FOLLOW_ABRE_CHAVE);
+    sincronizar(FOLLOW_ABRE_CHAVE);
   }
   
   enter()
@@ -399,7 +399,7 @@ void programa() :
     comandos()
   } catch (ParseException e) {
     System.err.println("Erro: problema na execução dos comandos.");
-    cozinhar(FOLLOW_COMANDOS);
+    sincronizar(FOLLOW_COMANDOS);
   }
   
   enter()
@@ -408,7 +408,7 @@ void programa() :
     fechaChave()
   } catch (ParseException e) {
     System.err.println("Erro: esperado '}' para fechar o bloco de comandos.");
-    cozinhar(FOLLOW_FECHA_CHAVE);
+    sincronizar(FOLLOW_FECHA_CHAVE);
   }
   
   enter()
@@ -417,7 +417,7 @@ void programa() :
     feijao()
   } catch (ParseException e) {
     System.err.println("Erro: esperado 'feijao' para finalizar o programa.");
-    cozinhar(FOLLOW_PROGRAMA);
+    sincronizar(FOLLOW_PROGRAMA);
   }
   
 }
@@ -579,7 +579,7 @@ void imprimir() :
   catch (ParseException e)
   {
     System.err.println("Erro ao imprimir: verifique a sintaxe.");
-    cozinhar(FOLLOW_IMPRIMIR);
+    sincronizar(FOLLOW_IMPRIMIR);
   }
 }
 
@@ -601,26 +601,17 @@ void declaracao() :
 void expressao() :
 { }
 {
-  try {
-    sum()
-  } catch (ParseException e) {
-    System.err.println("Erro na expressão: verifique a sintaxe.");
-    cozinhar(FOLLOW_COMANDOS);
-  }
+  sum()
 }
 
 void atribuicao() :
 { }
 {
   try {
-    id()
-    igual()
-    expressao()
-    pontoVirgula()
-    enter()
+    id() igual() expressao() pontoVirgula() enter()
   } catch (ParseException e) {
-      System.err.println("Erro na atribuicao: verifique a sintaxe.");
-      cozinhar(FOLLOW_ATRIBUICAO);
+    System.err.println("Erro na atribuicao: verifique a sintaxe.");
+    sincronizar(FOLLOW_ATRIBUICAO);
   }
 }
 
@@ -685,7 +676,7 @@ void condicional() :
     enter()
   } catch (ParseException e) {
     System.err.println("Erro na condicional: verifique a sintaxe.");
-    cozinhar(FOLLOW_CONDICIONAL);
+    sincronizar(FOLLOW_CONDICIONAL);
   }
 }
 
@@ -697,7 +688,7 @@ void condicao() :
     expressao() ( igualLogico() | diferente() | maior() | menor() | maiorIgual() | menorIgual() ) expressao()
   } catch (ParseException e) {
     System.err.println("Erro na condição: verifique a sintaxe.");
-    cozinhar(FOLLOW_CONDICAO);
+    sincronizar(FOLLOW_CONDICAO);
   }
 }
 
@@ -705,30 +696,11 @@ void repetir() :
 { }
 {
   try {
-    grelha()
-    doisPontos()
-    inteiro()
-    seta()
-    condicao()
-    abreChave()
-    enter()
-    comandos()
-    enter()
-    fechaChave()
-    enter()
-
-  | churrasqueira()
-    abreParenteses()
-    condicao()
-    fechaParenteses()
-    abreChave()
-    enter() comandos()
-    enter()
-    fechaChave()
-    enter()
+    grelha() doisPontos() inteiro() seta() condicao() abreChave() enter() comandos() enter() fechaChave() enter()
+  | churrasqueira() abreParenteses() condicao() fechaParenteses() abreChave() enter() comandos() enter() fechaChave() enter()
   } catch (ParseException e) {
-      System.err.println("Erro na repetição: verifique a sintaxe.");
-      cozinhar(FOLLOW_REPETIR);
+    System.err.println("Erro na repetição: verifique a sintaxe.");
+    sincronizar(FOLLOW_REPETIR);
   }
 }
 
