@@ -1,8 +1,33 @@
 PARSER_BEGIN(Comida)
 package controle;
 
+import java.util.Set;
+import java.util.HashSet;
+
 public class Comida
 {
+ 
+  static Set<String> FOLLOW_PROGRAMA = Set.of("feijao", "$);");
+  static Set<String> FOLLOW_ABRE_CHAVE = Set.of("ta_na_mesa", "se", "grelha", "churrasqueira", "feijao");
+  static Set<String> FOLLOW_COMANDOS = Set.of("fechaChave", "feijao");
+  static Set<String> FOLLOW_FECHA_CHAVE = Set.of("feijao", "ta_na_mesa", "se", "grelha", "churrasqueira");
+  static Set<String> FOLLOW_IMPRIMIR = Set.of("pontoVirgula", "fechaChave");
+  static Set<String> FOLLOW_ATRIBUICAO = Set.of("pontoVirgula", "fechaChave");
+  static Set<String> FOLLOW_CONDICIONAL = Set.of("seNao", "fechaChave", "feijao");
+  static Set<String> FOLLOW_CONDICAO = Set.of("abreChave", "fechaParenteses", "pontoVirgula");
+  static Set<String> FOLLOW_REPETIR = Set.of("fechaChave", "feijao", "ta_na_mesa");
+
+  static void consumir(Token token) {
+    System.out.println("Consumindo token: " + token.image);
+    token = getNextToken();  // Avança para o próximo token gerado pelo JavaCC
+  }
+  
+  static void sincronizar(Set<String> follow) {
+    while (!follow.contains(token.image) && !token.image.equals("$")) {
+        consumir(token);
+    }
+  }
+
   public static void main(String args []) throws ParseException
   {
     Comida parser = new Comida(System.in);
@@ -12,7 +37,8 @@ public class Comida
       try
       {
         Comida.programa();
-        System.out.println("A MESA TA PRONTA.");
+        System.out.println("A MESA TA PRONTA.\n");
+        System.out.println("++++++++++++++++++++");
       }
       catch (Exception e)
       {
@@ -350,18 +376,51 @@ void programa() :
 { }
 {
   enter()
-  arroz()
+  
+  try {
+    arroz()
+  } catch (ParseException e) {
+    System.err.println("Erro: esperado 'arroz' para iniciar o programa.");
+    sincronizar(FOLLOW_PROGRAMA);
+  }
+  
   enter()
-  abreChave()
+  
+  try {
+    abreChave()
+  } catch (ParseException e) {
+    System.err.println("Erro: esperado '{' para abrir o bloco de comandos.");
+    sincronizar(FOLLOW_ABRE_CHAVE);
+  }
+  
   enter()
-  comandos()
+  
+  try {
+    comandos()
+  } catch (ParseException e) {
+    System.err.println("Erro: problema na execução dos comandos.");
+    sincronizar(FOLLOW_COMANDOS);
+  }
+  
   enter()
-  fechaChave()
+  
+  try {
+    fechaChave()
+  } catch (ParseException e) {
+    System.err.println("Erro: esperado '}' para fechar o bloco de comandos.");
+    sincronizar(FOLLOW_FECHA_CHAVE);
+  }
+  
   enter()
-  feijao()
+
+  try {
+    feijao()
+  } catch (ParseException e) {
+    System.err.println("Erro: esperado 'feijao' para finalizar o programa.");
+    sincronizar(FOLLOW_PROGRAMA);
+  }
+  
 }
-
-
 
 
 void letra() :
@@ -505,8 +564,7 @@ void comandos() :
 void imprimir() :
 {}
 {
-  try
-  {
+  try {
     ta_na_mesa()
     enter()
     abreParenteses()
@@ -520,9 +578,9 @@ void imprimir() :
   }
   catch (ParseException e)
   {
-    System.err.println("imprimir-> " + e.getMessage());
+    System.err.println("Erro ao imprimir: verifique a sintaxe.");
+    sincronizar(FOLLOW_IMPRIMIR);
   }
-
 }
 
 void declaracao() :
@@ -549,7 +607,12 @@ void expressao() :
 void atribuicao() :
 { }
 {
-  id() igual() expressao() pontoVirgula() enter()
+  try {
+    id() igual() expressao() pontoVirgula() enter()
+  } catch (ParseException e) {
+    System.err.println("Erro na atribuicao: verifique a sintaxe.");
+    sincronizar(FOLLOW_ATRIBUICAO);
+  }
 }
 
 void sum() :
@@ -599,20 +662,45 @@ void element() :
 void condicional() :
 { }
 {
-  se() doisPontos() condicao()  abreChave() enter() comandos() enter() fechaChave() enter()
-  ( seNao() abreChave() enter() comandos() enter() fechaChave() )? enter()
+  try {
+    se()
+    doisPontos()
+    condicao()
+    abreChave()
+    enter()
+    comandos()
+    enter()
+    fechaChave()
+    enter()
+    ( seNao() abreChave() enter() comandos() enter() fechaChave() )?
+    enter()
+  } catch (ParseException e) {
+    System.err.println("Erro na condicional: verifique a sintaxe.");
+    sincronizar(FOLLOW_CONDICIONAL);
+  }
 }
+
 
 void condicao() :
 { }
 {
-  expressao() ( igualLogico() | diferente() | maior() | menor() | maiorIgual() | menorIgual() ) expressao()
+  try {
+    expressao() ( igualLogico() | diferente() | maior() | menor() | maiorIgual() | menorIgual() ) expressao()
+  } catch (ParseException e) {
+    System.err.println("Erro na condição: verifique a sintaxe.");
+    sincronizar(FOLLOW_CONDICAO);
+  }
 }
 
 void repetir() :
 { }
 {
-  grelha() doisPontos() inteiro() seta() condicao() abreChave() enter() comandos() enter() fechaChave() enter()
-| churrasqueira() abreParenteses() condicao() fechaParenteses() abreChave() enter() comandos() enter() fechaChave() enter()
+  try {
+    grelha() doisPontos() inteiro() seta() condicao() abreChave() enter() comandos() enter() fechaChave() enter()
+  | churrasqueira() abreParenteses() condicao() fechaParenteses() abreChave() enter() comandos() enter() fechaChave() enter()
+  } catch (ParseException e) {
+    System.err.println("Erro na repetição: verifique a sintaxe.");
+    sincronizar(FOLLOW_REPETIR);
+  }
 }
 
