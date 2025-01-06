@@ -25,20 +25,20 @@ public class Comida
     token = getNextToken();  // Avança para o próximo token gerado pelo JavaCC
   }
   
- static void cozinhar(Set<String> follow) {
-    if (token == null) {
-        System.err.println("Erro: Token inicial nulo. Encerrando análise.");
-        return;
-    }
-
-    while (!follow.contains(token.image) && !token.image.equals("$")) {
-        if (token == null || token.kind == 0) {  // Verifica se é EOF
-            System.err.println("Fim do arquivo ou token nulo encontrado.");
-            break;
-        }
-        comer(token);
-    }
-}
+	 static void cozinhar(Set<String> follow) {
+	    if (token == null) {
+	        System.err.println("Erro: Token inicial nulo. Encerrando análise.");
+	        return;
+	    }
+	
+	    while (!follow.contains(token.image) && !token.image.equals("$")) {
+	        if (token == null || token.kind == 0) {  // Verifica se é EOF
+	            System.err.println("Fim do arquivo ou token nulo encontrado.");
+	            break;
+	        }
+	        comer(token);
+	    }
+	}
 
   public static void main(String args []) throws ParseException
   {

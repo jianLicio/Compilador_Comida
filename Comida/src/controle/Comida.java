@@ -25,54 +25,55 @@ public class Comida implements ComidaConstants {
     token = getNextToken();  // Avança para o próximo token gerado pelo JavaCC
   }
 
-         static void cozinhar(Set<String> follow) {
-            if (token == null) {
-                System.err.println("Erro: Token inicial nulo. Encerrando an\u00e1lise.");
-                return;
-            }
+ static void cozinhar(Set<String> follow) {
+    if (token == null) {
+        System.err.println("Erro: Token inicial nulo. Encerrando an\u00e1lise.");
+        return;
+    }
 
-            while (!follow.contains(token.image) && !token.image.equals("$")) {
-                if (token == null || token.kind == 0) {  // Verifica se é EOF
-                    System.err.println("Fim do arquivo ou token nulo encontrado.");
-                    break;
-                }
-                comer(token);
-            }
+    while (!follow.contains(token.image) && !token.image.equals("$")) {
+        if (token == null || token.kind == 0) {  // Verifica se é EOF
+            System.err.println("Fim do arquivo ou token nulo encontrado.");
+            break;
         }
+        comer(token);
+    }
+}
 
   public static void main(String args []) throws ParseException
   {
         Comida parser;
 
           try {
-            String caminho = "C:\\Users\\jian_\\eclipse-workspace\\Compilador_Comida\\Comida\\testes\\correto.txt";
-            String codigoFonte = Controle.lerArquivo(caminho);
-            parser = new Comida(new java.io.StringReader(codigoFonte));
-        } catch (Exception e) {
-            System.out.println("Erro ao ler o arquivo: " + e.getMessage());
-            return;
-        }
-
-
-
-      System.out.println("Sirva Seu Prato");
-      try
-      {
-        Comida.programa();
+        String caminho = "C:\\Users\\jian_\\eclipse-workspace\\Compilador_Comida\\Comida\\testes\\correto.txt";
+        String codigoFonte = Controle.lerArquivo(caminho);
+        parser = new Comida(new java.io.StringReader(codigoFonte));
+        Comida.programa();  // Executa o parser com o conteúdo do arquivo
         System.out.println("A MESA TA PRONTA.\n");
         System.out.println("++++++++++++++++++++");
-      }
-      catch (Exception e)
-      {
-        System.out.println("Foi encontrado uva passa no arroz.");
-        System.out.println(e.getMessage());
+    } catch (Exception e) {
+        System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+        parser = new Comida(System.in);  // Usa entrada manual caso o arquivo falhe
+    }
+
         Comida.ReInit(System.in);
-      }
-      catch (Error e)
-      {
-        System.out.println("FOI ENCONTRADO PURE NO CACHORRO QUENTE.");
-        System.out.println(e.getMessage());
-      }
+
+      while (true) {
+        System.out.println("Sirva Seu Prato");
+        try {
+            Comida.programa();
+            System.out.println("A MESA TA PRONTA.\n");
+            System.out.println("++++++++++++++++++++");
+        } catch (Exception e) {
+            System.out.println("Foi encontrado uva passa no arroz.");
+            System.out.println(e.getMessage());
+            Comida.ReInit(System.in);  // Reinicializa com entrada manual
+        } catch (Error e) {
+            System.out.println("FOI ENCONTRADO PURE NO CACHORRO QUENTE.");
+            System.out.println(e.getMessage());
+            break;
+        }
+    }
 
 
   }
