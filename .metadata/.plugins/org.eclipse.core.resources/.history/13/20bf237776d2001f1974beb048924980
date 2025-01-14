@@ -10,15 +10,15 @@ import java.io.IOException;
 public class Comida
 {
   
-  static Set<String> FOLLOW_PROGRAMA = Set.of("feijão", "$)");
-  static Set<String> FOLLOW_ABRE_CHAVE = Set.of("ta_na_mesa", "se", "grelha", "churrasqueira", "feijão");
-  static Set<String> FOLLOW_COMANDOS = Set.of("fechaChave", "feijão");
-  static Set<String> FOLLOW_FECHA_CHAVE = Set.of("feijão", "ta_na_mesa", "se", "grelha", "churrasqueira");
+  static Set<String> FOLLOW_PROGRAMA = Set.of("feijao", "$)");
+  static Set<String> FOLLOW_ABRE_CHAVE = Set.of("ta_na_mesa", "se", "grelha", "churrasqueira", "feijao");
+  static Set<String> FOLLOW_COMANDOS = Set.of("fechaChave", "feijao");
+  static Set<String> FOLLOW_FECHA_CHAVE = Set.of("feijao", "ta_na_mesa", "se", "grelha", "churrasqueira");
   static Set<String> FOLLOW_IMPRIMIR = Set.of("pontoVirgula", "fechaChave");
   static Set<String> FOLLOW_ATRIBUICAO = Set.of("pontoVirgula", "fechaChave");
-  static Set<String> FOLLOW_CONDICIONAL = Set.of("seNao", "fechaChave", "feijão");
+  static Set<String> FOLLOW_CONDICIONAL = Set.of("seNao", "fechaChave", "feijao");
   static Set<String> FOLLOW_CONDICAO = Set.of("abreChave", "fechaParenteses", "pontoVirgula");
-  static Set<String> FOLLOW_REPETIR = Set.of("fechaChave", "feijão", "ta_na_mesa");
+  static Set<String> FOLLOW_REPETIR = Set.of("fechaChave", "feijao", "ta_na_mesa");
   
   static void comer(Token token) {
     System.out.println("Comendo token: " + token.image);
@@ -441,7 +441,7 @@ void programa() :
   try {
     feijao()
   } catch (ParseException e) {
-    System.err.println("Erro: esperado 'feijão' para finalizar o programa. Token atual: " + token.image);
+    System.err.println("Erro: esperado 'feijao' para finalizar o programa. Token atual: " + token.image);
     cozinhar(FOLLOW_PROGRAMA);
   }
   
