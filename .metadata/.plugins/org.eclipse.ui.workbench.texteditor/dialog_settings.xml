@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
-		<item key="casesensitive" value="true"/>
+		<item key="casesensitive" value="false"/>
 		<item key="wholeword" value="false"/>
 		<item key="isRegEx" value="false"/>
-		<item key="selection" value="feijao"/>
+		<item key="selection" value="TextArea"/>
 		<list key="findhistory">
+			<item value="atualizarNumerosDeLinha"/>
+			<item value="configurar"/>
+			<item value="Área de saída"/>
 			<item value="feijao"/>
 			<item value="arqui"/>
 			<item value="parser"/>
 			<item value="system"/>
 			<item value="caminho"/>
-			<item value="ler"/>
-			<item value="expressao"/>
-			<item value="sincronizar"/>
 		</list>
 		<list key="replacehistory">
 			<item value="cozinhar"/>
