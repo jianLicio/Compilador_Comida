@@ -1,1 +1,12 @@
+controle\Controle.class
+controle\ParseException.class
+controle\Comida$JJCalls.class
+controle\ComidaTokenManager.class
+controle\ComidaConstants.class
 controle\CompiladorGUI.class
+controle\Comida.class
+controle\SimpleCharStream.class
+controle\Token.class
+controle\TokenMgrError.class
+controle\JavaCharStream.class
+controle\Comida$LookaheadSuccess.class

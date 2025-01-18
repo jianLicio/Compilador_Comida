@@ -8,17 +8,19 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+
+
 public class Comida implements ComidaConstants {
 
-  static Set<String> FOLLOW_PROGRAMA = Set.of("feij\u00e3o", "$)");
-  static Set<String> FOLLOW_ABRE_CHAVE = Set.of("ta_na_mesa", "se", "grelha", "churrasqueira", "feij\u00e3o");
-  static Set<String> FOLLOW_COMANDOS = Set.of("fechaChave", "feij\u00e3o");
-  static Set<String> FOLLOW_FECHA_CHAVE = Set.of("feij\u00e3o", "ta_na_mesa", "se", "grelha", "churrasqueira");
+  static Set<String> FOLLOW_PROGRAMA = Set.of("feij\u00c3\u00a3o", "$)");
+  static Set<String> FOLLOW_ABRE_CHAVE = Set.of("ta_na_mesa", "se", "grelha", "churrasqueira", "feij\u00c3\u00a3o");
+  static Set<String> FOLLOW_COMANDOS = Set.of("fechaChave", "feij\u00c3\u00a3o");
+  static Set<String> FOLLOW_FECHA_CHAVE = Set.of("feij\u00c3\u00a3o", "ta_na_mesa", "se", "grelha", "churrasqueira");
   static Set<String> FOLLOW_IMPRIMIR = Set.of("pontoVirgula", "fechaChave");
   static Set<String> FOLLOW_ATRIBUICAO = Set.of("pontoVirgula", "fechaChave");
-  static Set<String> FOLLOW_CONDICIONAL = Set.of("seNao", "fechaChave", "feij\u00e3o");
+  static Set<String> FOLLOW_CONDICIONAL = Set.of("seNao", "fechaChave", "feij\u00c3\u00a3o");
   static Set<String> FOLLOW_CONDICAO = Set.of("abreChave", "fechaParenteses", "pontoVirgula");
-  static Set<String> FOLLOW_REPETIR = Set.of("fechaChave", "feij\u00e3o", "ta_na_mesa");
+  static Set<String> FOLLOW_REPETIR = Set.of("fechaChave", "feij\u00c3\u00a3o", "ta_na_mesa");
 
   static void comer(Token token) {
     System.out.println("Comendo token: " + token.image);
@@ -27,11 +29,11 @@ public class Comida implements ComidaConstants {
 
         static void cozinhar(Set<String> follow) {
             if (token == null) {
-                System.err.println("Erro: Token inicial nulo. Encerrando an\u00e1lise.");
+                System.err.println("Erro: Token inicial nulo. Encerrando an\u00c3\u00a1lise.");
                 return;
             }
 
-           System.out.println("Iniciando sincroniza\u00e7\u00e3o. Token atual: " + token.image);
+           System.out.println("Iniciando sincroniza\u00c3\u00a7\u00c3\u00a3o. Token atual: " + token.image);
             while (!follow.contains(token.image) && !token.image.equals("$")) {
                 if (token == null || token.kind == 0) {  // Verifica se é EOF
                     System.err.println("Fim do arquivo ou token nulo encontrado.");
@@ -40,7 +42,7 @@ public class Comida implements ComidaConstants {
                 System.out.println("Descartando token: " + token.image);
                 comer(token);
             }
-            System.out.println("Sincroniza\u00e7\u00e3o finalizada. Token atual: " + token.image);
+            System.out.println("Sincroniza\u00c3\u00a7\u00c3\u00a3o finalizada. Token atual: " + token.image);
         }
 
         public static void main(String args []) throws ParseException
@@ -144,6 +146,12 @@ public class Comida implements ComidaConstants {
 }
 
   static final public void enter() throws ParseException {
+    if (jj_2_1(2)) {
+
+    } else {
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
     label_2:
     while (true) {
       switch ((jj_ntk==-1)?jj_ntk_f():jj_ntk) {
@@ -159,7 +167,13 @@ public class Comida implements ComidaConstants {
     }
 }
 
-  static final public void abreParenteses() throws ParseException {
+//void enter():
+//{}
+//{
+//  (< ENTER >)*
+//}
+  static final public 
+void abreParenteses() throws ParseException {
     jj_consume_token(ABRE_PARENTESES);
 }
 
@@ -286,7 +300,7 @@ System.err.println("Erro: esperado '{' para abrir o bloco de comandos.");
     try {
       comandos();
     } catch (ParseException e) {
-System.err.println("Erro: problema na execu\u00e7\u00e3o dos comandos.");
+System.err.println("Erro: problema na execu\u00c3\u00a7\u00c3\u00a3o dos comandos.");
     cozinhar(FOLLOW_COMANDOS);
     }
     enter();
@@ -300,7 +314,7 @@ System.err.println("Erro: esperado '}' para fechar o bloco de comandos.");
     try {
       feijao();
     } catch (ParseException e) {
-System.err.println("Erro: esperado 'feij\u00e3o' para finalizar o programa. Token atual: " + token.image);
+System.err.println("Erro: esperado 'feij\u00c3\u00a3o' para finalizar o programa. Token atual: " + token.image);
     cozinhar(FOLLOW_PROGRAMA);
     }
 }
@@ -323,14 +337,32 @@ System.err.println("Erro: esperado 'feij\u00e3o' para finalizar o programa. Toke
 }
 
   static final public void letraMinuscula() throws ParseException {
+    if (jj_2_2(2)) {
+
+    } else {
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
     jj_consume_token(LETRA_MINUSCULA);
 }
 
   static final public void letraMaiuscula() throws ParseException {
+    if (jj_2_3(2)) {
+
+    } else {
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
     jj_consume_token(LETRA_MAIUSCULA);
 }
 
   static final public void ponto() throws ParseException {
+    if (jj_2_4(2)) {
+
+    } else {
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
     jj_consume_token(PONTO);
 }
 
@@ -339,6 +371,12 @@ System.err.println("Erro: esperado 'feij\u00e3o' para finalizar o programa. Toke
 }
 
   static final public void underline() throws ParseException {
+    if (jj_2_5(2)) {
+
+    } else {
+      jj_consume_token(-1);
+      throw new ParseException();
+    }
     jj_consume_token(UNDERLINE);
 }
 
@@ -452,7 +490,7 @@ System.err.println("Erro: esperado 'feij\u00e3o' para finalizar o programa. Toke
         throw new ParseException();
       }
     } catch (ParseException e) {
-System.err.println("Operador L\u00f3gico-> " + e.getMessage());
+System.err.println("Operador L\u00c3\u00b3gico-> " + e.getMessage());
     }
 }
 
@@ -753,7 +791,7 @@ System.err.println("Erro ao imprimir: verifique a sintaxe.");
     try {
       sum();
     } catch (ParseException e) {
-System.err.println("Erro na express\u00e3o: verifique a sintaxe.");
+System.err.println("Erro na express\u00c3\u00a3o: verifique a sintaxe.");
     cozinhar(FOLLOW_COMANDOS);
     }
 }
@@ -962,7 +1000,7 @@ System.err.println("Erro na condicional: verifique a sintaxe.");
       }
       expressao();
     } catch (ParseException e) {
-System.err.println("Erro na condi\u00e7\u00e3o: verifique a sintaxe.");
+System.err.println("Erro na condi\u00c3\u00a7\u00c3\u00a3o: verifique a sintaxe.");
     cozinhar(FOLLOW_CONDICAO);
     }
 }
@@ -1003,20 +1041,92 @@ System.err.println("Erro na condi\u00e7\u00e3o: verifique a sintaxe.");
         throw new ParseException();
       }
     } catch (ParseException e) {
-System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
+System.err.println("Erro na repeti\u00c3\u00a7\u00c3\u00a3o: verifique a sintaxe.");
       cozinhar(FOLLOW_REPETIR);
     }
 }
 
+  static private boolean jj_2_1(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_1()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(0, xla); }
+  }
+
+  static private boolean jj_2_2(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_2()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(1, xla); }
+  }
+
+  static private boolean jj_2_3(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_3()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(2, xla); }
+  }
+
+  static private boolean jj_2_4(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_4()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(3, xla); }
+  }
+
+  static private boolean jj_2_5(int xla)
+ {
+    jj_la = xla; jj_lastpos = jj_scanpos = token;
+    try { return (!jj_3_5()); }
+    catch(LookaheadSuccess ls) { return true; }
+    finally { jj_save(4, xla); }
+  }
+
+  static private boolean jj_3_5()
+ {
+    if (jj_scan_token(0)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_4()
+ {
+    if (jj_scan_token(0)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_3()
+ {
+    if (jj_scan_token(0)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_2()
+ {
+    if (jj_scan_token(0)) return true;
+    return false;
+  }
+
+  static private boolean jj_3_1()
+ {
+    if (jj_scan_token(0)) return true;
+    return false;
+  }
+
   static private boolean jj_initialized_once = false;
   /** Generated Token Manager. */
   static public ComidaTokenManager token_source;
-  static SimpleCharStream jj_input_stream;
+  static JavaCharStream jj_input_stream;
   /** Current token. */
   static public Token token;
   /** Next token. */
   static public Token jj_nt;
   static private int jj_ntk;
+  static private Token jj_scanpos, jj_lastpos;
+  static private int jj_la;
   static private int jj_gen;
   static final private int[] jj_la1 = new int[29];
   static private int[] jj_la1_0;
@@ -1031,6 +1141,9 @@ System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
 	private static void jj_la1_init_1() {
 	   jj_la1_1 = new int[] {0xa000,0x2000,0x0,0xc00,0xbc80,0xbc80,0x378,0x8c00,0x8c00,0xbc80,0xc00,0x0,0x8c06,0x8c06,0x80,0x6,0x80,0x80,0x80,0x0,0x0,0x0,0x1,0x1,0x8c06,0x8c06,0x0,0x378,0x0,};
 	}
+  static final private JJCalls[] jj_2_rtns = new JJCalls[5];
+  static private boolean jj_rescan = false;
+  static private int jj_gc = 0;
 
   /** Constructor with InputStream. */
   public Comida(java.io.InputStream stream) {
@@ -1045,12 +1158,13 @@ System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
 	   throw new Error();
 	 }
 	 jj_initialized_once = true;
-	 try { jj_input_stream = new SimpleCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
+	 try { jj_input_stream = new JavaCharStream(stream, encoding, 1, 1); } catch(java.io.UnsupportedEncodingException e) { throw new RuntimeException(e); }
 	 token_source = new ComidaTokenManager(jj_input_stream);
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
 	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -1065,6 +1179,7 @@ System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
 	 jj_ntk = -1;
 	 jj_gen = 0;
 	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Constructor. */
@@ -1076,18 +1191,19 @@ System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
 	   throw new Error();
 	 }
 	 jj_initialized_once = true;
-	 jj_input_stream = new SimpleCharStream(stream, 1, 1);
+	 jj_input_stream = new JavaCharStream(stream, 1, 1);
 	 token_source = new ComidaTokenManager(jj_input_stream);
 	 token = new Token();
 	 jj_ntk = -1;
 	 jj_gen = 0;
 	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
   static public void ReInit(java.io.Reader stream) {
 	if (jj_input_stream == null) {
-	   jj_input_stream = new SimpleCharStream(stream, 1, 1);
+	   jj_input_stream = new JavaCharStream(stream, 1, 1);
 	} else {
 	   jj_input_stream.ReInit(stream, 1, 1);
 	}
@@ -1100,6 +1216,7 @@ System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
 	 jj_ntk = -1;
 	 jj_gen = 0;
 	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Constructor with generated Token Manager. */
@@ -1116,6 +1233,7 @@ System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
 	 jj_ntk = -1;
 	 jj_gen = 0;
 	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   /** Reinitialise. */
@@ -1125,6 +1243,7 @@ System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
 	 jj_ntk = -1;
 	 jj_gen = 0;
 	 for (int i = 0; i < 29; i++) jj_la1[i] = -1;
+	 for (int i = 0; i < jj_2_rtns.length; i++) jj_2_rtns[i] = new JJCalls();
   }
 
   static private Token jj_consume_token(int kind) throws ParseException {
@@ -1134,11 +1253,50 @@ System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
 	 jj_ntk = -1;
 	 if (token.kind == kind) {
 	   jj_gen++;
+	   if (++jj_gc > 100) {
+		 jj_gc = 0;
+		 for (int i = 0; i < jj_2_rtns.length; i++) {
+		   JJCalls c = jj_2_rtns[i];
+		   while (c != null) {
+			 if (c.gen < jj_gen) c.first = null;
+			 c = c.next;
+		   }
+		 }
+	   }
 	   return token;
 	 }
 	 token = oldToken;
 	 jj_kind = kind;
 	 throw generateParseException();
+  }
+
+  @SuppressWarnings("serial")
+  static private final class LookaheadSuccess extends java.lang.Error {
+    @Override
+    public Throwable fillInStackTrace() {
+      return this;
+    }
+  }
+  static private final LookaheadSuccess jj_ls = new LookaheadSuccess();
+  static private boolean jj_scan_token(int kind) {
+	 if (jj_scanpos == jj_lastpos) {
+	   jj_la--;
+	   if (jj_scanpos.next == null) {
+		 jj_lastpos = jj_scanpos = jj_scanpos.next = token_source.getNextToken();
+	   } else {
+		 jj_lastpos = jj_scanpos = jj_scanpos.next;
+	   }
+	 } else {
+	   jj_scanpos = jj_scanpos.next;
+	 }
+	 if (jj_rescan) {
+	   int i = 0; Token tok = token;
+	   while (tok != null && tok != jj_scanpos) { i++; tok = tok.next; }
+	   if (tok != null) jj_add_error_token(kind, i);
+	 }
+	 if (jj_scanpos.kind != kind) return true;
+	 if (jj_la == 0 && jj_scanpos == jj_lastpos) throw jj_ls;
+	 return false;
   }
 
 
@@ -1171,6 +1329,46 @@ System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
   static private java.util.List<int[]> jj_expentries = new java.util.ArrayList<int[]>();
   static private int[] jj_expentry;
   static private int jj_kind = -1;
+  static private int[] jj_lasttokens = new int[100];
+  static private int jj_endpos;
+
+  static private void jj_add_error_token(int kind, int pos) {
+	 if (pos >= 100) {
+		return;
+	 }
+
+	 if (pos == jj_endpos + 1) {
+	   jj_lasttokens[jj_endpos++] = kind;
+	 } else if (jj_endpos != 0) {
+	   jj_expentry = new int[jj_endpos];
+
+	   for (int i = 0; i < jj_endpos; i++) {
+		 jj_expentry[i] = jj_lasttokens[i];
+	   }
+
+	   for (int[] oldentry : jj_expentries) {
+		 if (oldentry.length == jj_expentry.length) {
+		   boolean isMatched = true;
+
+		   for (int i = 0; i < jj_expentry.length; i++) {
+			 if (oldentry[i] != jj_expentry[i]) {
+			   isMatched = false;
+			   break;
+			 }
+
+		   }
+		   if (isMatched) {
+			 jj_expentries.add(jj_expentry);
+			 break;
+		   }
+		 }
+	   }
+
+	   if (pos != 0) {
+		 jj_lasttokens[(jj_endpos = pos) - 1] = kind;
+	   }
+	 }
+  }
 
   /** Generate ParseException. */
   static public ParseException generateParseException() {
@@ -1199,6 +1397,9 @@ System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
 		 jj_expentries.add(jj_expentry);
 	   }
 	 }
+	 jj_endpos = 0;
+	 jj_rescan_token();
+	 jj_add_error_token(0, 0);
 	 int[][] exptokseq = new int[jj_expentries.size()][];
 	 for (int i = 0; i < jj_expentries.size(); i++) {
 	   exptokseq[i] = jj_expentries.get(i);
@@ -1219,6 +1420,50 @@ System.err.println("Erro na repeti\u00e7\u00e3o: verifique a sintaxe.");
 
   /** Disable tracing. */
   static final public void disable_tracing() {
+  }
+
+  static private void jj_rescan_token() {
+	 jj_rescan = true;
+	 for (int i = 0; i < 5; i++) {
+	   try {
+		 JJCalls p = jj_2_rtns[i];
+
+		 do {
+		   if (p.gen > jj_gen) {
+			 jj_la = p.arg; jj_lastpos = jj_scanpos = p.first;
+			 switch (i) {
+			   case 0: jj_3_1(); break;
+			   case 1: jj_3_2(); break;
+			   case 2: jj_3_3(); break;
+			   case 3: jj_3_4(); break;
+			   case 4: jj_3_5(); break;
+			 }
+		   }
+		   p = p.next;
+		 } while (p != null);
+
+		 } catch(LookaheadSuccess ls) { }
+	 }
+	 jj_rescan = false;
+  }
+
+  static private void jj_save(int index, int xla) {
+	 JJCalls p = jj_2_rtns[index];
+	 while (p.gen > jj_gen) {
+	   if (p.next == null) { p = p.next = new JJCalls(); break; }
+	   p = p.next;
+	 }
+
+	 p.gen = jj_gen + xla - jj_la; 
+	 p.first = token;
+	 p.arg = xla;
+  }
+
+  static final class JJCalls {
+	 int gen;
+	 Token first;
+	 int arg;
+	 JJCalls next;
   }
 
 }
