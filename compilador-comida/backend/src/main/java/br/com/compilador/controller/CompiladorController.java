@@ -11,7 +11,7 @@ import java.io.StringReader;
 
 @RestController
 @RequestMapping("/api/compilador")
-@CrossOrigin(origins = "*") // Permitir acesso do frontend
+@CrossOrigin(origins = "http://localhost:3000") // Permitir acesso do frontend
 public class CompiladorController {
 
     @PostMapping("/analisar")

@@ -15,6 +15,7 @@ const CompiladorView = () => {
             const data = await response.text();
             setResultado(data);
         } catch (error) {
+            setResultado(error);
             setResultado("Erro ao conectar com o servidor.");
         }
     };

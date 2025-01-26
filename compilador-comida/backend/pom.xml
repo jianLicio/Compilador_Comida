@@ -11,6 +11,7 @@
 	<groupId>br.com.compilador</groupId>
 	<artifactId>compilador-comida</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>compilador-comida</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
@@ -66,7 +67,11 @@
 			<artifactId>javacc</artifactId>
 			<version>7.0.13</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
