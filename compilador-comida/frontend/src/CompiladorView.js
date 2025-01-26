@@ -1,30 +1,40 @@
 import React, { useState } from "react";
-import axios from "axios";
 
-function CompiladorView() {
-  const [codigo, setCodigo] = useState("");
-  const [resposta, setResposta] = useState("");
+const CompiladorView = () => {
+    const [codigo, setCodigo] = useState("");
+    const [resultado, setResultado] = useState("");
 
-  const cozinhar = async () => {
-    try {
-      const response = await axios.post("http://localhost:8080/api/cozinhar", { codigo });
-      setResposta(response.data);
-    } catch (error) {
-      setResposta("Erro ao compilar o código.");
-    }
-  };
+    const analisarCodigo = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/api/compilador/analisar", {
+                method: "POST",
+                headers: { "Content-Type": "text/plain" },
+                body: codigo
+            });
 
-  return (
-    <div>
-      <h1>Compilador Comida</h1>
-      <textarea value={codigo} onChange={(e) => setCodigo(e.target.value)} placeholder="Digite seu código aqui..." />
-      <button onClick={cozinhar}>Cozinhar</button>
-      <div>
-        <h2>Saída:</h2>
-        <p>{resposta}</p>
-      </div>
-    </div>
-  );
-}
+            const data = await response.text();
+            setResultado(data);
+        } catch (error) {
+            setResultado("Erro ao conectar com o servidor.");
+        }
+    };
+
+    return (
+        <div>
+            <h1>Compilador Comida</h1>
+            <textarea
+                rows="10"
+                cols="50"
+                value={codigo}
+                onChange={(e) => setCodigo(e.target.value)}
+                placeholder="Digite o código aqui..."
+            />
+            <br />
+            <button onClick={analisarCodigo}>Analisar Código</button>
+            <h2>Resultado:</h2>
+            <pre>{resultado}</pre>
+        </div>
+    );
+};
 
 export default CompiladorView;

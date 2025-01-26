@@ -7,9 +7,9 @@ PARSER_BEGIN(Comida)
 package controle;
 
 import java.util.Set;
-import java.util.HashSet;
+//import java.util.HashSet;
 import java.io.InputStreamReader;
-import java.io.StringReader;
+//import java.io.StringReader;
 import java.io.IOException;
 
 public class Comida
@@ -50,7 +50,7 @@ public class Comida
   public static void main(String args[]) throws ParseException, IOException
   {
       InputStreamReader reader = new InputStreamReader(System.in);
-      JavaCharStream  charStream = new JavaCharStream (reader);
+      //JavaCharStream  charStream = new JavaCharStream (reader);
       Comida parser = new Comida(System.in);
 
       while (true) {
