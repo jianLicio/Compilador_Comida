@@ -4,7 +4,6 @@ import org.springframework.web.bind.annotation.*;
 
 import controle.Comida;
 import controle.ParseException;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import java.io.StringReader;
@@ -19,20 +18,42 @@ public class CompiladorController {
     public ResponseEntity<?> analisarCodigo(@RequestBody String codigo) {
         try {
             // Normaliza a entrada para evitar espaços em branco e caracteres indesejados
-            codigo = codigo.trim().replace("\r", "").replace("\uFEFF", ""); 
-    
+            codigo = codigo.trim().replace("\r", "").replace("\uFEFF", "");
             System.out.println("Código recebido: [" + codigo + "]");
+
+            // Exibir os caracteres recebidos e seus códigos ASCII (para depuração)
             for (char c : codigo.toCharArray()) {
                 System.out.println("Char: [" + c + "] ASCII: " + (int) c);
             }
-            
+
+            // Inicializa o parser e executa a análise
             Comida parser = new Comida(new StringReader(codigo));
-            parser.programa(); // Método principal do JavaCC
-            return ResponseEntity.ok().body(Map.of("mensagem", "Código válido! Análise bem-sucedida.", "sucesso", true));
+            parser.programa(); // Executa a análise
+
+            // Verifica se houve erros durante a análise e retorna a lista de erros
+            if (!parser.getErros().isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of(
+                                "mensagem", "Erro de sintaxe encontrado!",
+                                "erros", parser.getErros(),
+                                "sucesso", false));
+            }
+
+            // Se não houver erros, retorna mensagem de sucesso
+            return ResponseEntity.ok().body(Map.of(
+                    "mensagem", "Código válido! Análise bem-sucedida.",
+                    "sucesso", true));
+
         } catch (ParseException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of("mensagem", "Erro de sintaxe: " + e.getMessage(), "sucesso", false));
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of(
+                            "mensagem", "Erro de sintaxe: " + e.getMessage(),
+                            "sucesso", false));
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of("mensagem", "Erro inesperado: " + e.getMessage(), "sucesso", false));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of(
+                            "mensagem", "Erro inesperado: " + e.getMessage(),
+                            "sucesso", false));
         }
     }
 
