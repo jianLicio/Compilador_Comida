@@ -14,9 +14,9 @@ import java.io.IOException;
 
 public class Comida
 {
-  static Set<String> FOLLOW_PROGRAMA = Set.of("feijão");
+  static Set<String> FOLLOW_PROGRAMA = Set.of("feijão", "{");
   static Set<String> FOLLOW_ABRE_CHAVE = Set.of("ta_na_mesa", "se", "grelha", "churrasqueira", "feijão");
-  static Set<String> FOLLOW_COMANDOS = Set.of("fechaChave", "feijão");
+  static Set<String> FOLLOW_COMANDOS = Set.of("fechaChave", "feijão", "{");
   static Set<String> FOLLOW_FECHA_CHAVE = Set.of("feijão", "ta_na_mesa", "se", "grelha", "churrasqueira");
   static Set<String> FOLLOW_IMPRIMIR = Set.of("pontoVirgula", "fechaChave");
   static Set<String> FOLLOW_ATRIBUICAO = Set.of("pontoVirgula", "fechaChave");
@@ -24,18 +24,29 @@ public class Comida
   static Set<String> FOLLOW_CONDICAO = Set.of("abreChave", "fechaParenteses", "pontoVirgula");
   static Set<String> FOLLOW_REPETIR = Set.of("fechaChave", "feijão", "ta_na_mesa");
 
-  void comer() {
+//  void comer() {
+//      Token tk = this.getToken(1);
+//      System.out.println("Comendo token: " + tk.image);
+//      this.getNextToken();
+//  }
+//
+  void comer(Set<String> esperados) throws ParseException {
       Token tk = this.getToken(1);
-      System.out.println("Comendo token: " + tk.image);
+      if (tk == null || !esperados.contains(tk.image)) {
+          throw new ParseException("Erro: Token inesperado '" + (tk != null ? tk.image : "NULL") + "'");
+      }
+      System.out.println("Comendo token válido: " + tk.image);
       this.getNextToken();
   }
 
-  void cozinhar(Set<String> follow) {
+  void cozinhar(Set<String> follow) throws ParseException{
       Token tk = this.getToken(1);
       if (tk == null) {
           System.err.println("Erro: Token inicial nulo. Encerrando análise.");
           return;
       }
+
+      System.err.println("Iniciando recuperação de erro. Tokens esperados: " + follow);
 
       while (tk != null && !follow.contains(tk.image) && !tk.image.equals("$")) {
           if (tk.kind == 0) {  // Verifica se é EOF
@@ -45,6 +56,8 @@ public class Comida
           System.out.println("Descartando token: " + tk.image);
           tk = this.getNextToken();
       }
+      //throw new ParseException("Erro: Tokens inválidos encontrados e ignorados.");
+      System.err.println("Recuperação de erro concluída. Próximo token: " + (tk != null ? tk.image : "EOF"));
   }
 
   public static void main(String args[]) throws ParseException, IOException
@@ -177,12 +190,14 @@ void arroz() :
 {}
 {
   < ARROZ >
+  { comer(Set.of("arroz")); }
 }
 
 void feijao() :
 {}
 {
   < FEIJAO >
+  { comer(Set.of("feijão")); }
 }
 
 void pao() :
@@ -262,6 +277,7 @@ void abreChave() :
 {
   enter()
   < ABRE_CHAVE >
+  { comer(Set.of("{")); }
   enter()
 }
 
@@ -270,6 +286,7 @@ void fechaChave() :
 {
   enter()
   < FECHA_CHAVE >
+  { comer(Set.of("}")); }
   enter()
 }
 
@@ -395,21 +412,32 @@ void ta_na_mesa() :
 }
 
 void programa() :
-{ }
+{ 
+  {Token tk;} 
+}
 {
+  {
+    System.out.println("Iniciando análise do código...");
+    Token tk = getNextToken(); // Declaração dentro de um bloco de ação
+    System.out.println("Primeiro token recebido: " + tk.image);
+  }
+
+
+
   enter()
 
   try {
     arroz()
   } catch (ParseException e) {
-    System.err.println("Erro: esperado 'arroz' para iniciar o programa.");
-    cozinhar(FOLLOW_PROGRAMA);
+        {System.err.println("Erro: esperado 'arroz' para iniciar o programa. Recebido: " + tk.image);}
+        cozinhar(FOLLOW_PROGRAMA);
   }
 
   enter()
 
   try {
     abreChave()
+    //{ comer(); }
   } catch (ParseException e) {
     System.err.println("Erro: esperado '{' para abrir o bloco de comandos.");
     cozinhar(FOLLOW_ABRE_CHAVE);
@@ -419,6 +447,7 @@ void programa() :
 
   try {
     comandos()
+    //{ comer(); }
   } catch (ParseException e) {
     System.err.println("Erro: problema na execução dos comandos.");
     cozinhar(FOLLOW_COMANDOS);
@@ -428,6 +457,7 @@ void programa() :
 
   try {
     fechaChave()
+    //{ comer(); }
   } catch (ParseException e) {
     System.err.println("Erro: esperado '}' para fechar o bloco de comandos.");
     cozinhar(FOLLOW_FECHA_CHAVE);
@@ -437,13 +467,12 @@ void programa() :
 
   try {
     feijao()
+    //{ comer(); }
   } catch (ParseException e) {
     System.err.println("Erro: esperado 'feijão' para finalizar o programa. Token atual: " + token.image);
     cozinhar(FOLLOW_PROGRAMA);
   }
-
 }
-
 
 void letra() :
 {}
@@ -455,6 +484,7 @@ void letraMinuscula() :
 {}
 {
   <LETRA_MINUSCULA>
+  //{ comer(); }
 }
 
 void letraMaiuscula() :
