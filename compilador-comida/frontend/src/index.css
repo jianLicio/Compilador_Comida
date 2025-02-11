@@ -1,12 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Zain&display=swap');
+
+body {
+  font-family: 'Zain', sans-serif;
+}
+
+h1, h2, h3, p, button, input, textarea {
+  font-family: 'Zain', sans-serif;
+}
+
+/* Estilizando a página */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.titulo {
+  font-size: 50px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+/* Botões */
+.botoes-container {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.botao {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 20px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.botao-procurar {
+  background-color: #007BFF;
+}
+
+.botao:hover {
+  opacity: 0.8;
+}
+
+.icone {
+  font-size: 18px;
+}
+
+/* Editor */
 .editor-container {
   display: flex;
   align-items: flex-start;
   justify-content: center;
   margin: 10px auto;
-  max-width: 600px;
+  width: 70%;  /* Define a largura da caixa do código */
+  min-width: 600px; /* Para evitar que fique muito pequeno */
   border: 1px solid #ccc;
   background: #f9f9f9;
   border-radius: 5px;
+  overflow: hidden;
 }
 
 .line-numbers {
@@ -16,7 +77,8 @@
   border-right: 1px solid #ccc;
   user-select: none;
   font-family: monospace;
-  font-size: 14px;
+  font-size: 16px;
+  min-width: 50px;
 }
 
 .line-number {
@@ -26,12 +88,14 @@
 
 .codigo-editor {
   flex: 1;
-  min-height: 150px;
+  min-height: 400px; /* Altura mínima maior */
   border: none;
   padding: 10px;
   font-family: monospace;
-  font-size: 14px;
+  font-size: 16px;
   resize: none;
   background: white;
   outline: none;
+  width: 100%; /* Faz o textarea ocupar todo o espaço do editor */
+  overflow: hidden;
 }

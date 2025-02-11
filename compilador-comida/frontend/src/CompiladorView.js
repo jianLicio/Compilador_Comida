@@ -1,51 +1,83 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import { FaFolderOpen, FaUtensilSpoon } from "react-icons/fa"; // Ícones do Font Awesome
 import "./index.css";
 
-const CompiladorView = () => {
+export default function CompiladorView() {
     const [codigo, setCodigo] = useState("");
     const [resultado, setResultado] = useState("");
+    const [linhas, setLinhas] = useState(["1"]);
+    const textareaRef = useRef(null);
+
+    useEffect(() => {
+        const totalLinhas = codigo.split("\n").length;
+        setLinhas(Array.from({ length: totalLinhas }, (_, i) => i + 1));
+    }, [codigo]);
+
+    useEffect(() => {
+        if (textareaRef.current) {
+            textareaRef.current.style.height = "auto";
+            textareaRef.current.style.height = textareaRef.current.scrollHeight + "px";
+        }
+    }, [codigo]);
+
+    const carregarArquivo = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                setCodigo(e.target.result);
+            };
+            reader.readAsText(file);
+        }
+    };
 
     const analisarCodigo = async () => {
         try {
-            const response = await fetch("http://localhost:8080/api/compilador/analisar", {
-                method: "POST",
+            const response = await axios.post("http://localhost:8080/api/compilador/analisar", codigo, {
                 headers: { "Content-Type": "text/plain" },
-                body: codigo, // Mantém o formato esperado pela API
             });
-
-            const data = await response.text();
-            setResultado(data);
+            setResultado(response.data);
         } catch (error) {
-            setResultado("Erro ao conectar com o servidor.");
+            setResultado(error.response?.data || "Erro ao analisar código.");
         }
     };
 
     return (
         <div className="container">
-            <h1>Compilador Comida</h1>
+            <h1 className="titulo">Compilador Comida</h1>
+
+            {/* Botões de ação */}
+            <div className="botoes-container">
+                <label className="botao botao-procurar">
+                    <FaFolderOpen className="icone" />
+                    Abrir Tampa
+                    <input type="file" accept=".txt" onChange={carregarArquivo} hidden />
+                </label>
+                <button className="botao botao-cozinhar" onClick={analisarCodigo}>
+                    <FaUtensilSpoon className="icone" />
+                    Cozinhar
+                </button>
+            </div>
+
+            {/* Editor de código */}
             <div className="editor-container">
-                {/* Área de numeração das linhas */}
                 <div className="line-numbers">
-                    {codigo.split("\n").map((_, i) => (
-                        <div key={i} className="line-number">{i + 1}</div>
+                    {linhas.map((num) => (
+                        <div key={num} className="line-number">{num}</div>
                     ))}
                 </div>
-
-                {/* Caixa de texto do editor */}
                 <textarea
+                    ref={textareaRef}
                     className="codigo-editor"
-                    rows="10"
                     value={codigo}
                     onChange={(e) => setCodigo(e.target.value)}
-                    placeholder="Digite o código aqui..."
-                    spellCheck={false}
+                    placeholder="Cole ou carregue um arquivo de código..."
                 />
             </div>
-            <button onClick={analisarCodigo}>Analisar Código</button>
+
             <h2>Resultado:</h2>
             <pre>{resultado}</pre>
         </div>
     );
-};
-
-export default CompiladorView;
+}
