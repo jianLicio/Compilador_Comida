@@ -110,10 +110,10 @@
 						<goals>
 							<goal>javacc</goal>
 						</goals>
-						<configuration>
+						<!-- <configuration>
 							<sourceDirectory>src/main/javacc</sourceDirectory>
-							<outputDirectory>${project.build.directory}/generated-sources/javacc</outputDirectory>
-						</configuration>
+							<outputDirectory>src/main/javacc/controle</outputDirectory>
+						</configuration> -->
 					</execution>
 				</executions>
 			</plugin>
