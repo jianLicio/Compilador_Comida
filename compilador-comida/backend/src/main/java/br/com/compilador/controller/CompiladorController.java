@@ -7,7 +7,10 @@ import controle.ParseException;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 // import java.util.HashMap;
 import java.util.Map;
 
@@ -16,22 +19,12 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:3000")
 public class CompiladorController {
 
-    @PostMapping("/analisar")
-    public ResponseEntity<?> analisarCodigo(@RequestBody String codigo) {
-        // try {
-        // // Normaliza o código de entrada
-        // codigo = codigo.trim().replace("\r", "").replace("\uFEFF", "");
-        // System.out.println("Código recebido: [" + codigo + "]");
-
-        // Comida parser = new Comida(new StringReader(codigo));
-        // parser.programa();
-
-        // return ResponseEntity.ok(Map.of(
-        // "mensagem", "A MESA ESTÁ SERVIDA!",
-        // "sucesso", true));
-
-        // }
+    @PostMapping(value = "/analisar", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> analisarCodigo(@RequestBody byte[] codigoBytes) {
+        
         try {
+            String codigo = new String(codigoBytes, StandardCharsets.UTF_8);
+
             // Normaliza o código de entrada
             codigo = codigo.trim().replace("\r", "").replace("\uFEFF", "");
             System.out.println("Código recebido: [" + codigo + "]");

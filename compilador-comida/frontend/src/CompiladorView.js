@@ -7,6 +7,7 @@ export default function CompiladorView() {
     const [codigo, setCodigo] = useState("");
     const [resultado, setResultado] = useState("");
     const [linhas, setLinhas] = useState(["1"]);
+    const [erro, setErro] = useState(null);
     const textareaRef = useRef(null);
 
     useEffect(() => {
@@ -35,11 +36,15 @@ export default function CompiladorView() {
     const analisarCodigo = async () => {
         try {
             const response = await axios.post("http://localhost:8080/api/compilador/analisar", codigo, {
-                headers: { "Content-Type": "text/plain" },
+                headers: { "Content-Type": "text/plain; charset=UTF-8" },
             });
             setResultado(response.data);
+            setErro(null);
         } catch (error) {
-            setResultado(error.response?.data || "Erro ao analisar código.");
+            // setResultado(error.response?.data || "Erro ao analisar código.");
+            const mensagemErro = error.response?.data || "Erro ao analisar código.";
+            setResultado(mensagemErro);
+            setErro(mensagemErro);
         }
     };
 
@@ -77,7 +82,15 @@ export default function CompiladorView() {
             </div>
 
             <h2>Resultado:</h2>
-            <pre>{resultado}</pre>
+            {erro ? (
+                <div>
+                    <pre>{erro}</pre> {/* Apenas exibe a mensagem de erro formatada */}
+                    <img src="/imgs/erro.gif" alt="Erro ao compilar" width="200" />
+                </div>
+            ) : (
+                <pre>{resultado}</pre> // Só exibe o resultado se não houver erro
+            )}
+
         </div>
     );
 }

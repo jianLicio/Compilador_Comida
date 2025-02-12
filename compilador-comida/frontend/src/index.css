@@ -99,3 +99,14 @@ h1, h2, h3, p, button, input, textarea {
   width: 100%; /* Faz o textarea ocupar todo o espaço do editor */
   overflow: hidden;
 }
+
+.erro-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.erro-container img {
+  width: 200px;
+}
